@@ -3,12 +3,12 @@ import { useEffect, createContext, useContext, useState } from "react";
 
 import { EventConfig } from './EventConfig'
 
-export const TournamentLeaderboard = createContext()
+export const TournamentLeaderboardContext = createContext()
 
-const TournamentLeaderboardProvider = ({ children }) => {
+const TournamentLeaderboardContextProvider = ({ children }) => {
   const { eventConfig, setEventConfig } = useContext(EventConfig)
 
-  const [tournamentLeaderboard, setTournamentLeaderboard] = useState(null)
+  const [tournamentLeaderboardContext, setTournamentLeaderboardContext] = useState(null)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -17,10 +17,10 @@ const TournamentLeaderboardProvider = ({ children }) => {
       const { path } = liveScore
       const response = await fetch('https://www.masters.com' + path)
       const data = await response.json()
-      setTournamentLeaderboard(data.data)
+      setTournamentLeaderboardContext(data.data)
     }
     
-    if (eventConfig && tournamentLeaderboard === null) fetchData()
+    if (eventConfig && tournamentLeaderboardContext === null) fetchData()
 
     let refresh = 60
     let interval = setInterval(() => {
@@ -35,13 +35,13 @@ const TournamentLeaderboardProvider = ({ children }) => {
 
     return () => clearInterval(interval)
 
-  }, [tournamentLeaderboard, eventConfig])
+  }, [tournamentLeaderboardContext, eventConfig])
 
   return (
-    <TournamentLeaderboard.Provider value={{ tournamentLeaderboard, setTournamentLeaderboard }}>
+    <TournamentLeaderboardContext.Provider value={{ tournamentLeaderboardContext, setTournamentLeaderboardContext }}>
       {children}
-    </TournamentLeaderboard.Provider>
+    </TournamentLeaderboardContext.Provider>
   )
 }
 
-export default TournamentLeaderboardProvider
+export default TournamentLeaderboardContextProvider

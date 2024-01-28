@@ -3,7 +3,9 @@ import { useState, useEffect } from 'react'
 import './App.css'
 
 import EventConfigProvider from './Contexts/EventConfig'
-import TournamentLeaderboardProvider from './Contexts/TournamentLeaderboard'
+import TournamentLeaderboardContextProvider from './Contexts/TournamentLeaderboard'
+import TournamentLeaderboard from './Components/Leaderboard/TournamentLeaderboard/TournamentLeaderboard'
+import NavBar from './Components/NavBar'
 
 function App() {
   const [title, setTitle] = useState('APP')
@@ -16,9 +18,17 @@ function App() {
     <div>
       <Router>
         <EventConfigProvider>
-          <TournamentLeaderboardProvider>
-            Masters Fantasty Golf 
-          </TournamentLeaderboardProvider>
+          <TournamentLeaderboardContextProvider>
+            <header>
+              <NavBar />
+            </header>
+            <main  style={{marginTop: '75px'}}>
+              <Routes>
+                <Route path='/tournament/leaderboard' element={<TournamentLeaderboard />} />
+              </Routes>
+              Masters Fantasty Golf 
+            </main>
+          </TournamentLeaderboardContextProvider>
         </EventConfigProvider>
       </Router>
     </div>
