@@ -17,10 +17,10 @@ const PlayersContextProvider = ({ children }) => {
       const { playerList } = scoringData
       const response = await fetch('https://www.masters.com' + playerList)
       const data = await response.json()
-      setPlayersContext(data.data)
+      setPlayersContext(data)
     }
     
-    if (eventConfig && tournamentLeaderboard === null) fetchData()
+    if (eventConfig && playersContext === null) fetchData()
 
   }, [playersContext, eventConfig])
 

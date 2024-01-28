@@ -21,8 +21,8 @@ const EventConfigProvider = ({ children }) => {
     if (eventConfig === null) fetchData()
 
     let interval = setInterval(() => {
-      fetchData() //refresh every hour
-    }, 60 * 60 * 1000)  
+      fetchData() 
+    }, 60 * 60 * 1000)  //refresh every hour
 
     return () => clearInterval(interval)
 

@@ -13,8 +13,8 @@ const NavBar = () => {
     <Navbar.Collapse id="basic-navbar-nav">
       <Nav className="me-auto">
       <NavDropdown title="Tournament Info" id="tournament-info-dropdown" className="text-white">
-        <NavDropdown.Item href="/tournament/leaderboard/">Tournament Leaderboard</NavDropdown.Item>
-        {/* <NavDropdown.Item href="/tournament/players/">Players</NavDropdown.Item> */}
+        <NavDropdown.Item href="/tournament/leaderboard">Tournament Leaderboard</NavDropdown.Item>
+        <NavDropdown.Item href="/tournament/players">Players</NavDropdown.Item>
         {/* <NavDropdown.Item href="/tournament/course/">Course</NavDropdown.Item> */}
       </NavDropdown>
       <NavDropdown title="Fantasy Tournament" id="fantasy-info-dropdown">
