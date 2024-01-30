@@ -12,7 +12,6 @@ const TournamentPlayers = () => {
   const { playersContext, setPlayersContext} = useContext(PlayersContext)
 
   if (eventConfig && playersContext) {
-    console.log(playersContext)
     const { dataSettings } = eventConfig
     const { tournamentYear } = dataSettings
     const { players, past_champions_not_competing } = playersContext

@@ -8,6 +8,7 @@ import TournamentLeaderboardContextProvider from './Contexts/TournamentLeaderboa
 import TournamentLeaderboard from './Components/Leaderboard/TournamentLeaderboard/TournamentLeaderboard'
 import TournamentPlayers from './Components/Players/TournamentPlayers'
 import PlayersContextProvider from './Contexts/PlayersContext'
+import PlayerPage from './Components/Players/PlayerPage/PlayerPage'
 
 function App() {
   const [title, setTitle] = useState('APP')
@@ -29,6 +30,7 @@ function App() {
                 <Routes>
                   <Route path='/tournament/leaderboard' element={<TournamentLeaderboard />} />
                   <Route path='/tournament/players' element={<TournamentPlayers />} />
+                  <Route path='/tournament/players/:playerId' element={<PlayerPage />} />                  
                 </Routes>
                 Masters Fantasty Golf 
               </main>

@@ -12,7 +12,7 @@ const NavBar = () => {
     <Navbar.Toggle className="text-white" aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">
       <Nav className="me-auto">
-      <NavDropdown title="Tournament Info" id="tournament-info-dropdown" className="text-white">
+      <NavDropdown varient='light' title="Tournament Info" id="tournament-info-dropdown" className="text-white">
         <NavDropdown.Item href="/tournament/leaderboard">Tournament Leaderboard</NavDropdown.Item>
         <NavDropdown.Item href="/tournament/players">Players</NavDropdown.Item>
         {/* <NavDropdown.Item href="/tournament/course/">Course</NavDropdown.Item> */}

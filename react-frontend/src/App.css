@@ -23,3 +23,11 @@ main {
   margin-top: '75px';
   
 }
+
+.hidden {
+  display: none;
+}
+
+.label-small {
+  font-size: .625rem;
+}
