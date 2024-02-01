@@ -26,7 +26,7 @@ function App() {
               <header>
                 <NavBar />
               </header>
-              <main  style={{marginTop: '75px'}}>
+              <main  style={{marginTop: '50px'}} className='mx-0 p-0'>
                 <Routes>
                   <Route path='/tournament/leaderboard' element={<TournamentLeaderboard />} />
                   <Route path='/tournament/players' element={<TournamentPlayers />} />

@@ -5,7 +5,6 @@ import Container from 'react-bootstrap/esm/Container';
 
 
 const PlayerPageHeader = ({ first_name, last_name, amateur, countryCode, position, total, today, playing, teeTime }) => {
-console.log(today)
   const pos = () => {
     if (playing === 'MC') return 'MC'
     else if (playing === 'WD') return 'WD'
@@ -18,7 +17,7 @@ console.log(today)
 
   if (window.innerWidth > 775) {
     return (
-      <Row className='m-1'>
+      <Row className='m-1 p-0'>
         <Col md={5}>
           <h3>
             {first_name} {last_name}{amateur  ? ' (A)' : null} <Image src={`https://www.masters.com/assets/images/flags/${countryCode}_sm.gif`} alt={`${countryCode}-flag`} />
@@ -51,8 +50,10 @@ console.log(today)
     )
   } else {
     return (
-      <Container fluid>
-
+      <Container fluid className='m-0 p-0'>
+        <Row className='text-end label-small m-0'>
+          <a className='text-muted label-small' href='/tournament/players'>{'< Invitees'}</a>
+        </Row>
         <Row>
           <Col xs={12}>
             <h3>

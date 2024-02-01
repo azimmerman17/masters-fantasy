@@ -29,5 +29,81 @@ main {
 }
 
 .label-small {
-  font-size: .625rem;
+  font-size: .66rem;
+}
+
+.nav-link {
+  color: #198754 !important;
+}
+
+#tournament-info-dropdown, #fantasy-info-dropdown {
+  color: #fff !important;
+}
+
+td, th {
+  min-width: 25px;
+  min-height: 25px;
+}
+
+.eagle-better::after {
+  box-sizing: content-box;
+  content: ' ';
+  position: absolute;
+  height: 14px;
+  width: 14px;
+  margin: 0px 0 0 -11.5px;
+  border: 1px solid rgb(220,53,69);
+  border-radius: 50%
+} 
+
+.eagle-better::before {
+  box-sizing: content-box;
+  content: ' ';
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  margin: -2px 0 0 -7px;
+  border: 1px solid rgb(220,53,69);
+  border-radius: 50%
+}
+
+.birdie::after {
+  box-sizing: content-box;
+  content: ' ';
+  position: absolute;
+  height: 14px;
+  width: 14px;
+  margin: 0px 0 0 -11.5px;
+  border: 1px solid rgb(220,53,69);
+  border-radius: 50%
+}
+
+.bogey::after {
+  box-sizing: content-box;
+  content: ' ';
+  position: absolute;
+  height: 14px;
+  width: 14px;
+  margin: 0px 0 0 -11.5px;
+  border: 1px solid #000;
+}
+
+.double-bogey-worse::before {
+  box-sizing: content-box;
+  content: ' ';
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  margin: -2px 0 0 -7px;
+  border: 1px solid #000;
+}
+
+.double-bogey-worse::after {
+  box-sizing: content-box;
+  content: ' ';
+  position: absolute;
+  height: 14px;
+  width: 14px;
+  margin: 0px 0 0 -11.5px;
+  border: 1px solid #000;
 }

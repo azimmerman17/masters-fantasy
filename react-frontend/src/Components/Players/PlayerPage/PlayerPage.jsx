@@ -10,6 +10,7 @@ import { EventConfig } from '../../../Contexts/EventConfig';
 import { PlayersContext } from '../../../Contexts/PlayersContext';
 import { TournamentLeaderboardContext } from '../../../Contexts/TournamentLeaderboard';
 import PlayerPageHeader from './PlayerPageHeader';
+import PlayerPageScorecard from './PlayerPageScorecard';
 
 const PlayerPage = () => {
   const { playerId } = useParams()
@@ -52,7 +53,8 @@ const PlayerPage = () => {
 
   if (eventConfig && playerData && playerStat && tournamentLeaderboardContext) { //playersContext && 
     // destructure eventConfig to get year
-    const { dataSettings } = eventConfig
+    const { dataSettings, scoringData } = eventConfig
+    const { holePars } = scoringData
     const { tournamentYear } = dataSettings
 
     // playerData var destructure
@@ -68,23 +70,26 @@ const PlayerPage = () => {
 
     // tournamentLeaderboardContext var destructure
     const { currentRound, pars, yardages } = tournamentLeaderboardContext
-    const golfer = tournamentLeaderboardContext.player.filter(golfer => golfer.id == playerId)
+    console.log(currentRound, pars, yardages)
+    const golfer = tournamentLeaderboardContext.player.filter(golfer => golfer.id == playerId)[0]
 
 
-    // console.log(playerData,playerStat,golfer, eventConfig, tournamentLeaderboardContext)
+    console.log(playerData,playerStat,golfer, eventConfig)
     
 
     
   
     
       return (
-        <Container fluid>
+        <Container fluid className="m-0 p-0">
           <PlayerPageHeader first_name={first_name} last_name={last_name} amateur={amateur} countryCode={countryCode} position={position} total={total} today={today} playing={playing} teeTime={''} />
-          <Row>
+          <Row >
             <Image src={large || meduim} alt={playerId} />
+            <hr className='my-2' />
           </Row>
           <Row>
-            scoreCards
+            <PlayerPageScorecard currentRound={currentRound} pars={pars} yardages={yardages} golfer={golfer} />
+            <hr className='my-2' />
           </Row>
           <Row>
             stats
