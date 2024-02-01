@@ -40,9 +40,9 @@ main {
   color: #fff !important;
 }
 
-td, th {
-  min-width: 25px;
-  min-height: 25px;
+.scorecard-cell {
+  width: 25px;
+  height: 25px;
 }
 
 .eagle-better::after {

@@ -54,6 +54,8 @@ const ScorecardDesktop = ({ r1, r2, r3, r4, pars, yardages }) => {
     return roundArr
   }
 
+  console.log(r1, r2, r3, r4)
+
   return (
     <Table hover bordered size='sm'>
       <thead>
@@ -62,10 +64,10 @@ const ScorecardDesktop = ({ r1, r2, r3, r4, pars, yardages }) => {
         {window.innerWidth > 1000 ? <PlayerScorecardHeaders headers={yardArr} data={'holes-yards'} /> : null}
       </thead>  
       <tbody>
-         {r1.roundStatus !== 'Pre' || r1.roundStatus !== 'not-applicable' ? <PlayerScorecardData scores={getScores('R1')} pars={parArr} data={`hole-scores-round-1`} /> : null}
-         {r2.roundStatus !== 'Pre' || r2.roundStatus !== 'not-applicable' ? <PlayerScorecardData scores={getScores('R2')} pars={parArr} data={`hole-scores-round-2`} /> : null}
-         {r3.roundStatus !== 'Pre' || r3.roundStatus !== 'not-applicable' ? <PlayerScorecardData scores={getScores('R3')} pars={parArr} data={`hole-scores-round-3`} /> : null}
-         {r4.roundStatus !== 'Pre' || r4.roundStatus !== 'not-applicable' ? <PlayerScorecardData scores={getScores('R4')} pars={parArr} data={`hole-scores-round-4`} /> : null}
+         {r1.roundStatus === 'Pre' || r1.roundStatus === 'not-applicable' || !r1 ? null : <PlayerScorecardData scores={getScores('R1')} pars={parArr} data={`hole-scores-round-1`} />}
+         {r2.roundStatus === 'Pre' || r2.roundStatus === 'not-applicable' || !r2 ? null : <PlayerScorecardData scores={getScores('R2')} pars={parArr} data={`hole-scores-round-2`} />}
+         {r3.roundStatus === 'Pre' || r3.roundStatus === 'not-applicable' || !r3 ? null : <PlayerScorecardData scores={getScores('R3')} pars={parArr} data={`hole-scores-round-3`} />}
+         {r4.roundStatus === 'Pre' || r4.roundStatus === 'not-applicable' || !r4 ? null : <PlayerScorecardData scores={getScores('R4')} pars={parArr} data={`hole-scores-round-4`} />}
       </tbody>
     </Table>
   )
