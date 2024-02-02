@@ -11,6 +11,7 @@ import { PlayersContext } from '../../../Contexts/PlayersContext';
 import { TournamentLeaderboardContext } from '../../../Contexts/TournamentLeaderboard';
 import PlayerPageHeader from './PlayerPageHeader';
 import PlayerPageScorecard from './PlayerPageScorecard';
+import PlayerStatsComponent from './PlayerStatsComponent';
 
 const PlayerPage = () => {
   const { playerId } = useParams()
@@ -81,7 +82,7 @@ const PlayerPage = () => {
   
     
       return (
-        <Container fluid className="m-0 p-0">
+        <Container fluid>
           <PlayerPageHeader first_name={first_name} last_name={last_name} amateur={amateur} countryCode={countryCode} position={position} total={total} today={today} playing={playing} teeTime={''} />
           <Row >
             <Image src={large || meduim} alt={playerId} />
@@ -92,7 +93,8 @@ const PlayerPage = () => {
             <hr className='my-2' />
           </Row>
           <Row>
-            stats
+            <PlayerStatsComponent stats={stats}/>
+            <hr className='my-2' />
           </Row>
           <Row>
             bio

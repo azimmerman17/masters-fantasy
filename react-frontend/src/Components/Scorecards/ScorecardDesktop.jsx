@@ -4,22 +4,47 @@ import Container from "react-bootstrap/esm/Container"
 import ScorecardDesktopHeaders from "../../assets/Files/ScorecardDesktopHeaders"
 import PlayerScorecardHeaders from "./PlayerScorecardHeaders"
 import PlayerScorecardData from "./PlayerScorecardData"
+import RemoveValueArray from "../../Functions/RemoveValueArray"
 
 const ScorecardDesktop = ({ r1, r2, r3, r4, pars, yardages }) => {
-  let totalYards = 0
+  let outYards = 0
+  let inYards = 0
   let yardArr = ['Yards']
   let parArr = ['Par']
-  let totalPar = 0
+  let outPar = 0
+  let inPar = 0
+
+  let headers = ScorecardDesktopHeaders
+  // remove out and in headers for small windows
+  if (window.innerWidth < 1000) {
+    headers = RemoveValueArray(ScorecardDesktopHeaders, 'Out')
+    headers = RemoveValueArray(ScorecardDesktopHeaders, 'In')
+  }
+
 
   for (let i = 0; i < yardages.length; i++) {
     yardArr.push(yardages[i])
-    totalYards += Number(yardages[i])
     parArr.push(pars[i])
-    totalPar += Number(pars[i])
+    
+    if ( i < 9 ) {
+      outYards += Number(yardages[i])
+      outPar += Number(pars[i])
+    } else {
+      inYards += Number(yardages[i])
+      inPar += Number(pars[i])
+    }
+    if (i === 8 && window.innerWidth >= 1000) {
+      yardArr.push(outYards)
+      parArr.push(outPar)
+    } else if (i === 17 && window.innerWidth >= 1000) {
+      yardArr.push(inYards)
+      parArr.push(inPar)
+    }
+
   }
 
-  yardArr.push(totalYards)
-  parArr.push(totalPar)
+  yardArr.push(outYards + inYards)
+  parArr.push(outPar + inPar)
 
   // build the scores array
   const getScores = (r) => {
@@ -46,20 +71,24 @@ const ScorecardDesktop = ({ r1, r2, r3, r4, pars, yardages }) => {
         break
     }
 
+    let sideScore = 0
     for (let j = 0; j < round.length; j++) {
       roundArr.push(round[j])
+      sideScore += round[j]
+      if (j === 8 && window.innerWidth >= 1000 ) {
+        roundArr.push(sideScore)
+        sideScore = 0
+      } else if (j === 17 && window.innerWidth >= 1000 ) roundArr.push(sideScore)
     }
     roundArr.push(totalScore)
 
     return roundArr
   }
 
-  console.log(r1, r2, r3, r4)
-
   return (
     <Table hover bordered size='sm'>
       <thead>
-        <PlayerScorecardHeaders headers={ScorecardDesktopHeaders} data={'holes-number'} />
+        <PlayerScorecardHeaders headers={headers} data={'holes-number'} />
         <PlayerScorecardHeaders headers={parArr} data={'holes-par'} />
         {window.innerWidth > 1000 ? <PlayerScorecardHeaders headers={yardArr} data={'holes-yards'} /> : null}
       </thead>  

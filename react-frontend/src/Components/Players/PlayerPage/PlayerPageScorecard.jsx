@@ -60,14 +60,14 @@ const PlayerPageScorecard = ({ currentRound, pars, yardages, golfer }) => {
     <Container fluid className="m-0 p-0">
       {window.innerWidth < 775 ? (
         <>
-          <h6 className='text-success text-end'>Offical Scorecard</h6>
+          <h5 className='text-success text-end'>Offical Scorecard</h5>
           <Tabs defaultActiveKey={roundArr[roundArr.length - 1]} id="scorecard-tab-switcher" justify>
             {roundTabs}
           </Tabs>
         </>
       ) : (
         <>
-          <h4 className='text-success text-start'>Offical Scorecard</h4>
+          <h5 className='text-success text-start'>Offical Scorecard</h5>
           <ScorecardDesktop r1={round1} r2={round2} r3={round3} r4={round4} pars={pars.round1} yardages={yardages.round1}/>
         </>
       )}

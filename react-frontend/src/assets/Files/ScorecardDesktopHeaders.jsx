@@ -9,6 +9,7 @@ const ScorecardDesktopHeaders = [
     '7',
     '8',
     '9',
+    'Out',
     '10',
     '11',
     '12',
@@ -18,6 +19,7 @@ const ScorecardDesktopHeaders = [
     '16',
     '17',
     '18',
+    'In',
     'Total'
 ]
 

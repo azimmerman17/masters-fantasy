@@ -11,77 +11,47 @@ const PlayerPageHeader = ({ first_name, last_name, amateur, countryCode, positio
     else return position
   }
 
-  const thru = () => {
-    if (playing === 'MC') return 'MC'
-  }
-
-  if (window.innerWidth > 775) {
-    return (
-      <Row className='m-1 p-0'>
-        <Col md={5}>
+  return (
+    <Container fluid className='m-1 p-0'>
+      {window.innerWidth > 775 ? null : (
+        <Row className='text-end label-small m-0'>
+          <a className='text-muted label-small' href='/tournament/players'>{'< Invitees'}</a>
+        </Row>
+      )}
+      <Row className='m-0 p-0'>
+        <Col sm={12} md={5} className='my-auto'>
           <h3>
             {first_name} {last_name}{amateur  ? ' (A)' : null} <Image src={`https://www.masters.com/assets/images/flags/${countryCode}_sm.gif`} alt={`${countryCode}-flag`} />
           </h3>
         </Col>
-        <Col md={5}>
-          <Row>
-            <Col>
-              <h6 className='text-center m-0'>{pos()}</h6>
+        <Col sm={12} md={5}>
+          <Row className='m-1 p-0'>
+            <Col className='p-0'>
+              <h5 className='text-center m-0'>{pos()}</h5>
               <p className='text-center m-0 label-small'>Position</p>
             </Col>
-            <Col>
-              <h6 className={`text-center m-0 ${Number(total) < 0 ? 'text-danger' : total === 'E' ?  'text-success' : null}`}>{total}</h6>
+            <Col className='p-0'>
+              <h5 className={`text-center m-0 ${Number(total) < 0 ? 'text-danger' : total === 'E' ?  'text-success' : null}`}>{total}</h5>
               <p className='text-center m-0 label-small'>Total</p>
             </Col>
-            <Col className={!today ? 'hidden' : null}>
-              <h6 className={`text-center m-0 ${Number(today) < 0 ? 'text-danger' : today === 'E' ?  'text-success' : null}`}>{today}</h6>
+            <Col className={`${!today ? 'hidden' : null} p-0`}>
+              <h5 className={`text-center m-0 ${Number(today) < 0 ? 'text-danger' : today === 'E' ?  'text-success' : null}`}>{today}</h5>
               <p className='text-center m-0 label-small'>Today</p>              
             </Col>
-            <Col className={playing === 'MC' || playing === 'WD' ? 'hidden' : null}>
-              <h6 className='text-center m-0'>{playing}</h6>
-              <p className='text-center m-0 label-small'>Tee Time</p>
+            <Col className={`${playing === 'MC' || playing === 'WD' ? 'hidden' : null} p-0`}>
+              <h5 className='text-center m-0'>{Number(playing) > 0 || playing.substring(0) == 'F'  ? playing : teeTime }</h5>
+              <p className='text-center m-0 label-small'>{Number(playing) > 0 || playing.substring(0) == 'F'  ? 'Thru' : 'Tee Time'}</p>
             </Col>
           </Row>
         </Col>
-        <Col md={2} className='text-end' >
-          <a className='fs-6 text-muted' href='/tournament/players'>{'< Invitees'}</a>
-        </Col>
+        {window.innerWidth > 775 ? (
+          <Col md={2} className='text-end p-0 my-auto' >
+            <a className='fs-6 text-muted' href='/tournament/players'>{'< Invitees'}</a>
+          </Col>
+        ) : null}
       </Row>
-    )
-  } else {
-    return (
-      <Container fluid className='m-0 p-0'>
-        <Row className='text-end label-small m-0'>
-          <a className='text-muted label-small' href='/tournament/players'>{'< Invitees'}</a>
-        </Row>
-        <Row>
-          <Col xs={12}>
-            <h3>
-              {first_name} {last_name}{amateur  ? ' (A)' : null} <Image src={`https://www.masters.com/assets/images/flags/${countryCode}_sm.gif`} alt={`${countryCode}-flag`} />
-            </h3>
-          </Col>
-        </Row>
-        <Row >
-          <Col xs={4}>
-            <h6 className='text-center m-0'>{pos()}</h6>
-            <p className='text-center m-0 label-small'>Position</p>
-          </Col>
-          <Col xs={2}>
-            <h6 className={`text-center m-0 ${Number(total) < 0 ? 'text-danger' : total === 'E' ?  'text-success' : null}`}>{total}</h6>
-            <p className='text-center m-0 label-small'>Total</p>
-          </Col>
-          <Col xs={2} className={!today ? 'hidden' : null}>
-            <h6 className={`text-center m-0 ${Number(today) < 0 ? 'text-danger' : today === 'E' ?  'text-success' : null}`}>{today}</h6>
-            <p className='text-center m-0 label-small'>Today</p>              
-          </Col>
-          <Col xs={4} className={playing === 'MC' || playing === 'WD' ? 'hidden' : null}>
-            <h6 className='text-center m-0'>{playing}</h6>
-            <p className='text-center m-0 label-small'>Tee Time</p>
-          </Col>
-        </Row>
-      </Container>
-    )
-  }
+    </Container>
+  )
 }
 
 export default PlayerPageHeader

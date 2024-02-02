@@ -1,7 +1,7 @@
 #root {
   width: 100%; 
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1rem;
 }
 
 td {
@@ -51,7 +51,7 @@ main {
   position: absolute;
   height: 14px;
   width: 14px;
-  margin: 0px 0 0 -11.5px;
+  margin: 0px 0 0 -11px;
   border: 1px solid rgb(220,53,69);
   border-radius: 50%
 } 
@@ -60,9 +60,9 @@ main {
   box-sizing: content-box;
   content: ' ';
   position: absolute;
-  height: 18px;
-  width: 18px;
-  margin: -2px 0 0 -7px;
+  height: 20px;
+  width: 20px;
+  margin: -3px 0 0 -8px;
   border: 1px solid rgb(220,53,69);
   border-radius: 50%
 }
@@ -73,7 +73,7 @@ main {
   position: absolute;
   height: 14px;
   width: 14px;
-  margin: 0px 0 0 -11.5px;
+  margin: 0px 0 0 -11px;
   border: 1px solid rgb(220,53,69);
   border-radius: 50%
 }
@@ -84,7 +84,7 @@ main {
   position: absolute;
   height: 14px;
   width: 14px;
-  margin: 0px 0 0 -11.5px;
+  margin: 0px 0 0 -11px;
   border: 1px solid #000;
 }
 
@@ -92,9 +92,9 @@ main {
   box-sizing: content-box;
   content: ' ';
   position: absolute;
-  height: 18px;
-  width: 18px;
-  margin: -2px 0 0 -7px;
+  height: 20px;
+  width: 20px;
+  margin: -3px 0 0 -8px;
   border: 1px solid #000;
 }
 
@@ -104,6 +104,6 @@ main {
   position: absolute;
   height: 14px;
   width: 14px;
-  margin: 0px 0 0 -11.5px;
+  margin: 0px 0 0 -11px;
   border: 1px solid #000;
 }

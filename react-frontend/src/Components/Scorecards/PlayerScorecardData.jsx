@@ -3,7 +3,13 @@ const PlayerScorecardData = ({ scores, pars, data }) => {
   const scoreName = (par, holeScore) => {
     
     if (holeScore + par === 0) return ''
-    if (par > 10 || typeof(par) == 'string') return ''
+
+    if (par > 9) {
+      if (holeScore < 0) return 'text-danger fw-bolder'
+      else if (holeScore === 0) return 'text-success fw-bolder'
+      else return 'text-dark fw-bolder'
+       
+    }
     
     holeScore = Math.min(holeScore, 2)
     holeScore = Math.max(holeScore, -2)
