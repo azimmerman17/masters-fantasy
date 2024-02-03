@@ -12,6 +12,7 @@ import { TournamentLeaderboardContext } from '../../../Contexts/TournamentLeader
 import PlayerPageHeader from './PlayerPageHeader';
 import PlayerPageScorecard from './PlayerPageScorecard';
 import PlayerStatsComponent from './PlayerStatsComponent';
+import PlayerBio from './PlayerBio';
 
 const PlayerPage = () => {
   const { playerId } = useParams()
@@ -61,7 +62,7 @@ const PlayerPage = () => {
     // playerData var destructure
     const { bio } = playerData
     const { player } = bio
-    const { age,  amateur, avgRound, bestFinish, birthplace, countryCode, countryName, cutsMade, first_name, height, highRound, last_name, lowRound, overview, pastMasters, photo_url, swing, tournamentsPlayed, turnedPro, weight, wins } = player
+    const { age, avgRound, bestFinish, birthplace, countryCode, countryName, cutsMade, first_name, height, highRound, last_name, lowRound, overview, pastMasters, photo_url, swing, tournamentsPlayed, turnedPro, weight, wins } = player
     const { meduim, large } = photo_url[photo_url.length - 1]
     
     // playerStat var destructure
@@ -73,9 +74,11 @@ const PlayerPage = () => {
     const { currentRound, pars, yardages } = tournamentLeaderboardContext
     console.log(currentRound, pars, yardages)
     const golfer = tournamentLeaderboardContext.player.filter(golfer => golfer.id == playerId)[0]
+    const { amateur } = golfer
 
 
-    console.log(playerData,playerStat,golfer, eventConfig)
+
+    console.log(playerData,playerStat,golfer)
     
 
     
@@ -97,10 +100,13 @@ const PlayerPage = () => {
             <hr className='my-2' />
           </Row>
           <Row>
-            bio
+            history
+            <hr className='my-2' />
+{/* avgRound={avgRound} bestFinish={bestFinish} cutsMade={cutsMade} highRound={highRound} lowRound={lowRound} firsttimer={firsttimer} tournamentsPlayed={tournamentsPlayed} pastMasters={pastMasters} */}
           </Row>
           <Row>
-            history
+            <PlayerBio age={age} amateur={amateur} countryCode={countryCode} countryName={countryName} height={height} overview={overview} swing={swing} turnedPro={turnedPro} weight={weight} wins={wins} first_name={first_name} last_name={last_name} />
+            <hr className='my-2' />
           </Row>
         </Container>
       )

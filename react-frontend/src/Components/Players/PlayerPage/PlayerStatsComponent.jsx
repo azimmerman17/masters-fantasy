@@ -11,7 +11,6 @@ const PlayerStatsComponent = ({ stats }) => {
   const { round } = stats
 
   const buildArr = (text) => {
-
     let arr = []
 
     round.forEach(item => {
@@ -21,9 +20,7 @@ const PlayerStatsComponent = ({ stats }) => {
         round: id,
         stat: stat.filter(display => display.display_text === text)
       })
-      
     })
-
     return arr
   }
 
@@ -35,28 +32,20 @@ const PlayerStatsComponent = ({ stats }) => {
         let pars = buildArr('PARS')
         let bogeys = buildArr('BOGEYS')
         let doubleBogeys = buildArr('DOUBLE BOGEYS')
-        
         return <PlayerScoringStat eagles={eagles} birdies={birdies} pars={pars} bogeys={bogeys} doubleBogeys={doubleBogeys} />
       case 'Greens Hit':
         let greens = buildArr('GREENS HIT')
-
         return <PlayersGrnFwyHitStat stats={greens} mode={'Greens'} />
-  
       case 'Fairways Hit':
         let fairways = buildArr('FAIRWAYS HIT')
-
         return <PlayersGrnFwyHitStat stats={fairways} mode={'Fairways'} />
-    
       case 'Putting':
         let putting = buildArr('AVERAGE PUTTS')
         let threePutt = buildArr('AVERAGE PUTTS')
-
         return <PlayerDrivePuttStat statTop={putting} statBottom={threePutt} mode={'Putting'} />
-
       case 'Driving':
         let avgDrive = buildArr('AVERAGE DRIVING DISTANCE')
         let longDrive = buildArr('LONGEST DRIVE')
-
         return <PlayerDrivePuttStat statTop={avgDrive} statBottom={longDrive} mode={'Driving'} />
     }
   }
