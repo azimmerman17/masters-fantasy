@@ -1,13 +1,13 @@
 import Container from "react-bootstrap/Container"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
+
 import DoughnutChart from "../Charts/DoughnutChart"
 import StackedHorizontalChart from "../Charts/StackedHorizontalChart"
 
 const PlayerScoringStat = ({ eagles, birdies, pars, bogeys, doubleBogeys }) => {
   const labels = ['Eagles', 'Birdies', 'Pars', 'Bogeys', 'Dbl Bogeys+']
   const colors = ['#0a3622', '#198754', '#d1e7dd', '#adb5bd', '#6c757d']
-  console.log('tt', eagles, birdies, pars, bogeys, doubleBogeys)
 
   const configueRound = (roundNum) => {
     let roundEagles = eagles.filter(item => item.round === roundNum)[0]
@@ -52,7 +52,6 @@ const PlayerScoringStat = ({ eagles, birdies, pars, bogeys, doubleBogeys }) => {
     }
   }
 
-
   const configueDataSet = (set) => {
     const { roundEagles, roundBirdies, roundPars, roundBogeys, roundDblBogeys } = set
     let dataSet = [
@@ -83,7 +82,7 @@ const PlayerScoringStat = ({ eagles, birdies, pars, bogeys, doubleBogeys }) => {
           </Row>
           <Row>
             <Col className='m-auto' >
-              <StackedHorizontalChart yLabels={yLabels} xLabels={labels} backgroundColor={colors} dataSet={configureRoundDataset(round1, round2, round3, round4)} />
+              <StackedHorizontalChart yLabels={yLabels} xLabels={labels} backgroundColor={colors} dataSet={configureRoundDataset(round1, round2, round3, round4)} xMax={18}/>
             </Col>
           </Row>
         </Col>

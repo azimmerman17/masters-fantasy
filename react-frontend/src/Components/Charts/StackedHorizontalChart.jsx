@@ -4,9 +4,7 @@ import { Bar } from 'react-chartjs-2';
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend );
 
 
-const StackedHorizontalChart = ({ yLabels, xLabels, backgroundColor, dataSet }) => {
-
-  console.log('yy', dataSet)
+const StackedHorizontalChart = ({ yLabels, xLabels, backgroundColor, dataSet, xMax }) => {
 
   const options = {
     indexAxis: 'y',
@@ -22,7 +20,7 @@ const StackedHorizontalChart = ({ yLabels, xLabels, backgroundColor, dataSet }) 
           stacked: true,
           ticks: {
             display: false,
-            stepSize: 18
+            stepSize: xMax / 5
           }
         },
         y: {
@@ -33,8 +31,6 @@ const StackedHorizontalChart = ({ yLabels, xLabels, backgroundColor, dataSet }) 
         }
       }
     }
-
-    console.log(dataSet.map(set => set[0]))
     
     const data = {
       labels: yLabels,

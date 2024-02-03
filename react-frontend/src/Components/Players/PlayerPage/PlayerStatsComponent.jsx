@@ -4,6 +4,7 @@ import Tabs from 'react-bootstrap/Tabs';
 
 import PlayerStatsHeaders from "../../../assets/Files/PlayerStatsHeaders";
 import PlayerScoringStat from "../../PlayerStats/PlayerScoringStat";
+import PlayersGreensHitStat from "../../PlayerStats/PlayersGreensHitStat";
 
 
 const PlayerStatsComponent = ({ stats }) => {
@@ -40,6 +41,8 @@ const PlayerStatsComponent = ({ stats }) => {
         return <PlayerScoringStat eagles={eagles} birdies={birdies} pars={pars} bogeys={bogeys} doubleBogeys={doubleBogeys} />
       case 'Greens Hit':
         let greens = buildArr('GREENS HIT')
+
+        return <PlayersGreensHitStat greens={greens} />
   
       case 'Fairways Hit':
         let fairways = buildArr('FAIRWAYS HIT')
