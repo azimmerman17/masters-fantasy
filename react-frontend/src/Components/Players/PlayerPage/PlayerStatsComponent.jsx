@@ -5,12 +5,10 @@ import Tabs from 'react-bootstrap/Tabs';
 import PlayerStatsHeaders from "../../../assets/Files/PlayerStatsHeaders";
 import PlayerScoringStat from "../../PlayerStats/PlayerScoringStat";
 import PlayersGrnFwyHitStat from "../../PlayerStats/PlayersGrnFwyHitStat";
-
+import PlayerDrivePuttStat from "../../PlayerStats/PlayerDrivePuttStat";
 
 const PlayerStatsComponent = ({ stats }) => {
   const { round } = stats
-
-  console.log(round)
 
   const buildArr = (text) => {
 
@@ -51,14 +49,15 @@ const PlayerStatsComponent = ({ stats }) => {
     
       case 'Putting':
         let putting = buildArr('AVERAGE PUTTS')
+        let threePutt = buildArr('AVERAGE PUTTS')
+
+        return <PlayerDrivePuttStat statTop={putting} statBottom={threePutt} mode={'Putting'} />
 
       case 'Driving':
         let avgDrive = buildArr('AVERAGE DRIVING DISTANCE')
         let longDrive = buildArr('LONGEST DRIVE')
 
-      case 'Sand Saves':
-        let sand = buildArr('SAND SAVES')
-
+        return <PlayerDrivePuttStat statTop={avgDrive} statBottom={longDrive} mode={'Driving'} />
     }
   }
   
