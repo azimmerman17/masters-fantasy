@@ -6,13 +6,11 @@ ChartJS.register(RadialLinearScale, ArcElement, Tooltip, Legend);
 
 const PolarAreaChart = ({ labels, backgroundColor, dataSet, max }) => {
 
-  console.log(dataSet)
-
   const options = {
     responsive: true,
     plugins: {
       legend: {
-        position: 'top',
+        position: 'bottom',
       }
     },
     scales: {

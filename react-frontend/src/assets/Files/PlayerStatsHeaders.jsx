@@ -1,10 +1,10 @@
 const PlayerStatsHeaders = [
   'Scoring',
+  'Driving',
   'Greens Hit',
   'Fairways Hit',
   'Putting',
-  'Driving',
-  'Sand Saves'
+  // 'Sand Saves'
 ]
 
 export default PlayerStatsHeaders

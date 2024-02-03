@@ -77,7 +77,8 @@ const PlayerScoringStat = ({ eagles, birdies, pars, bogeys, doubleBogeys }) => {
   return (
     <Container fluid >
       <Row className='my-2'>
-        <Col sm={12} md={6}> <Row>
+        <Col sm={12} md={6}> 
+          <Row className='m-2'>
             <h6 className="text-center text-success">Round Summary</h6>
           </Row>
           <Row>

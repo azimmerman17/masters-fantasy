@@ -4,7 +4,7 @@ import Tabs from 'react-bootstrap/Tabs';
 
 import PlayerStatsHeaders from "../../../assets/Files/PlayerStatsHeaders";
 import PlayerScoringStat from "../../PlayerStats/PlayerScoringStat";
-import PlayersGreensHitStat from "../../PlayerStats/PlayersGreensHitStat";
+import PlayersGrnFwyHitStat from "../../PlayerStats/PlayersGrnFwyHitStat";
 
 
 const PlayerStatsComponent = ({ stats }) => {
@@ -42,10 +42,12 @@ const PlayerStatsComponent = ({ stats }) => {
       case 'Greens Hit':
         let greens = buildArr('GREENS HIT')
 
-        return <PlayersGreensHitStat greens={greens} />
+        return <PlayersGrnFwyHitStat stats={greens} mode={'Greens'} />
   
       case 'Fairways Hit':
         let fairways = buildArr('FAIRWAYS HIT')
+
+        return <PlayersGrnFwyHitStat stats={fairways} mode={'Fairways'} />
     
       case 'Putting':
         let putting = buildArr('AVERAGE PUTTS')
