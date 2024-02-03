@@ -21,7 +21,6 @@ const ScorecardDesktop = ({ r1, r2, r3, r4, pars, yardages }) => {
     headers = RemoveValueArray(ScorecardDesktopHeaders, 'In')
   }
 
-
   for (let i = 0; i < yardages.length; i++) {
     yardArr.push(yardages[i])
     parArr.push(pars[i])

@@ -107,3 +107,8 @@ main {
   margin: 0px 0 0 -11px;
   border: 1px solid #000;
 }
+
+.finish-border {
+  border-color: #198754;
+  border-radius: 50%;
+}

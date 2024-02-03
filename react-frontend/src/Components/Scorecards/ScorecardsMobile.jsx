@@ -56,15 +56,15 @@ const ScorecardMobile = ({ round, pars, scores }) => {
   return (
     <Table hover bordered size='sm'>
       <thead>
-          <PlayerScorecardHeaders headers={ScorecardMobileHeaders[0]} data={`out-holes-${round}`} />
-          <PlayerScorecardHeaders headers={outPars} data={`out-pars-${round}`} />
+        <PlayerScorecardHeaders headers={ScorecardMobileHeaders[0]} data={`out-holes-${round}`} />
+        <PlayerScorecardHeaders headers={outPars} data={`out-pars-${round}`} />
       </thead>
       <tbody>
-          <PlayerScorecardData scores={outScoreArr} pars={outPars} data={`out-scores-${round}`} />
+        <PlayerScorecardData scores={outScoreArr} pars={outPars} data={`out-scores-${round}`} />
       </tbody>
       <thead>
-          <PlayerScorecardHeaders headers={ScorecardMobileHeaders[1]} data={`in-holes-${round}`} />
-          <PlayerScorecardHeaders headers={inPars} data={`in-pars-${round}`} />
+        <PlayerScorecardHeaders headers={ScorecardMobileHeaders[1]} data={`in-holes-${round}`} />
+        <PlayerScorecardHeaders headers={inPars} data={`in-pars-${round}`} />
       </thead>
       <tbody>
         <PlayerScorecardData scores={inScoreArr} pars={inPars} data={`in-scores-${round}`} />

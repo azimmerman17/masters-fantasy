@@ -1,23 +1,20 @@
 import { useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
-import { FaTrophy } from "react-icons/fa6";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image';
 
 import { EventConfig } from '../../../Contexts/EventConfig';
-import { PlayersContext } from '../../../Contexts/PlayersContext';
 import { TournamentLeaderboardContext } from '../../../Contexts/TournamentLeaderboard';
 import PlayerPageHeader from './PlayerPageHeader';
 import PlayerPageScorecard from './PlayerPageScorecard';
 import PlayerStatsComponent from './PlayerStatsComponent';
 import PlayerBio from './PlayerBio';
+import PlayerHistory from './PlayerHistory';
 
 const PlayerPage = () => {
   const { playerId } = useParams()
   const { eventConfig, setEventConfig } = useContext(EventConfig)
-  const { playersContext, setPlayersContext } = useContext(PlayersContext)
   const { tournamentLeaderboardContext, setTournamentLeaderboardContext } = useContext(TournamentLeaderboardContext)
   const [ playerData, setPlayerData ] = useState(null)
   const [ playerStat, setPlayerStat ] = useState(null)
@@ -49,20 +46,13 @@ const PlayerPage = () => {
 
       return () => clearInterval(interval)
     }
-  }, [playerData, playerStat, eventConfig, playersContext])
+  }, [playerData, playerStat, eventConfig])
 
-
-
-  if (eventConfig && playerData && playerStat && tournamentLeaderboardContext) { //playersContext && 
-    // destructure eventConfig to get year
-    const { dataSettings, scoringData } = eventConfig
-    const { holePars } = scoringData
-    const { tournamentYear } = dataSettings
-
+  if (eventConfig && playerData && playerStat && tournamentLeaderboardContext) { 
     // playerData var destructure
     const { bio } = playerData
     const { player } = bio
-    const { age, avgRound, bestFinish, birthplace, countryCode, countryName, cutsMade, first_name, height, highRound, last_name, lowRound, overview, pastMasters, photo_url, swing, tournamentsPlayed, turnedPro, weight, wins } = player
+    const { age, avgRound, bestFinish, countryCode, countryName, cutsMade, first_name, height, highRound, last_name, lowRound, overview, pastMasters, photo_url, swing, tournamentsPlayed, turnedPro, weight, wins } = player
     const { meduim, large } = photo_url[photo_url.length - 1]
     
     // playerStat var destructure
@@ -72,45 +62,34 @@ const PlayerPage = () => {
 
     // tournamentLeaderboardContext var destructure
     const { currentRound, pars, yardages } = tournamentLeaderboardContext
-    console.log(currentRound, pars, yardages)
     const golfer = tournamentLeaderboardContext.player.filter(golfer => golfer.id == playerId)[0]
-    const { amateur } = golfer
+    const { amateur, firsttimer } = golfer
 
-
-
-    console.log(playerData,playerStat,golfer)
-    
-
-    
-  
-    
-      return (
-        <Container fluid>
-          <PlayerPageHeader first_name={first_name} last_name={last_name} amateur={amateur} countryCode={countryCode} position={position} total={total} today={today} playing={playing} teeTime={''} />
-          <Row >
-            <Image src={large || meduim} alt={playerId} />
-            <hr className='my-2' />
-          </Row>
-          <Row>
-            <PlayerPageScorecard currentRound={currentRound} pars={pars} yardages={yardages} golfer={golfer} />
-            <hr className='my-2' />
-          </Row>
-          <Row>
-            <PlayerStatsComponent stats={stats}/>
-            <hr className='my-2' />
-          </Row>
-          <Row>
-            history
-            <hr className='my-2' />
-{/* avgRound={avgRound} bestFinish={bestFinish} cutsMade={cutsMade} highRound={highRound} lowRound={lowRound} firsttimer={firsttimer} tournamentsPlayed={tournamentsPlayed} pastMasters={pastMasters} */}
-          </Row>
-          <Row>
-            <PlayerBio age={age} amateur={amateur} countryCode={countryCode} countryName={countryName} height={height} overview={overview} swing={swing} turnedPro={turnedPro} weight={weight} wins={wins} first_name={first_name} last_name={last_name} />
-            <hr className='my-2' />
-          </Row>
-        </Container>
-      )
-
+    return (
+      <Container fluid>
+        <PlayerPageHeader first_name={first_name} last_name={last_name} amateur={amateur} countryCode={countryCode} position={position} total={total} today={today} playing={playing} teeTime={''} />
+        <Row >
+          <Image src={large || meduim} alt={playerId} />
+          <hr className='my-2' />
+        </Row>
+        <Row>
+          <PlayerPageScorecard pars={pars} yardages={yardages} golfer={golfer} />
+          <hr className='my-2' />
+        </Row>
+        <Row>
+          <PlayerStatsComponent stats={stats}/>
+          <hr className='my-2' />
+        </Row>
+        <Row>
+          <PlayerHistory avgRound={avgRound} bestFinish={bestFinish} cutsMade={cutsMade} highRound={highRound} lowRound={lowRound} firsttimer={firsttimer} tournamentsPlayed={tournamentsPlayed} pastMasters={pastMasters} first_name={first_name} last_name={last_name} />
+          <hr className='my-2' />
+        </Row>
+        <Row>
+          <PlayerBio age={age} amateur={amateur} countryCode={countryCode} countryName={countryName} height={height} overview={overview} swing={swing} turnedPro={turnedPro} weight={weight} wins={wins} first_name={first_name} last_name={last_name} />
+          <hr className='my-2' />
+        </Row>
+      </Container>
+    )
   }
 } 
 

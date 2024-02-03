@@ -1,11 +1,10 @@
-import Col from "react-bootstrap/Col"
 import Container from "react-bootstrap/Container"
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import ScorecardMobile from "../../Scorecards/ScorecardsMobile";
 import ScorecardDesktop from "../../Scorecards/ScorecardDesktop";
 
-const PlayerPageScorecard = ({ currentRound, pars, yardages, golfer }) => {
+const PlayerPageScorecard = ({ pars, yardages, golfer }) => {
   const { round1, round2, round3, round4 } = golfer
   const roundArr = []
   

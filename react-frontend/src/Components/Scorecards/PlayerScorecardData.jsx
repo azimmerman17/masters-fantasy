@@ -8,7 +8,6 @@ const PlayerScorecardData = ({ scores, pars, data }) => {
       if (holeScore < 0) return 'text-danger fw-bolder'
       else if (holeScore === 0) return 'text-success fw-bolder'
       else return 'text-dark fw-bolder'
-       
     }
     
     holeScore = Math.min(holeScore, 2)
@@ -25,7 +24,6 @@ const PlayerScorecardData = ({ scores, pars, data }) => {
         return 'bogey'
       case 2:
         return 'double-bogey-worse'
-      
     }
   }
 
