@@ -61,6 +61,11 @@ const PlayersGrnFwyHitStat = ({ stats, mode }) => {
     return dataSet
   }
 
+  const totalText = (mode) => {
+    if (mode === 'Greens') return 'Total Greens Hit in Regulation -'
+    else return 'Total Fairways Hit -'
+  }
+
   return (
     <Container fluid >
             <Row className='my-2'>
@@ -81,7 +86,7 @@ const PlayersGrnFwyHitStat = ({ stats, mode }) => {
           <Row>
             <Col style={{maxWidth: '400px'}} className='m-auto' >
               <DoughnutChart labels={DoughnutLabels} backgroundColor={DoughnutColors} dataSet={[total[0], total[1]]} />
-              <p className={`mb-0 mt-2 ${window.innerWidth > 775 ? '' : 'label-small'} text-center`}>{`Total ${mode} in Regulation:`} {total[0]} / {Number(total[0]) + Number(total[1])} ({total[2]})</p>
+              <p className={`mb-0 mt-2 ${window.innerWidth > 775 ? '' : 'label-small'} text-center`}>{totalText(mode)} {total[0]} / {Number(total[0]) + Number(total[1])} ({total[2]})</p>
             </Col>
           </Row>
         </Col>

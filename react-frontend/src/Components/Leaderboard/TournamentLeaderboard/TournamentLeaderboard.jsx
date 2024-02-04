@@ -56,6 +56,11 @@ const TournamentLeaderboard = () => {
             {playerList}
           </tbody>
         </Table>
+        <p className='mt-3'>
+          <small>
+            <sup>*</sup> Denotes a 10<sup>th</sup> Tee start
+          </small>
+        </p>
       </Container>
     )
   }

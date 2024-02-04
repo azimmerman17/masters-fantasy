@@ -1,8 +1,8 @@
 const PlayerStatsHeaders = [
   'Scoring',
   'Driving',
-  'Greens Hit',
   'Fairways Hit',
+  'Greens Hit',
   'Putting',
   // 'Sand Saves'
 ]

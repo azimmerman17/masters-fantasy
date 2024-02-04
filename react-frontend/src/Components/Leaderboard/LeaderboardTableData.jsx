@@ -18,13 +18,15 @@ const LeaderboardTableData = ({ player, header, view }) => {
         else if (newStatus === 'W') return <td className='text-center'>WD</td>
         else return <td className='text-center'>{pos}</td>
       case 'move':
+        if (window.innerWidth < 775) return null
         if (newStatus === 'C' || newStatus === 'W') return <td></td>
         else if (Number(movement) === 0) return <td className='text-center'><PiArrowsHorizontalLight /></td>
         else if (Number(movement) > 0) return <td className='text-success text-center'><PiArrowUpLight /> {movement}</td>
         else if (Number(movement) < 0) return <td className='text-danger text-center'><PiArrowDownLight /> {movement.substring(1)}</td>
         else return <td></td>
       case 'PLAYER':
-        return <td><Image className='leaderboard-img' src={`https://images.masters.com/players/2023/240x240/${id}.jpg`} alt={id} roundedCircle /> {display_name} <Image src={`https://www.masters.com/assets/images/flags/${countryCode}_sm.gif`} alt={countryCode} className='leaderboard-flag'/> {amateur ? '(A)' : null }</td>
+        if (window.innerWidth < 775) return  <td className='ps-2'>{display_name} {amateur ? '(A)' : null }</td>
+        else return <td><Image className='leaderboard-img' src={`https://images.masters.com/players/2023/240x240/${id}.jpg`} alt={id} roundedCircle /> {display_name} <Image src={`https://www.masters.com/assets/images/flags/${countryCode}_sm.gif`} alt={countryCode} className='leaderboard-flag'/> {amateur ? '(A)' : null }</td>
       case 'TOTAL':
         if (newStatus === 'C') return <td colSpan={3} className='text-center'>Missed Cut</td> 
         else if (newStatus === 'W') return <td colSpan={3} className='text-center'>Withdrawn</td> 
@@ -42,15 +44,20 @@ const LeaderboardTableData = ({ player, header, view }) => {
         else if (today === 'E') return <td className='text-center fw-bold text-success'>{today}</td>
         else return <td className='text-center fw-bold'>{today}</td>
       case'R1':
-        return <td className='text-center'>{round1.total}</td>
+        if (window.innerWidth < 500) return null
+         else return <td className='text-center'>{round1.total}</td>
       case 'R2':
-        return <td className='text-center'>{round2.total}</td>      
+        if (window.innerWidth < 500) return null
+        else return <td className='text-center'>{round2.total}</td>      
       case'R3':
-        return <td className='text-center'>{round3.total}</td>
+      if (window.innerWidth < 500) return null
+      else return <td className='text-center'>{round3.total}</td>
       case'R4':
-        return <td className='text-center'>{round4.total}</td>
+      if (window.innerWidth < 500) return null
+      else return <td className='text-center'>{round4.total}</td>
       case'STROKES':
-        return <td className='text-center'>{total}</td>
+      if (window.innerWidth < 500) return null
+      else return <td className='text-center'>{total}</td>
     }
 
   }
