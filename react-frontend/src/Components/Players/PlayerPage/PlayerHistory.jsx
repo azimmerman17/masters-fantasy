@@ -2,14 +2,15 @@ import Container from "react-bootstrap/Container"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import RemoveValueArray from "../../../Functions/RemoveValueArray"
+import PlayerHistoryAccordion from "../PlayerHistoryAccordions"
 
-const PlayerHistory = ({ avgRound, bestFinish, cutsMade, highRound, lowRound, firsttimer, tournamentsPlayed, pastMasters,first_name, last_name }) => {
+const PlayerHistory = ({ avgRound, bestFinish, cutsMade, highRound, lowRound, firsttimer, tournamentsPlayed, pastMasters, first_name, last_name, roundsPlayed, roundsUnderPar }) => {
   let finish = bestFinish.split(' ')
   let finishPos = finish.shift()
   let finishYears = RemoveValueArray(finish, finishPos).join(' ')
 
-  let data = [tournamentsPlayed, cutsMade, avgRound, highRound, lowRound]
-  let labels = ['Tournaments Played', 'Cuts Made', 'Scoring Average', 'High Round', 'Low Round']
+  let data = [tournamentsPlayed, cutsMade, roundsPlayed, roundsUnderPar, avgRound, highRound, lowRound ]
+  let labels = ['Tournaments Played', 'Cuts Made',  'Rounds Played', 'Rounds Under Par', 'Scoring Average', 'High Round', 'Low Round']
   
   const historyData = data.map((dataPoint, i) => {
     return (
@@ -45,6 +46,10 @@ const PlayerHistory = ({ avgRound, bestFinish, cutsMade, highRound, lowRound, fi
               {historyData}
             </Row>
           </Col>
+        </Row>
+        <hr className='my-2' />
+        <Row>
+          <PlayerHistoryAccordion pastMasters={pastMasters} />
         </Row>
 
       </Container>

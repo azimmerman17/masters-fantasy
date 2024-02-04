@@ -51,8 +51,9 @@ const PlayerPage = () => {
   if (eventConfig && playerData && playerStat && tournamentLeaderboardContext) { 
     // playerData var destructure
     const { bio } = playerData
+
     const { player } = bio
-    const { age, avgRound, bestFinish, countryCode, countryName, cutsMade, first_name, height, highRound, last_name, lowRound, overview, pastMasters, photo_url, swing, tournamentsPlayed, turnedPro, weight, wins } = player
+    const { age, avgRound, bestFinish, countryCode, countryName, cutsMade, first_name, height, highRound, last_name, lowRound, overview, pastMasters, photo_url, swing, tournamentsPlayed, turnedPro, weight, wins, roundsUnderPar, roundsPlayed } = player
     const { meduim, large } = photo_url[photo_url.length - 1]
     
     // playerStat var destructure
@@ -81,7 +82,7 @@ const PlayerPage = () => {
           <hr className='my-2' />
         </Row>
         <Row>
-          <PlayerHistory avgRound={avgRound} bestFinish={bestFinish} cutsMade={cutsMade} highRound={highRound} lowRound={lowRound} firsttimer={firsttimer} tournamentsPlayed={tournamentsPlayed} pastMasters={pastMasters} first_name={first_name} last_name={last_name} />
+          <PlayerHistory avgRound={avgRound} bestFinish={bestFinish} cutsMade={cutsMade} highRound={highRound} lowRound={lowRound} firsttimer={firsttimer} tournamentsPlayed={tournamentsPlayed} roundsPlayed={roundsPlayed}  roundsUnderPar={roundsUnderPar} pastMasters={pastMasters} first_name={first_name} last_name={last_name} />
           <hr className='my-2' />
         </Row>
         <Row>
