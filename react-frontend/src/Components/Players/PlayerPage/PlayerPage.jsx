@@ -49,6 +49,7 @@ const PlayerPage = () => {
   }, [playerData, playerStat, eventConfig])
 
   if (eventConfig && playerData && playerStat && tournamentLeaderboardContext) { 
+    console.log(eventConfig, playerData, playerStat, tournamentLeaderboardContext)
     // playerData var destructure
     const { bio } = playerData
 

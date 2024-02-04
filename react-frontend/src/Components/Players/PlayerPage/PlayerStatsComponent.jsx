@@ -61,9 +61,15 @@ const PlayerStatsComponent = ({ stats }) => {
   return (
     <Container fluid className="m-0 p-0">
       <h5 className={`text-success ${window.innerWidth < 775 ? 'text-end' : 'text-start'}`}>Tournament Statistics</h5>
-      <Tabs defaultActiveKey={PlayerStatsHeaders[0]} id="stats-tab-switcher">
-        {statTabs}
-      </Tabs>
+      {round.length === 0 ? (
+        <p className="m-0 p-0 text-center">
+          No Statistics to show
+        </p>
+      ) :(
+        <Tabs defaultActiveKey={PlayerStatsHeaders[0]} id="stats-tab-switcher">
+          {statTabs}
+        </Tabs>
+      )}
     </Container>
   )
 }

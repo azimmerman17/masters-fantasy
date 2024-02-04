@@ -6,6 +6,8 @@ import ScorecardDesktop from "../../Scorecards/ScorecardDesktop";
 
 const PlayerPageScorecard = ({ pars, yardages, golfer }) => {
   const { round1, round2, round3, round4 } = golfer
+  console.log(round1)
+
   const roundArr = []
   
   if (round1.roundStatus !== 'Pre' && window.innerWidth > 500) roundArr.push('Round 1')
@@ -55,21 +57,25 @@ const PlayerPageScorecard = ({ pars, yardages, golfer }) => {
     )
   })
 
+  const displayScore = () => {
+    if (window.innerWidth < 775) {
+      return (
+        <Tabs defaultActiveKey={roundArr[roundArr.length - 1]} id="scorecard-tab-switcher" justify>
+          {roundTabs}
+        </Tabs>
+      )
+    } else {
+      return <ScorecardDesktop r1={round1} r2={round2} r3={round3} r4={round4} pars={pars.round1} yardages={yardages.round1}/>
+
+    }
+  }
+
   return (
     <Container fluid className="m-0 p-0">
-      {window.innerWidth < 775 ? (
-        <>
-          <h5 className='text-success text-end'>Offical Scorecard</h5>
-          <Tabs defaultActiveKey={roundArr[roundArr.length - 1]} id="scorecard-tab-switcher" justify>
-            {roundTabs}
-          </Tabs>
-        </>
-      ) : (
-        <>
-          <h5 className='text-success text-start'>Offical Scorecard</h5>
-          <ScorecardDesktop r1={round1} r2={round2} r3={round3} r4={round4} pars={pars.round1} yardages={yardages.round1}/>
-        </>
-      )}
+      <h5 className={`text-success ${window.innerWidth < 775 ? 'text-end' :'text-start' }`}>Offical Scorecard</h5>
+      {round1.roundStatus === 'Pre' || round1.roundStatus === 'not-applicable' ? (
+        <p className='text-center'>No Scores to Display</p> 
+      ) : displayScore()}
     </Container>
   )
 }
