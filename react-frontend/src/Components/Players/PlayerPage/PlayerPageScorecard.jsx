@@ -6,7 +6,6 @@ import ScorecardDesktop from "../../Scorecards/ScorecardDesktop";
 
 const PlayerPageScorecard = ({ pars, yardages, golfer }) => {
   const { round1, round2, round3, round4 } = golfer
-  console.log(round1)
 
   const roundArr = []
   
