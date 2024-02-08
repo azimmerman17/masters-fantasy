@@ -49,7 +49,7 @@ const PlayerPage = () => {
   }, [playerData, playerStat, eventConfig])
 
   if (eventConfig && playerData && playerStat && tournamentLeaderboardContext) { 
-    console.log(eventConfig, playerData, playerStat, tournamentLeaderboardContext)
+
     // playerData var destructure
     const { bio } = playerData
 
@@ -63,7 +63,7 @@ const PlayerPage = () => {
     const { playing, position, today, total } = score
 
     // tournamentLeaderboardContext var destructure
-    const { currentRound, pars, yardages } = tournamentLeaderboardContext
+    const { pars, yardages } = tournamentLeaderboardContext
     const golfer = tournamentLeaderboardContext.player.filter(golfer => golfer.id == playerId)[0]
     const { amateur, firsttimer } = golfer
 
