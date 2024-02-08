@@ -28,6 +28,8 @@ function App() {
               </header>
               <main  style={{marginTop: '50px'}} className='mx-0 p-0'>
                 <Routes>
+                  {/* Home Page  if logged in user_profile else log out*/}
+                  {/* Login PAge */}
                   <Route path='/tournament/leaderboard' element={<TournamentLeaderboard />} />
                   <Route path='/tournament/players' element={<TournamentPlayers />} />
                   <Route path='/tournament/players/:playerId' element={<PlayerPage />} />                  
