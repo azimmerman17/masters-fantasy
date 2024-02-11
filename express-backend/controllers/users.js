@@ -150,7 +150,7 @@ router.put('/:username/role', async (req, res) => {
   let updateUserRole = `UPDATE public."Users"
   SET updated_at = NOW(),
     role = '${role}'
-  WHERE user_name = '${username}';`
+  WHERE user_name = '${username.toLowerCase()}';`
 
   try {
     const response = await pool.query(updateUserRole)
@@ -169,7 +169,7 @@ router.put('/:username/password', async (req, res) => {
 
   // Get salt for password hashing
   const saltQuery = `SELECT A.salt FROM public."Users" A
-    WHERE user_name = '${username}'
+    WHERE user_name = '${username.toLowerCase()}'
     LIMIT 1;`
 
   try {
@@ -186,7 +186,7 @@ router.put('/:username/password', async (req, res) => {
       let updateUserPassword = `UPDATE public."Users"
         SET updated_at = NOW(),
           password_hash = '${passwordHash}'
-        WHERE user_name = '${username}';`
+        WHERE user_name = '${username.toLowerCase()}';`
         console.log(updateUserPassword)
 
       const response = await pool.query(updateUserPassword)
