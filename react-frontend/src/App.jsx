@@ -9,6 +9,7 @@ import TournamentLeaderboard from './Components/Leaderboard/TournamentLeaderboar
 import TournamentPlayers from './Components/Players/TournamentPlayers'
 import PlayersContextProvider from './Contexts/PlayersContext'
 import PlayerPage from './Components/Players/PlayerPage/PlayerPage'
+import SignUp from './Components/SignUp'
 
 function App() {
   const [title, setTitle] = useState('APP')
@@ -32,7 +33,8 @@ function App() {
                   {/* Login PAge */}
                   <Route path='/tournament/leaderboard' element={<TournamentLeaderboard />} />
                   <Route path='/tournament/players' element={<TournamentPlayers />} />
-                  <Route path='/tournament/players/:playerId' element={<PlayerPage />} />                  
+                  <Route path='/tournament/players/:playerId' element={<PlayerPage />} />  
+                  <Route path='/newUser' element={<SignUp />} />                
                 </Routes>
                 Masters Fantasty Golf 
               </main>
