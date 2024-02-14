@@ -56,27 +56,30 @@ router.post('/', async (req, res) => {
 })
 
 router.get('/profile', async (req, res) => {
-  // find user
-  const userExistQuery = `Select A.* FROM public."Users" A
-  WHERE A.user_id =${req.currentUser};`
+  if (!req.currentUser) res.status(404).send(null)
+  else {
+    // find user
+    const userExistQuery = `Select A.* FROM public."Users" A
+    WHERE A.user_id =${req.currentUser};`
 
-  try {
-    let user = await pool.query(userExistQuery)
-    // User exists - data to be attached to the user
-    const { rows } = user
+    try {
+      let user = await pool.query(userExistQuery)
+      // User exists - data to be attached to the user
+      const { rows } = user
 
-    let returnedUser = {
-      user_id: rows[0]["user_id"],
-      user_name: rows[0]["user_name"],
-      first_name: rows[0]["first_name"],
-      last_name: rows[0]["last_name"],
-      email: rows[0]["email"],
-      role: rows[0]["role"], 
+      let returnedUser = {
+        user_id: rows[0]["user_id"],
+        user_name: rows[0]["user_name"],
+        first_name: rows[0]["first_name"],
+        last_name: rows[0]["last_name"],
+        email: rows[0]["email"],
+        role: rows[0]["role"], 
+      }
+      res.status(200).send(returnedUser)
+    } catch (error) {
+    console.error(error)
+    res.status(500).send(error)
     }
-    res.status(200).send(returnedUser)
-  } catch (error) {
-  console.error(error)
-  res.status(500).send(error)
   }
 })
 

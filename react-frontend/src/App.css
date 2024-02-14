@@ -42,11 +42,10 @@ main {
 
 }
 
-#log-in-form, #logged-out-dropdown {
+#log-in-form, #logged-out-dropdown, .login-form-group {
   min-width: '300px'!important;
+  max-width: '500px'!important;
 }
-
-
 
 .scorecard-cell {
   width: 25px;

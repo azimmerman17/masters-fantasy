@@ -16,7 +16,7 @@ const Logout = () => {
 
   return (
     <Container fluid>
-      <Button variant="warning" className='w-100' onClick={(e) => handleClick(e)}>
+      <Button variant="warning" className='w-100' style={{maxWidth: '200px'}} onClick={(e) => handleClick(e)}>
         Log out
       </Button>
     </Container>
