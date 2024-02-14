@@ -79,7 +79,7 @@ const SignUp = () => {
       await fetch(BASE_URL + 'user/new', options)
     }
   };
-  console.log(user, BASE_URL + 'user/new')
+
   return (
     <Form noValidate validated={validated} onSubmit={handleSubmit}>
     <Row className="mb-3">

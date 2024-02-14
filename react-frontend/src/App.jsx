@@ -10,6 +10,7 @@ import TournamentPlayers from './Components/Players/TournamentPlayers'
 import PlayersContextProvider from './Contexts/PlayersContext'
 import PlayerPage from './Components/Players/PlayerPage/PlayerPage'
 import SignUp from './Components/SignUp'
+import HomePage from './Components/HomePage'
 
 function App() {
   const [title, setTitle] = useState('APP')
@@ -31,6 +32,7 @@ function App() {
                 <Routes>
                   {/* Home Page  if logged in user_profile else log out*/}
                   {/* Login PAge */}
+                  <Route exact path='/' element={<HomePage />} />
                   <Route path='/tournament/leaderboard' element={<TournamentLeaderboard />} />
                   <Route path='/tournament/players' element={<TournamentPlayers />} />
                   <Route path='/tournament/players/:playerId' element={<PlayerPage />} />  
