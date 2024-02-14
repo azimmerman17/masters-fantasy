@@ -27,6 +27,29 @@ router.get('/', async (req, res) => {
     }
 })
 
+//GET LIST OF USERNAMES TO VALIDATE NEW USER ON FRONTEND
+router.get('/usernamelist', async (req, res) => {
+  const getUsers = `SELECT A.user_name, A.email FROM public."Users" A;`
+  try {
+    const response = await pool.query(getUsers)
+    if (response.error) res.status(500).send({response})
+    else {
+      const { rows } = response
+      // transform key-value pairs to just value
+      let userNames = []
+      let emails = []
+      rows.forEach(row => {
+        // console.log(row)
+        userNames.push(row['user_name'])
+        emails.push(row['email'])
+      })
+      res.status(200).send([userNames, emails])
+    }
+  } catch (error) {
+    res.status(500).send(error)
+  }
+})
+
 // GET A SINGLE USER
 router.get('/:id', async (req, res) => {
   const { id } = req.params
@@ -187,7 +210,6 @@ router.put('/:username/password', async (req, res) => {
         SET updated_at = NOW(),
           password_hash = '${passwordHash}'
         WHERE user_name = '${username.toLowerCase()}';`
-        console.log(updateUserPassword)
 
       const response = await pool.query(updateUserPassword)
       if (response.error) {res.status(500).send({response})}
