@@ -36,9 +36,17 @@ main {
   color: #198754 !important;
 }
 
-#tournament-info-dropdown, #fantasy-info-dropdown {
+#tournament-info-dropdown, #fantasy-info-dropdown, #logged-out-dropdown, #logged-in-dropdown {
   color: #fff !important;
+  min-width: '300px'!important;
+
 }
+
+#log-in-form, #logged-out-dropdown {
+  min-width: '300px'!important;
+}
+
+
 
 .scorecard-cell {
   width: 25px;
