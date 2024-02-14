@@ -1,10 +1,14 @@
 const router = require('express').Router()
 require('dotenv').config()
 const jwt = require('json-web-token')
+// const defineCurrentUser = require('../middleware/defineCurrentUser')
+
 
 const decryptValue = require('../functions/decryptValue')
 const hashValue = require('../functions/hashValue')
 const pool = require('../models/db')
+const { request } = require('express')
+
 
 router.post('/', async (req, res) => {
   const { user_name, password } = req.body
@@ -38,8 +42,7 @@ router.post('/', async (req, res) => {
       const decryptedSalt = decryptValue(encryptedSalt)
       const hashedPassword = hashValue(password + decryptedSalt)
       if (hashedPassword === password_hash) {
-        const result = await jwt.encode(process.env.JWT_SECRET, { id: user._id })
-        console.log({ user: returnedUser, token: result.value })
+        const result = await jwt.encode(process.env.ENCRYPTION_KEY, { id: returnedUser.user_id })
         res.status(200).json({ user: returnedUser, token: result.value })
       } else {
         res.status(404).json({message: 'You have entered an invalid username or password'})
@@ -50,6 +53,31 @@ router.post('/', async (req, res) => {
     console.error(error)
     res.status(500).send(error)
   }
-  })
+})
+
+router.get('/profile', async (req, res) => {
+  // find user
+  const userExistQuery = `Select A.* FROM public."Users" A
+  WHERE A.user_id =${req.currentUser};`
+
+  try {
+    let user = await pool.query(userExistQuery)
+    // User exists - data to be attached to the user
+    const { rows } = user
+
+    let returnedUser = {
+      user_id: rows[0]["user_id"],
+      user_name: rows[0]["user_name"],
+      first_name: rows[0]["first_name"],
+      last_name: rows[0]["last_name"],
+      email: rows[0]["email"],
+      role: rows[0]["role"], 
+    }
+    res.status(200).send(returnedUser)
+  } catch (error) {
+  console.error(error)
+  res.status(500).send(error)
+  }
+})
 
 module.exports = router

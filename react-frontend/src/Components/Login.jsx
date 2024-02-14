@@ -2,11 +2,15 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/esm/Col';
 import Container from 'react-bootstrap/esm/Container';
-import { useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
+
+import { CurrentUser } from "../Contexts/CurrentUserContext"
 
 const BASE_URL = 'http://localhost:8080/'
 
 const Login = () => {
+  const { currentUser, setCurrentUser } = useContext(CurrentUser)
+
   let [validated, setValidated] = useState(false)
   let [errorMessage, setErrorMessage] = useState(null)
   let [user, setUser] = useState({
@@ -40,20 +44,14 @@ const Login = () => {
 
     const data = await response.json()
     if (response.status === 200) {
-      // setCurrentUser(data.user)
-      // localStorage.setItem('token', data.token)
+      setCurrentUser(data.user)
+      localStorage.setItem('token', data.token)
       setErrorMessage(null)
-      console.log('200')
     } else {
       setErrorMessage(data.message)
     }
   };
 
-
-
-  console.log(errorMessage)
-
-console.log(user)
   return (
     <Container>
       {!errorMessage ? <p style={{minHeight: '30px'}}></p> : <p className='mt-2 mb-2 bg-danger-subtle border border-danger text-center rounded-pill'>{errorMessage}</p>}

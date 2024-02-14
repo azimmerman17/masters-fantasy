@@ -210,7 +210,6 @@ router.put('/:username/password', async (req, res) => {
         SET updated_at = NOW(),
           password_hash = '${passwordHash}'
         WHERE user_name = '${username.toLowerCase()}';`
-        console.log(updateUserPassword)
 
       const response = await pool.query(updateUserPassword)
       if (response.error) {res.status(500).send({response})}
