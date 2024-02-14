@@ -53,7 +53,7 @@ const Login = () => {
   };
 
   return (
-    <Container>
+    <Container id='log-in-form'>
       {!errorMessage ? <p style={{minHeight: '30px'}}></p> : <p className='mt-2 mb-2 bg-danger-subtle border border-danger text-center rounded-pill'>{errorMessage}</p>}
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <Form.Group className="mb-3" as={Col} md={6} controlId="loginUserNameEmail" onChange={e => setUser({...user, user_name: e.target.value })}>

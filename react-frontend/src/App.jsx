@@ -38,7 +38,7 @@ function App() {
                     <Route path='/tournament/leaderboard' element={<TournamentLeaderboard />} />
                     <Route path='/tournament/players' element={<TournamentPlayers />} />
                     <Route path='/tournament/players/:playerId' element={<PlayerPage />} />  
-                    <Route path='/newUser' element={<SignUp />} />                
+                    <Route path='/newuser' element={<SignUp />} />                
                   </Routes>
                 </main>
                 <footer>
