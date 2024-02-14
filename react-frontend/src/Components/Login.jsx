@@ -53,17 +53,17 @@ const Login = () => {
   };
 
   return (
-    <Container id='log-in-form'>
+    <Container id='log-in-form' style={{maxWidth: '300px'}}>
       {!errorMessage ? <p style={{minHeight: '30px'}}></p> : <p className='mt-2 mb-2 bg-danger-subtle border border-danger text-center rounded-pill'>{errorMessage}</p>}
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
-        <Form.Group className="mb-3" as={Col} md={6} controlId="loginUserNameEmail" onChange={e => setUser({...user, user_name: e.target.value })}>
+        <Form.Group className="mb-3 login-form-group" as={Col}  controlId="loginUserNameEmail" onChange={e => setUser({...user, user_name: e.target.value })}>
           <Form.Label>Username or Email Address</Form.Label>
           <Form.Control 
             type="text" 
             placeholder="Enter Username or Email Address" 
             required/>
         </Form.Group>
-        <Form.Group className="mb-3" as={Col} md={6} controlId="loginPassword" onChange={e => setUser({...user, password: e.target.value })}>
+        <Form.Group className="mb-3 login-form-group"  as={Col} controlId="loginPassword" onChange={e => setUser({...user, password: e.target.value })}>
           <Form.Label>Password</Form.Label>
           <Form.Control 
             type="password" 
