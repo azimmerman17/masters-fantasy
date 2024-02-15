@@ -9,8 +9,10 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {
-      // define association here
+    static associate({ User_Data }) {
+      // user => user_data 1:1
+      Users.hasOne(User_Data, { foreignKey: 'user_id' });
+      
     }
   }
   Users.init({
@@ -21,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     first_name: {
       type: DataTypes.STRING,
+      
     },
     last_name: {
       type: DataTypes.STRING,
@@ -28,6 +31,7 @@ module.exports = (sequelize, DataTypes) => {
     email: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
     salt: {
       type: DataTypes.STRING,
