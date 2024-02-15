@@ -15,8 +15,13 @@ router.get('/', async (req, res) => {
       A.user_name,
       A.first_name,
       A.last_name,
-      A.email
-    FROM public."Users" A;`
+      A.email,
+      B.appearances,
+      B.wins,
+      B.best_finish,
+      B.low_score
+    FROM public."Users" A, public."User_Data" B
+    WHERE A.user_id = B.user_id;`
 
     try {
       const response = await pool.query(getUsers)
@@ -58,10 +63,15 @@ router.get('/:id', async (req, res) => {
       A.user_name,
       A.first_name,
       A.last_name,
-      A.email
-    FROM public."Users" A
-    WHERE A.user_name = ${id}
-      OR  A.user_id = ${id};`
+      A.email,
+      B.appearances,
+      B.wins,
+      B.best_finish,
+      B.low_score
+    FROM public."Users" A, public."User_Data" B
+    WHERE A.user_id = B.user_id 
+      AND (A.user_name = ${id}
+        OR  A.user_id = ${id});`
 
     try {
       const response = await pool.query(getUser)
@@ -106,10 +116,28 @@ router.post('/new', async (req, res) => {
           NOW(), 
           NOW());`
 
-      const response = await pool.query(createUser)
+      let response = await pool.query(createUser)
       if (response.error) res.status(500).send({response})
-      else res.status(200).send(response)
-    }
+      else {
+        // Query to get the user id 
+        const getUserId = `SELECT A.user_id FROM public."Users" A
+          WHERE A.user_name = '${user_name.toLowerCase()}';`
+
+        response = await pool.query(getUserId)
+        if (response.error) res.status(500).send({response})
+        else {
+          const { rows } = response
+          // Query to add record to the User Data Table
+          const userDataInsert = `INSERT INTO public."User_Data" (user_id, created_at, updated_at)
+            VALUES (${rows[0]["user_id"]}, NOW(), NOW());` 
+
+            console.log(userDataInsert)
+            response = await pool.query(userDataInsert)
+            if (response.error) res.status(500).send({response})
+            else res.status(200).send(response)
+          }
+        }
+      }
     } catch (error) {
       console.error(error)
       res.status(500).send(error)
@@ -224,11 +252,17 @@ router.put('/:username/password', async (req, res) => {
 // DELETE -  remember to cascade!! 
 router.delete('/:id', async (req, res) => {
   const { id } = req.params
-  // remove route from Routes Table
+
+  // remove User from table - remove data from child tables first
   const removeUser = `DELETE FROM public."Users" 
-    WHERE user_name = '${id}';`
+    WHERE user_name = '${id.toLowerCase()}';`
+
+  const removeUserData = `DELETE FROM public."User_Data" 
+    WHERE user_id = (SELECT A.user_id FROM public."Users" A
+                        WHERE A.user_name = '${id.toLowerCase()}');`
 
   try {
+    await pool.query(removeUserData)
     await pool.query(removeUser)
     res.status(200).send('User Deleted')
   } catch (error) { 

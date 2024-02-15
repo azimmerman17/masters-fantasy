@@ -59,8 +59,19 @@ router.get('/profile', async (req, res) => {
   if (!req.currentUser) res.status(404).send(null)
   else {
     // find user
-    const userExistQuery = `Select A.* FROM public."Users" A
-    WHERE A.user_id =${req.currentUser};`
+    const userExistQuery = `Select A.user_id,
+        A.user_name,
+        A.first_name,
+        A.last_name,
+        A.email,
+        A.role,
+        B.appearances,
+        B.wins,
+        B.best_finish,
+        B.low_score
+      FROM public."Users" A, public."User_Data" B
+      WHERE A.user_id = B.user_id
+        AND A.user_id = ${req.currentUser};`
 
     try {
       let user = await pool.query(userExistQuery)

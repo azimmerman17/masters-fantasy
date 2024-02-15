@@ -11,7 +11,7 @@ module.exports = {
       },
       user_id: {
         allowNull: false,
-        autoIncrement: true,
+        unique: true,
         type: Sequelize.INTEGER
       },
       appearances: {
