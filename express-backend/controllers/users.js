@@ -70,14 +70,17 @@ router.get('/:id', async (req, res) => {
       B.low_score
     FROM public."Users" A, public."User_Data" B
     WHERE A.user_id = B.user_id 
-      AND (A.user_name = ${id}
-        OR  A.user_id = ${id});`
+      AND A.user_name = '${id}';`
 
     try {
       const response = await pool.query(getUser)
       if (response.error) res.status(500).send({response})
-      else res.status(200).send(response)
+      else {
+        const { rows } = response
+        res.status(200).send(rows[0])
+      }
     } catch (error) {
+      console.error(error)
       res.status(500).send(error)
     }
 })

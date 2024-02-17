@@ -12,6 +12,7 @@ import TournamentPlayers from './Components/Players/TournamentPlayers'
 import PlayerPage from './Components/Players/PlayerPage/PlayerPage'
 import SignUp from './Components/SignUp'
 import HomePage from './Components/HomePage'
+import UserProfile from './Components/User/UserProfile'
 
 function App() {
   const [title, setTitle] = useState('APP')
@@ -38,7 +39,10 @@ function App() {
                     <Route path='/tournament/leaderboard' element={<TournamentLeaderboard />} />
                     <Route path='/tournament/players' element={<TournamentPlayers />} />
                     <Route path='/tournament/players/:playerId' element={<PlayerPage />} />  
-                    <Route path='/newuser' element={<SignUp />} />                
+                    <Route path='/newuser' element={<SignUp />} />       
+                    <Route path='/profile' element={<UserProfile />} />
+                    <Route path='/profile/:username' element={<UserProfile />} />
+
                   </Routes>
                 </main>
                 <footer>

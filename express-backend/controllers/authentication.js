@@ -50,7 +50,7 @@ router.post('/', async (req, res) => {
 
     }
   } catch (error) {
-    console.error(error)
+    // console.error(error) 
     res.status(500).send(error)
   }
 })
@@ -84,12 +84,16 @@ router.get('/profile', async (req, res) => {
         first_name: rows[0]["first_name"],
         last_name: rows[0]["last_name"],
         email: rows[0]["email"],
-        role: rows[0]["role"], 
+        role: rows[0]["role"],
+        appearances: rows[0]["appearances"],
+        wins: rows[0]["wins"],
+        best_finish: rows[0]["best_finish"],
+        low_score: rows[0]["low_score"],
       }
       res.status(200).send(returnedUser)
     } catch (error) {
-    console.error(error)
-    res.status(500).send(error)
+    // console.error(error)
+    res.status(500).send(null)
     }
   }
 })
