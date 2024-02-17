@@ -157,9 +157,9 @@ router.put('/:id', async (req, res) => {
   let rowCount = 0
   if (email || user_name) {
     const checkUserName = `SELECT A.user_name FROM public."Users" A
-    WHERE (A.user_name = '${user_name.toLowerCase()}'  
-        OR A.email = '${email.toLowerCase()}')
-      AND A.user_name <> '${user_name.toLowerCase()}';`
+    WHERE (A.user_name = '${user_name ? user_name.toLowerCase() : ''}'  
+        OR A.email = '${email ? email.toLowerCase() : ''}')
+      AND A.user_id <> ${id};`
 
     try {
       const userNameResponse = await pool.query(checkUserName)
@@ -183,11 +183,11 @@ router.put('/:id', async (req, res) => {
 
   // and where clause
   updateUser = updateUser + `
-  WHERE user_name = '${id}';`
+  WHERE user_id = '${id}';`
 
   try {
     const response = await pool.query(updateUser)
-    if (response.error) res.status(500).send({response})
+    if (response.error) res.status(500).send(response)
     else res.status(200).send(response)
   } catch (error) {
     console.error(error)

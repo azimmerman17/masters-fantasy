@@ -5,12 +5,14 @@ import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { FaUserEdit } from "react-icons/fa";
+import EditProfileAlert from './EditProfileAlert';
 
 const BASE_URL = 'http://localhost:8080/'
 
 
-const EditUserData = ({ currentUser }) => {
+const EditUserData = ({ currentUser, setCurrentUser }) => {
   let [show, setShow] = useState(false);
+  let [showProfileAlert, setShowProfileAlert] = useState(false);
   let [userNameEmailList, setUserNameEmailList] = useState([])
   let [usernameUnique, setUsernameUnique] = useState(true)
   let [emailUnique, setEmailUnique] = useState(true)
@@ -34,7 +36,10 @@ const EditUserData = ({ currentUser }) => {
       setUserNameEmailList(data)
     }
     if (userNameEmailList.length === 0) fetchData()
-  },[userNameEmailList])
+  },[userNameEmailList, currentUser])
+
+  const profileMessage = 'Profile Update Unsuccessful'
+  const passwordMessage = 'Password Update Unsuccessful'
 
   //  opens and closes the offcanvas
   const handleShowClose = () => {
@@ -42,9 +47,25 @@ const EditUserData = ({ currentUser }) => {
   }
 
   // function to edit profile info
-  const handleSumbit = (e) => {
+  const handleSumbit = async (e) => {
     e.preventDefault()
-    console.log('EDIT PROFILE')
+    console.log(e)
+    const { user_id } = currentUser
+
+    const options = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'mode': 'no-cors',
+      },
+      body: JSON.stringify(editUser)
+    }
+    
+    let response = await fetch(BASE_URL + `user/${user_id}`, options)
+    const { status } = response
+    
+    if (status === 200) location.reload() // success reload page
+    else setShowProfileAlert(true) // fail - display Error message
   }
 
   // funtion to change the password
@@ -60,18 +81,18 @@ const EditUserData = ({ currentUser }) => {
       if (e === '') SetEditUser({ ...editUser, user_name: undefined})
       else SetEditUser({ ...editUser, user_name: e})
       // check for unique 
-      if (userNameEmailList[0].includes(e) !== true ) setUsernameUnique(true)
+      if (userNameEmailList[0].includes(e.toLowerCase()) !== true ) setUsernameUnique(true)
       else if (e.length === 0) setUsernameUnique(true)
-      else if (editUser.user_name === currentUser.user_name) setUsernameUnique(true)
+      else if (e.toLowerCase() == currentUser.user_name) setUsernameUnique(true)
       else setUsernameUnique(false)
     } else {
       // set varible 
       if (e === '') SetEditUser({ ...editUser, email: undefined})
       else SetEditUser({ ...editUser, email: e})
       // check for unique 
-      if (userNameEmailList[1].includes(e) !== true ) setEmailUnique(true)
+      if (userNameEmailList[1].includes(e.toLowerCase()) !== true ) setEmailUnique(true)
       else if (e.length === 0) setEmailUnique(true)
-      else if (editUser.email === currentUser.email) setEmailUnique(true)
+      else if (e.toLowerCase() == currentUser.email) setEmailUnique(true)
       else setEmailUnique(false)
     }
   } 
@@ -86,6 +107,7 @@ const EditUserData = ({ currentUser }) => {
           <Offcanvas.Title className='text-center fw-bold'>EDIT PROFILE</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
+          <EditProfileAlert show={showProfileAlert} setShow={setShowProfileAlert} message={profileMessage} />
           <h5 className='text-center'>Profile Information</h5>
           <Form onSubmit={e => handleSumbit(e)}>
             <Form.Group as={Col} md={6} controlId="editUserFirstName" className="mb-3" onChange={(e) => SetEditUser({ ...editUser, first_name: e.target.value})}>

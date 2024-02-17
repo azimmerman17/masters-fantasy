@@ -74,7 +74,7 @@ if (user) {
         <Row>
           {hidePersonalData ? null : (
             <Col className='text-end'>
-              <EditUserData currentUser={currentUser}/>
+              <EditUserData currentUser={currentUser} setCurrentUser={setCurrentUser}/>
               <DeleteAlert />
             </Col>
           )}
