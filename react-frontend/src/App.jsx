@@ -42,7 +42,6 @@ function App() {
                     <Route path='/newuser' element={<SignUp />} />       
                     <Route path='/profile' element={<UserProfile />} />
                     <Route path='/profile/:username' element={<UserProfile />} />
-
                   </Routes>
                 </main>
                 <footer>

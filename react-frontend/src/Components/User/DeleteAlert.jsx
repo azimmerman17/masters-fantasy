@@ -6,18 +6,21 @@ import Form from 'react-bootstrap/Form';
 import { FaRegTrashCan } from "react-icons/fa6";
 
 const DeleteAlert = () => {
-  const [show, setShow] = useState(false);
-  const [disable, setDisable] =useState(true)
+  let [show, setShow] = useState(false);
+  let [disable, setDisable] =useState(true)
 
+  // function to open and close offcanvas
   const handleShowClose = () => {
     setDisable(true)
     setShow(!show);
   }
 
+  // enable/disable sumbit button with the checkbox
   const handleClick = () => {
     setDisable(!disable)
   }
 
+  // function to delete the account
   const handleSumbit = (e) => {
     e.preventDefault()
     console.log('DELETE ACCOUNT')
@@ -28,8 +31,7 @@ const DeleteAlert = () => {
       <Button variant="danger" onClick={handleShowClose}>
         <FaRegTrashCan /> 
       </Button>
-
-      <Offcanvas show={show} onHide={handleShowClose} scroll backdrop>
+      <Offcanvas show={show} onHide={handleShowClose} placement='end' scroll backdrop keyboard>
         <Offcanvas.Header closeButton>
           <Offcanvas.Title className='text-danger text-center fw-bolder'>DELETE ACCOUNT</Offcanvas.Title>
         </Offcanvas.Header>
@@ -38,7 +40,7 @@ const DeleteAlert = () => {
             <Form.Check
               type='checkbox'
               checked={!disable}
-              onClick={handleClick}
+              onChange={handleClick}
               id={`delete-confirm-check`}
               label='I would like to permently delete my account.  I understand this is remove all my data and history.  I also understand once I delete my account, I will not be able to recover any of my data.'
             />

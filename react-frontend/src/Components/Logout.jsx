@@ -9,6 +9,7 @@ import { CurrentUser } from "../Contexts/CurrentUserContext"
 const Logout = () => {
   const { currentUser, setCurrentUser } = useContext(CurrentUser)
 
+  // sets user to null and clears the token
   const handleClick = (e) => {
     setCurrentUser(null)
     localStorage.removeItem('token');

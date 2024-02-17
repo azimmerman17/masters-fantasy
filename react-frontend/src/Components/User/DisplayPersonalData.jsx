@@ -1,3 +1,4 @@
+//  Displays data from the User and User_Data tables - contact information is hidden if not the current User
 const DisplayPersonalData = ({ varible, label, hide, hidePersonalData }) => {
     if (hidePersonalData && hide) {
       return (

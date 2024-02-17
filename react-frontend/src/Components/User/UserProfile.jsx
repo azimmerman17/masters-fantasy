@@ -3,14 +3,13 @@ import { useParams } from 'react-router-dom';
 import Container from "react-bootstrap/Container"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
-import Button from "react-bootstrap/esm/Button";
 
 import { IoGolf } from "react-icons/io5"
-import { FaUserEdit } from "react-icons/fa";
 
 import { CurrentUser } from "../../Contexts/CurrentUserContext";
 import DeleteAlert from "./DeleteAlert";
 import DisplayPersonalData from "./DisplayPersonalData";
+import EditUserData from "./EditUserData";
 
 const BASE_URL = 'http://localhost:8080/'
 
@@ -20,8 +19,7 @@ const UserProfile = () => {
 
   let [ user, setUser ] = useState()
   let [ hidePersonalData, setHidePersonalData ] = useState(true)
-  let [showDeleteAlert, setShowDeleteAlert] = useState(false)
-  
+
   useEffect(() => {
     const fetchUser = async (username) => {
       const options = {
@@ -52,7 +50,6 @@ const UserProfile = () => {
 }, [user, currentUser])
 
 if (user) {
-  console.log(user)
   const { appearances, best_finish, email, first_name, last_name, low_score, user_name, wins } = user
 
   return (
@@ -71,14 +68,14 @@ if (user) {
            <DisplayPersonalData varible={user_name} label='Username' hide={false} hidePersonalData={hidePersonalData} />
           </Col>
           <Col sm={12} md={6}>
-            <DisplayPersonalData varible={email} label='email' hide={true} hidePersonalData={hidePersonalData} />
+            <DisplayPersonalData varible={email} label='Email' hide={true} hidePersonalData={hidePersonalData} />
           </Col>
         </Row>
         <Row>
           {hidePersonalData ? null : (
             <Col className='text-end'>
-              <Button variant="warning" href='/'><FaUserEdit /></Button>{' '}
-              <DeleteAlert showDeleteAlert={showDeleteAlert} setShowDeleteAlert={setShowDeleteAlert} />
+              <EditUserData currentUser={currentUser}/>
+              <DeleteAlert />
             </Col>
           )}
         </Row>
