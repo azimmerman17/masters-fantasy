@@ -23,7 +23,6 @@ const SignUp = () => {
   let [emailUnique, setEmailUnique] = useState(false)
 
   useEffect(() => {
-
     const fetchData = async () => {
       const path = 'user/usernamelist'
       const response = await fetch(BASE_URL + path)
