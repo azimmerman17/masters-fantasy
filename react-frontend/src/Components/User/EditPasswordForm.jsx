@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 
 import EditProfileAlert from './EditProfileAlert';
-const BASE_URL = 'http://localhost:8080/'
+import BASE_URL from '../../assets/Files/BASE_URL';
 
 const EditPasswordForm = ({ currentUser }) => {
   let [showAlert, setShowAlert] = useState(false)

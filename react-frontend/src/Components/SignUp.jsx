@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
 
-const BASE_URL = 'http://localhost:8080/'
+import BASE_URL from '../assets/Files/BASE_URL';
 
 const SignUp = () => {
   let [validated, setValidated] = useState(false)

@@ -5,8 +5,7 @@ import Container from 'react-bootstrap/esm/Container';
 import { useContext, useState } from 'react';
 
 import { CurrentUser } from "../Contexts/CurrentUserContext"
-
-const BASE_URL = 'http://localhost:8080/'
+import BASE_URL from '../assets/Files/BASE_URL';
 
 const Login = () => {
   const { currentUser, setCurrentUser } = useContext(CurrentUser)

@@ -2,7 +2,7 @@
 import { useEffect, createContext, useState } from "react";
 
 export const CurrentUser = createContext()
-const BASE_URL = 'http://localhost:8080/'
+import BASE_URL from '../assets/Files/BASE_URL';
 
 const CurrentUserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null)

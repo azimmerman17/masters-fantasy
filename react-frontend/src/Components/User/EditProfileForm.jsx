@@ -5,7 +5,7 @@ import Col from 'react-bootstrap/Col';
 import InputGroup from 'react-bootstrap/InputGroup';
 
 import EditProfileAlert from './EditProfileAlert';
-const BASE_URL = 'http://localhost:8080/'
+import BASE_URL from '../../assets/Files/BASE_URL';
 
 const EditProfileForm = ({ currentUser }) => {
   let [showAlert, setShowAlert] = useState(false)

@@ -4,12 +4,8 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import Col from 'react-bootstrap/Col';
 import { FaUserEdit } from "react-icons/fa";
 
-
-import EditProfileAlert from './EditProfileAlert';
 import EditProfileForm from './EditProfileForm';
 import EditPasswordForm from './EditPasswordForm';
-const BASE_URL = 'http://localhost:8080/'
-
 
 const EditUserData = ({ currentUser, setCurrentUser }) => {
   let [show, setShow] = useState(false);

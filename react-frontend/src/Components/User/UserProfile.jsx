@@ -10,8 +10,7 @@ import { CurrentUser } from "../../Contexts/CurrentUserContext";
 import DeleteAlert from "./DeleteAlert";
 import DisplayPersonalData from "./DisplayPersonalData";
 import EditUserData from "./EditUserData";
-
-const BASE_URL = 'http://localhost:8080/'
+import BASE_URL from '../../assets/Files/BASE_URL';
 
 const UserProfile = () => {
   const { username } = useParams()
