@@ -32,9 +32,9 @@ const TournamentLeaderboard = () => {
       })
 
       return (
-        <tr key={`leaderboard-${id}-row`}>
-          {rowData}
-        </tr>
+          <tr key={`leaderboard-${id}-row`}>
+            {rowData}
+          </tr>
       )
     })
 
