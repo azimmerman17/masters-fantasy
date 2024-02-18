@@ -170,7 +170,7 @@ router.put('/:id', async (req, res) => {
     }
   }
 
-  // No update if email 
+  // No update if email or username already exist
   if (rowCount > 0)  res.status(400).send('Invalid request - Username or Email already exists')
   // build the query 
   let updateUser = `UPDATE public."Users"
@@ -217,38 +217,50 @@ router.put('/:username/role', async (req, res) => {
 })
 
 // UPDATE USER PASSWORD
-router.put('/:username/password', async (req, res) => {
-  const { password } = req.body
-  const { username } = req.params
+router.put('/:user_id/password', async (req, res) => {
+  const { currentPassword, changePassword, confirmPassword } = req.body
+  const { user_id } = req.params
 
-  // Get salt for password hashing
-  const saltQuery = `SELECT A.salt FROM public."Users" A
-    WHERE user_name = '${username.toLowerCase()}'
-    LIMIT 1;`
+  if (!currentPassword || !changePassword || !confirmPassword) res.status(400).send({msg: 'All Fields are Required'})
+  else if (changePassword !== confirmPassword) res.status(400).send({msg: 'Passswords Do Not Match'})
+  else {
+    // Get salt for password hashing and hash for validation
+    const saltQuery = `SELECT A.salt, A.password_hash FROM public."Users" A
+      WHERE user_id = ${user_id}
+      LIMIT 1;`
 
-  try {
-    const response = await pool.query(saltQuery)
-    if (response.error) {res.status(500).send({response})}
-    else {
-      const { rows } = response 
-      const { salt } = rows[0]
+    try {
+      const response = await pool.query(saltQuery)
 
-      let decryptedSalt = decryptValue(salt) // decrypt salt value from the db
-      let passwordHash = hashValue(password + decryptedSalt) // funtion to hash the new password
+      const { rows, rowCount, error } = response 
+      if (error) res.status(500).send({msg: 'Password Update Unsuccessful'})
+      else if (rowCount === 0) res.status(500).send({msg: 'Password Update Unsuccessful'})
+      else {
+        const { salt, password_hash } = rows[0]
 
-      // build new password query
-      let updateUserPassword = `UPDATE public."Users"
-        SET updated_at = NOW(),
-          password_hash = '${passwordHash}'
-        WHERE user_name = '${username.toLowerCase()}';`
+        // Validate current password is correct
+        let decryptedSalt = decryptValue(salt) // decrypt salt value from the db
 
-      const response = await pool.query(updateUserPassword)
-      if (response.error) {res.status(500).send({response})}
-      else res.status(200).send(response)
+        const currPasswordHAsh =  hashValue(currentPassword + decryptedSalt) // funtion to hash the current password
+        if (currPasswordHAsh !== password_hash) res.status(400).send({msg: 'Current Password is Incorrect'})
+        else {  // current Password Authenicated -- Continue
+        let passwordHash = hashValue(changePassword + decryptedSalt) // funtion to hash the new password
+
+        // build new password query
+        let updateUserPassword = `UPDATE public."Users"
+          SET updated_at = NOW(),
+            password_hash = '${passwordHash}'
+          WHERE user_id = ${user_id};`
+
+        const response = await pool.query(updateUserPassword)
+        if (response.error) {res.status(500).send({msg: 'Password Update Unsuccessful'})}
+        else res.status(200).send({msg: 'Password Update Successful'})
+      }
+      }
+    } catch (error) { // catch for the Salt Query
+      console.error(error)
+      res.status(500).send({msg: 'Password Update Unsuccessful'})
     }
-  } catch (error) { // catch for the Salt Query
-    console.error(error)
-    res.status(500).send(error)
   }
 })
 

@@ -34,7 +34,6 @@ const EditProfileForm = ({ currentUser }) => {
   // function to edit profile info
   const handleSumbit = async (e) => {
     e.preventDefault()
-    console.log(e)
     const { user_id } = currentUser
 
     const options = {
@@ -78,7 +77,7 @@ const EditProfileForm = ({ currentUser }) => {
 
   return (
     <>
-      <EditProfileAlert show={showAlert} setShow={setShowAlert} message={message} />
+      <EditProfileAlert show={showAlert} setShow={setShowAlert} message={message} status='danger' />
       <h5 className='text-center'>Profile Information</h5>
       <Form onSubmit={e => handleSumbit(e)}>
         <Form.Group as={Col} md={6} controlId="editUserFirstName" className="mb-3" onChange={(e) => SetEditUser({ ...editUser, first_name: e.target.value})}>
@@ -112,7 +111,7 @@ const EditProfileForm = ({ currentUser }) => {
           </InputGroup>
         </Form.Group>
         <Form.Group as={Col} md={8} controlId="editUserEmail" className="mb-3" onChange={(e) => checkUserNameEmail(e.target.value, 'email')}>
-          <Form.Label>Email<sup>*</sup></Form.Label>
+          <Form.Label>Email</Form.Label>
           <Form.Control 
             type="email"
             placeholder={currentUser.email}
