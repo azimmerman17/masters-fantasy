@@ -63,8 +63,9 @@ const PlayerPage = () => {
     const { playing, position, today, total } = score
 
     // tournamentLeaderboardContext var destructure
-    const { pars, yardages } = tournamentLeaderboardContext
-    const golfer = tournamentLeaderboardContext.player.filter(golfer => golfer.id == playerId)[0]
+    const { leaderboard } = tournamentLeaderboardContext
+    const { pars, yardages } = leaderboard
+    const golfer = leaderboard.player.filter(golfer => golfer.id == playerId)[0]
     const { amateur, firsttimer } = golfer
 
     return (

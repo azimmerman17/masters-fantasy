@@ -6,7 +6,6 @@ import { TournamentLeaderboardContext } from "./TournamentLeaderboard";
 
 import CheckTeeTimeLock from "../Functions/CheckTeeTimeLock";
 
-
 export const FantasyTournamentConfig = createContext()
 
 const FantasyTournamentConfigProvider = ({ children }) => {
@@ -25,7 +24,6 @@ const FantasyTournamentConfigProvider = ({ children }) => {
       const { pairings, leaderboard } = tournamentLeaderboardContext
       const { currentRound, round1, round2, round3, round4 } = pairings
       const { statusRound } = leaderboard
-      const { tournamentYear } = eventConfig
 
       const getRoundLock = (currentRound, pairing) => {
         const { day, group } = pairing
@@ -56,7 +54,6 @@ const FantasyTournamentConfigProvider = ({ children }) => {
         return false
       }
 
-  
       setFantasyTournamentConfig({
         rosterLock: checkRosterLock(currentRound, statusRound, round1),
         round1Lock: getRoundLock(currentRound, round1),
@@ -66,8 +63,6 @@ const FantasyTournamentConfigProvider = ({ children }) => {
       })
     }
   }, [eventConfig, tournamentLeaderboardContext])
-
-  console.log(fantasyTournamentConfig)
 
   return (
     <FantasyTournamentConfig.Provider value={{ fantasyTournamentConfig, setFantasyTournamentConfig }}>
