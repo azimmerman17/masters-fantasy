@@ -4,8 +4,9 @@
   padding: 1rem;
 }
 
-td {
+td, th {
   min-width: '50px';
+  font-size: '14px';
 }
 
 .leaderboard-img {
@@ -20,8 +21,7 @@ td {
 
 main {
   width: '95%';
-  margin-top: '75px';
-  
+  margin-top: '75px';  
 }
 
 .hidden {
