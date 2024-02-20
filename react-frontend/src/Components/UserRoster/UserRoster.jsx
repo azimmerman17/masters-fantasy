@@ -5,16 +5,27 @@ import Col from "react-bootstrap/Col"
 
 import { EventConfig } from "../../Contexts/EventConfig"
 import { PlayersContext } from "../../Contexts/PlayersContext"
+import { FantasyTournamentConfig } from "../../Contexts/FantasyTournamentConfig"
 
 const UserRoster = () => {
   const { eventConfig, setEventConfig } = useContext(EventConfig)
   const { playersContext, setPlayersContext} = useContext(PlayersContext)
+  const {fantasyTournamentConfig, setFantasyTournamentConfig} = useContext(FantasyTournamentConfig)
+
 
   if (eventConfig && playersContext) {
     return (
-      <div>
-        User Roster
-      </div>
+      <Container fluid>
+        <Row>
+          User Rank and Score
+        </Row>
+        <Row>
+          User Roster 
+        </Row>
+        <Row>
+          User Lineups
+        </Row>
+      </Container>
     )
   }
   
