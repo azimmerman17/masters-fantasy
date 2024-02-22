@@ -12,6 +12,9 @@ module.exports = (sequelize, DataTypes) => {
     static associate({ User_Data }) {
       // user => user_data 1:1
       Users.hasOne(User_Data, { foreignKey: 'user_id' });
+      // user => user_Roster 1:Many
+      Users.hasMany(User_Roster, { foreignKey: 'user_id' });
+
       
     }
   }
