@@ -73,26 +73,50 @@ router.get('/profile', async (req, res) => {
       WHERE A.user_id = B.user_id
         AND A.user_id = ${req.currentUser};`
 
-    try {
-      let user = await pool.query(userExistQuery)
-      // User exists - data to be attached to the user
-      const { rows } = user
+    const userRosterQuery = `SELECT A.year,
+        A.past_champ,
+        A.usa,
+        A.intl,
+        A.wild_card1,
+        A.wild_card2,
+        A.wild_card3
+      FROM public."User_Rosters" A
+      WHERE year = 2023 
+        AND user_id = ${req.currentUser}`
 
-      let returnedUser = {
-        user_id: rows[0]["user_id"],
-        user_name: rows[0]["user_name"],
-        first_name: rows[0]["first_name"],
-        last_name: rows[0]["last_name"],
-        email: rows[0]["email"],
-        role: rows[0]["role"],
-        appearances: rows[0]["appearances"],
-        wins: rows[0]["wins"],
-        best_finish: rows[0]["best_finish"],
-        low_score: rows[0]["low_score"],
+        // WHERE year = ${(new Date()).getFullYear()} CHANGE FOR PROD
+    try {
+      let userRes = await pool.query(userExistQuery)
+      let rosterRes = await pool.query(userRosterQuery)
+      // User exists - data to be attached to the user
+      let UserRows = userRes.rows
+      let rosterRows = rosterRes.rows
+
+      let user = {
+        user_id: UserRows[0]["user_id"],
+        user_name: UserRows[0]["user_name"],
+        first_name: UserRows[0]["first_name"],
+        last_name: UserRows[0]["last_name"],
+        email: UserRows[0]["email"],
+        role: UserRows[0]["role"],
+        appearances: UserRows[0]["appearances"],
+        wins: UserRows[0]["wins"],
+        best_finish: UserRows[0]["best_finish"],
+        low_score: UserRows[0]["low_score"],
+        roster: {
+          year: rosterRows[0]["year"],
+          past_champ: rosterRows[0]["past_champ"],
+          usa: rosterRows[0]["usa"],
+          intl: rosterRows[0]["intl"],
+          wild_card1: rosterRows[0]["wild_card1"],
+          wild_card2: rosterRows[0]["wild_card2"],
+          wild_card3: rosterRows[0]["wild_card3"],
+        }
       }
-      res.status(200).send(returnedUser)
+
+      res.status(200).send(user)
     } catch (error) {
-    // console.error(error)
+    console.error(error)
     res.status(500).send(null)
     }
   }
