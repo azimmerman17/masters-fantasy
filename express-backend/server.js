@@ -18,10 +18,13 @@ app.use(express.urlencoded({ extended: true }))
 // Controllers
 const userController = require('./controllers/users')
 const authController = require('./controllers/authentication')
+const rosterController= require('./controllers/roster')
 
 //  Routes
 app.use('/user', userController)
 app.use('/auth', authController)
+app.use('/roster', rosterController)
+
 
 // Open Connection andd Listen
 const PORT = process.env.PORT || 3000

@@ -2,12 +2,6 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-
-    const getYear = () => {
-      let date = new Date()
-      return date.getFullYear()
-    }
-
     await queryInterface.createTable('User_Rosters', {
       id: {
         allowNull: false,
@@ -23,7 +17,6 @@ module.exports = {
       year: {
         allowNull: false,
         type: Sequelize.INTEGER,
-        defaultValue: getYear()
       },
       past_champ: {
         allowNull: false,
