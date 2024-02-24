@@ -6,16 +6,22 @@ import Col from "react-bootstrap/Col"
 import { EventConfig } from "../../Contexts/EventConfig"
 import { PlayersContext } from "../../Contexts/PlayersContext"
 import { FantasyTournamentConfig } from "../../Contexts/FantasyTournamentConfig"
+import { CurrentUser } from "../../Contexts/CurrentUserContext"
 import UserRosterSelection from "./UserRosterSelection"
 
 const UserRoster = () => {
   const { eventConfig, setEventConfig } = useContext(EventConfig)
   const { playersContext, setPlayersContext} = useContext(PlayersContext)
   const {fantasyTournamentConfig, setFantasyTournamentConfig} = useContext(FantasyTournamentConfig)
+  const {currentUser, setCurrentUser} = useContext(CurrentUser)
 
 
-  if (eventConfig && playersContext && fantasyTournamentConfig) {
-    console.log(fantasyTournamentConfig)
+  if (eventConfig && playersContext && fantasyTournamentConfig  && currentUser) {
+    // console.log(fantasyTournamentConfig, currentUser)
+    const { roster } = currentUser
+    const { rosterLock } = fantasyTournamentConfig
+
+
     return (
       <Container fluid>
         <Row>
@@ -23,7 +29,7 @@ const UserRoster = () => {
         </Row>
         <Row>
           User Roster 
-          <UserRosterSelection />
+          <UserRosterSelection roster={roster} locked={rosterLock} />
         </Row>
         <Row>
           User Lineups

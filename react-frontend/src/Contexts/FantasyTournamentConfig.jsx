@@ -41,7 +41,6 @@ const FantasyTournamentConfigProvider = ({ children }) => {
       }
 
       const checkRosterLock = (curRnd, rndstatus, pairings) => {
-        console.log(eventConfig, tournamentLeaderboardContext)
         // locked if round is > 1, or round 1 status is live or final -- unsure of status codes just a guess
         if (curRnd > '1' || rndstatus[0] === 'F' || rndstatus[0] === 'L') return true  
         if (curRnd >= '1') {
