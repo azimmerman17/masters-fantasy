@@ -14,10 +14,9 @@ const UserRosterSelection = ({ roster, locked }) => {
 
 
   if (tournamentLeaderboardContext) {
-     console.log(tournamentLeaderboardContext)
      const { leaderboard } = tournamentLeaderboardContext
   
-    const rosterCards = FantasyRosterSpots.map(spot => {
+    const rosterCards = FantasyRosterSpots.map((spot, i) => {
       const { player } = leaderboard
 
       let golfer
@@ -51,7 +50,7 @@ const UserRosterSelection = ({ roster, locked }) => {
       }
             return (
         <Col key={`roster-spot-${spot}-${golfer.id}`} xs={12} sm={12} md={6} xl={4} xxl={2}>
-          <RosterSpot player={golfer} cardName={cardName} lock={locked}/>
+          <RosterSpot player={golfer} cardName={cardName} lock={locked} i={i}/>
         </Col>
       )
     })

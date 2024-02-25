@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Image from 'react-bootstrap/Image';
@@ -8,15 +8,22 @@ import Col from "react-bootstrap/Col";
 import { EventConfig } from "../../Contexts/EventConfig"
 import CheckTeeTime from "../../Functions/CheckTeeTimeLock";
 import ScoreColor from "../../Functions/ScoreColor";
+import PlayerOffcanvas from "./PlayerOffcanvas";
 
-const RosterSpot = ({ player, cardName, lock }) => {
+const RosterSpot = ({ player, cardName, lock, i }) => {
   const { eventConfig, setEventConfig } = useContext(EventConfig)
+  const [show, setShow] = useState(false)
   const { first_name, last_name, id , teetime, pos, status, topar, newStatus } = player
   if (eventConfig) {
     const { dataSettings } = eventConfig
     const { tournamentYear } = dataSettings
   
     const picture = `https://images.masters.com/players/${tournamentYear}/240x240/${id}.jpg`
+
+    const handleClick = () => {
+      setShow(true)
+
+    }
 
     const playerStats = () => {
       switch (newStatus) {
@@ -51,8 +58,9 @@ const RosterSpot = ({ player, cardName, lock }) => {
           <Card.Text>
             <small>{cardName}</small>
           </Card.Text>
-         {lock ? playerStats() : <Button variant="primary">Submit</Button>}
+         {!lock ? playerStats() : <Button variant="primary" onClick={handleClick}>Select Player</Button>}
         </Card.Body>
+        <PlayerOffcanvas show={show} cardName={cardName} setShow={setShow} i={i}/>
       </Card>
     )
   }
