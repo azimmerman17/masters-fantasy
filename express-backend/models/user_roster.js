@@ -23,30 +23,29 @@ module.exports = (sequelize, DataTypes) => {
     year: {
       allowNull: false,
       type: DataTypes.INTEGER,
-      defaultValue: (new Date()).getFullYear()
     },
     past_champ: {
-      allowNull: false,
+      allowNull: true,
       type: DataTypes.INTEGER
     },
     usa: {
-      allowNull: false,
+      allowNull: true,
       type: DataTypes.INTEGER,
     },
     intl: {
-      allowNull: false,
+      allowNull: true,
       type: DataTypes.INTEGER,
     },
     wild_card1: {
-      allowNull: false,
+      allowNull: true,
       type: DataTypes.INTEGER,
     },
     wild_card2: {
-      allowNull: false,
+      allowNull: true,
       type: DataTypes.INTEGER,
     },
     wild_card3: {
-      allowNull: false,
+      allowNull: true,
       type: DataTypes.INTEGER,
     },
     created_at: {
