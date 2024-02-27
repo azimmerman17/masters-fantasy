@@ -1,14 +1,17 @@
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import Card from 'react-bootstrap/Card';
 import Image from 'react-bootstrap/Image';
 import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Container from 'react-bootstrap/Container';
+import Alert from "react-bootstrap/Alert";
 
 
 import { CurrentUser } from "../../Contexts/CurrentUserContext"
 import { PlayersContext } from "../../Contexts/PlayersContext"
 import { EventConfig } from "../../Contexts/EventConfig"
+import HandleDBTransaction from "../../Functions/HandleDBTransaction";
+import BASE_URL from "../../assets/Files/BASE_URL";
 
 
 
@@ -16,82 +19,79 @@ const PlayerOffcanvas = ({ show, cardName, setShow, i }) => {
   const { playersContext, setPlayersContext } = useContext(PlayersContext)
   const { currentUser, setCurrentUser } = useContext(CurrentUser)
   const { eventConfig, setEventConfig } = useContext(EventConfig)
+  let [message, setMessage] = useState(null)
+  let [alert, setAlert] = useState(false)
 
   if (playersContext &&  currentUser && eventConfig) {
     const { dataSettings } = eventConfig
     const { tournamentYear } = dataSettings
     const { players } = playersContext
+    const { user_id, roster } = currentUser
+    const { past_champ, usa, intl, wild_card1, wild_card2, wild_card3 } = roster
     // console.log(currentUser)
 
     let playerList = []
-
+    let playerRoster = [past_champ, usa, intl, wild_card1, wild_card2, wild_card3]
+    let key
     switch (cardName) {
       case 'Past Champion':
         playerList =  players.filter(player => player.Past === '1')
+        key = 'past_champ'
         break
       case 'USA':
         playerList = players.filter(player => player.international !== true)
+        key= 'usa'
         break
       case 'International':
         playerList = players.filter(player => player.international === true)
+        key= 'intl'
         break
       default:
         playerList = players 
+        if (i === 3) key = 'wild_card1'
+        else if (i === 4) key = 'wild_card2'
+        else if (i === 5) key = 'wild_card3'
     }
 
-
     const handleClose = () => setShow(false);
-    const handleSelect = (e, id) => {
+
+    const handleSelect =  async (e, id) => {
       const { roster } = currentUser
       const { year } = roster
 
-      // if a roster record does not exist - add
+      // if a roster record does not exist - add  NEED TO BUILD AND TEST
     if (!year) {
       // create record in DB
-
-      // add year to the current user
-      setCurrentUser({...CurrentUser, year: tournamentYear})
-    }
-
-
-      switch (i) {
-        case 0: // Past Champion
-          // Send the player id to the DB
-
-          // Update the currentUser
-          // setCurrentUser({...CurrentUser, past_champ: id})
-          break
-        case 1: // USA
-          // Send the player id to the DB
-
-          // Update the currentUser
-          setCurrentUser({...CurrentUser, usa: id})
-          break
-        case 2: // Intl
-          // Send the player id to the DB
-
-          // Update the currentUser
-          setCurrentUser({...CurrentUser, intl: id})
-          break
-        case 3: // Wild Card 1
-          // Send the player id to the DB
-
-          // Update the currentUser
-          setCurrentUser({...CurrentUser, wild_card1: id})
-          break
-        case 4: // Wild Card 2
-          // Send the player id to the DB
-
-          // Update the currentUser
-          setCurrentUser({...CurrentUser, wild_card2: id})
-          break
-        case 5: // Wild Card 3
-          // Send the player id to the DB
-
-          // Update the currentUser
-          setCurrentUser({...CurrentUser, wild_card3: id})
-          break
+      let path = BASE_URL + 'roster/new'
+      let payload = {
+        year:  tournamentYear,
+        [key]: id
       }
+      let insertResponse = await HandleDBTransaction(path, 'POST', payload)
+      console.log(insertResponse)
+    } else {
+      // Record already exists - UPDATE
+      let path = BASE_URL + 'roster/' + user_id
+      let payload = {
+        [key]: id      
+      }
+      try {
+        let updateResponse = await HandleDBTransaction(path, 'PUT', payload)
+        let { status } = updateResponse
+
+        if (status === 201) {
+          location.reload()
+        } else {
+          let data = await updateResponse.json()
+          setMessage(data.msg)
+          setAlert(true)
+        }
+      } catch (error) {
+        setMessage('Roster not saved')
+        setAlert(true)
+      }
+    }
+      
       
       // save player to the DB
       console.log(currentUser) 
@@ -108,11 +108,14 @@ const PlayerOffcanvas = ({ show, cardName, setShow, i }) => {
 
       return (
         < Container fluid key={`selection-card-${i}-${id}`}>
-          <Card className='m-1 p-1 text-center' >
+          <Card className={`m-1 p-1 text-center${id == roster[key] ? ' border border-success shadow' : (
+            playerRoster.includes(Number(id)) ? ' border border-danger shadow' : ''
+          )}`} >
             <Image src={picture} className=' mx-auto border rounded-circle roster-img' />
             <Card.Body>
               <Card.Title>{first_name} {last_name}</Card.Title>
-              <Button variant="success" onClick={(e) => handleSelect(e, id)}>Select Player</Button>
+              <Button variant="success" onClick={(e) => handleSelect(e, id)} disabled={playerRoster.includes(Number(id))}>Select Player</Button>
+              <Alert variant='danger' show={alert}>{message} </Alert>
             </Card.Body>
           </Card>
         </Container>

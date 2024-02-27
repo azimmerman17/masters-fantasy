@@ -32,14 +32,15 @@ router.get('/:id/:year', async (req, res) => {
 
 // POST
 router.post('/new', async (req, res) => {
-  // inputs - each golfer and user_id
+  // inputs - each golfer and user_id - golfers are not required
   //derived - year
   const { past_champ, usa, intl, wild_card1, wild_card2, wild_card3, user_id } = req.body
-  const year = (new Date()).getFullYear()
+  // const year = (new Date()).getFullYear()
+  const year = 2023 //  testing 
 
-  if (!past_champ || !usa || !intl || !wild_card1 || !wild_card2 || !wild_card3) res.status(400).send({msg: 'Roster Spots still open, unable to save.'})
-  else if (!user_id) res.status(400).send({msg: 'Unable to find user - Roster not saved'})
+  if (!user_id) res.status(400).send({msg: 'Unable to find user - Roster not saved'})
   else {
+    // check if a roster exists, do not create a new roster if  one exists 
     let validateNew = `Select 'X' FROM public."User_Rosters" A, public."Users" B
       WHERE A.user_id = B.user_id
         AND A.year = ${year} 
@@ -50,14 +51,14 @@ router.post('/new', async (req, res) => {
       if (validateResponse.error) res.status(500).send({msg: 'Error - Roster not saved'})
       else if (validateResponse.rowCount > 0) res.status(400).send({msg: 'User already has a Roster - Unable to create a new roster'})
       else {
-
+        // create new roster
       const createRoster = `INSERT INTO public."User_Rosters" (past_champ, usa, intl, wild_card1, wild_card2, wild_card3, user_id, year, created_at, updated_at)
         VALUES (${past_champ}, ${usa}, ${intl}, ${wild_card1}, ${wild_card2}, ${wild_card3}, ${user_id}, ${year}, NOW(), NOW())`
 
       const response = await pool.query(createRoster)
       if (response.error) res.status(500).send({response})
       else {
-        res.status(200).send({msg: 'Roster Saved'})
+        res.status(201).send({msg: 'Roster Saved'})
       }
     }
     } catch (error) {
@@ -71,7 +72,8 @@ router.post('/new', async (req, res) => {
 router.put('/:id', async (req, res) => {
   const { id } = req.params
   const { past_champ, usa, intl, wild_card1, wild_card2, wild_card3 } = req.body
-  const year = (new Date()).getFullYear()
+  // const year = (new Date()).getFullYear()
+  const year = 2023 // testing
 
   // build the query 
   let updateRoster = `UPDATE public."User_Rosters" SET updated_at = NOW()`
@@ -82,20 +84,20 @@ router.put('/:id', async (req, res) => {
   if (wild_card2) updateRoster = updateRoster + `, wild_card2 = ${wild_card2}`
   if (wild_card3) updateRoster = updateRoster + `, wild_card3 = ${wild_card3}`
   // add where clause
-  updateRoster = updateRoster + `WHERE user_id = ${id}
+  updateRoster = updateRoster + ` WHERE user_id = ${id}
     AND year = ${year};`  
 
   try {
     const response = await pool.query(updateRoster)
     if (response.error) res.status(500).send({msg: 'Error - Roster update Failed'})
-    else res.status(200).send({msg: 'Roster Updated'})
+    else res.status(201).send({msg: 'Roster Updated'})
   } catch (error) {
     console.error(error)
     res.status(500).send({msg: 'Error - Roster update Failed'})
   }
 })
 
-// DELETE - NOT FOR USER ADMIN PROCESS TO CLEAR DB SPACE
+// DELETE - NOT FOR USER ADMIN PROCESS TO CLEAR DB SPACE -- Develop Later
 
 
 
