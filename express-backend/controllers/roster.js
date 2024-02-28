@@ -34,9 +34,18 @@ router.get('/:id/:year', async (req, res) => {
 router.post('/new', async (req, res) => {
   // inputs - each golfer and user_id - golfers are not required
   //derived - year
-  const { past_champ, usa, intl, wild_card1, wild_card2, wild_card3, user_id } = req.body
+
+  let { past_champ, usa, intl, wild_card1, wild_card2, wild_card3, user_id } = req.body
   // const year = (new Date()).getFullYear()
-  const year = 2023 //  testing 
+  const year = 2023 //  testing
+  
+  // validate the  keys
+  if (!past_champ) past_champ = null
+  if (!usa) usa = null
+  if (!intl) intl = null
+  if (!wild_card1) wild_card1 = null
+  if (!wild_card2) wild_card2 = null
+  if (!wild_card1) wild_card3 = null
 
   if (!user_id) res.status(400).send({msg: 'Unable to find user - Roster not saved'})
   else {

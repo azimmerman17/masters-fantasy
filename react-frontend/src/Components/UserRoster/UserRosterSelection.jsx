@@ -10,7 +10,6 @@ import RosterSpot from './RosterSpot';
 
 const UserRosterSelection = ({ roster, locked }) => {
   const { tournamentLeaderboardContext, setTournamentLeaderboardContext} = useContext(TournamentLeaderboardContext)
-  console.log(roster)
   const { past_champ, usa, intl, wild_card1, wild_card2, wild_card3 } = roster
 
 
@@ -38,7 +37,6 @@ const UserRosterSelection = ({ roster, locked }) => {
       // const 
       switch (spot) {
         case 'Past':
-          console.log(past_champ)
           if (past_champ) showGolfer('past_champ', 'Past Champion')
           else showDefalt('Past Champion')
           break

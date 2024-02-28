@@ -38,13 +38,12 @@ const RosterSpot = ({ player, cardName, lock, i }) => {
         )
       }
     }
-    console.log(player)
 
     return (
       <Card className='m-1 p-1 text-center' >
         {player ? <Image src={picture} className=' mx-auto border rounded-circle roster-img' /> : null}
         <Card.Body className='text-center'>
-          {player ? <Card.Title>{player.first_name} {player.last_name}</Card.Title> : <IoGolf className='bg-success text-white border border-success rounded-circle' style={{height:'75px', width:'75px'}}/>}
+          {player ? <Card.Title>{player.first_name} {player.last_name} {player.amateur ? '(A)' : null}</Card.Title> : <IoGolf className='bg-success text-white border border-success rounded-circle' style={{height:'75px', width:'75px'}}/>}
           <Card.Text>
             <small>{cardName}</small>
           </Card.Text>

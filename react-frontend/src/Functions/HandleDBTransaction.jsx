@@ -8,20 +8,18 @@ const HandleDBTransaction = async (path, method, payload) => {
     body: JSON.stringify(payload)
   }
 
-  let response
   switch (method) {
     case 'GET':
       console.log('build get')
       break
     case 'POST':
-      // return await fetch(path, options)
-      return 'BUILD'
-      break
-    case 'PUT':
-      console.log(path, method, payload)
-      console.log('init')
+      console.log(path, options)
       return await fetch(path, options)
-      break
+      // return 'BUILD'
+       //break
+    case 'PUT':
+      return await fetch(path, options)
+      // break
     case 'DELETE':
       console.log('build delete')
       break
