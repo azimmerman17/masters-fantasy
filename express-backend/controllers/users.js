@@ -134,7 +134,6 @@ router.post('/new', async (req, res) => {
           const userDataInsert = `INSERT INTO public."User_Data" (user_id, created_at, updated_at)
             VALUES (${rows[0]["user_id"]}, NOW(), NOW());` 
 
-            console.log(userDataInsert)
             response = await pool.query(userDataInsert)
             if (response.error) res.status(500).send({response})
             else res.status(200).send(response)

@@ -12,7 +12,6 @@ const PlayersContextProvider = ({ children }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      // console.log(eventConfig)
       const { scoringData } = eventConfig
       const { playerList } = scoringData
       const response = await fetch('https://www.masters.com' + playerList)

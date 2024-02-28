@@ -16,8 +16,7 @@ const NavBar = () => {
     return (
       <NavDropdown varient='light' title='User Information' id='logged-out-dropdown' className='text-white'>
         <NavDropdown.Item href='/profile'>Profile</NavDropdown.Item>
-
-        <p>Manage Roster</p>
+        <NavDropdown.Item href='/roster'>Manage Roster</NavDropdown.Item>
         <Logout />
       </NavDropdown>
     )

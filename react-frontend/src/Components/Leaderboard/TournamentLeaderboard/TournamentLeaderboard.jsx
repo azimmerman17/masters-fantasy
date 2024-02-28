@@ -14,7 +14,8 @@ const TournamentLeaderboard = () => {
   const { tournamentLeaderboardContext, setTournamentLeaderboardContext } = useContext(TournamentLeaderboardContext)
 
   if (tournamentLeaderboardContext) {
-    const { currentRound, player, statusRound } = tournamentLeaderboardContext
+    const { leaderboard } = tournamentLeaderboardContext
+    const { currentRound, player, statusRound } = leaderboard
 
     let roundNumber
     for (let i = 0; i < currentRound.length; i++) {

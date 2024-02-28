@@ -13,11 +13,17 @@ const TournamentLeaderboardContextProvider = ({ children }) => {
   useEffect(() => {
     const fetchData = async () => {
       const { scoringData } = eventConfig
-      const { liveScore } = scoringData
+      const { liveScore, pairings } = scoringData
       const { path } = liveScore
-      const response = await fetch('https://www.masters.com' + path)
-      const data = await response.json()
-      setTournamentLeaderboardContext(data.data)
+      // Get the Leaderboard Data
+      const leaderboardRes = await fetch('https://www.masters.com' + path)
+      const leaderboardData = await leaderboardRes.json()
+      // Get the Pairings Data
+      const pairingsRes = await fetch('https://www.masters.com' + pairings)
+      const pairingsData = await pairingsRes.json()
+
+
+      setTournamentLeaderboardContext({pairings: pairingsData , leaderboard:leaderboardData.data})
     }
     
     if (eventConfig && tournamentLeaderboardContext === null) fetchData()
