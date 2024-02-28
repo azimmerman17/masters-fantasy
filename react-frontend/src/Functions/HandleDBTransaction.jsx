@@ -13,7 +13,6 @@ const HandleDBTransaction = async (path, method, payload) => {
       console.log('build get')
       break
     case 'POST':
-      console.log(path, options)
       return await fetch(path, options)
       // return 'BUILD'
        //break

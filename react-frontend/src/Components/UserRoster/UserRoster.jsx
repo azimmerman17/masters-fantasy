@@ -1,7 +1,6 @@
 import { useContext } from "react"
 import Container from "react-bootstrap/Container"
 import Row from "react-bootstrap/Row"
-import Col from "react-bootstrap/Col"
 
 import { EventConfig } from "../../Contexts/EventConfig"
 import { PlayersContext } from "../../Contexts/PlayersContext"
@@ -15,12 +14,9 @@ const UserRoster = () => {
   const {fantasyTournamentConfig, setFantasyTournamentConfig} = useContext(FantasyTournamentConfig)
   const {currentUser, setCurrentUser} = useContext(CurrentUser)
 
-
   if (eventConfig && playersContext && fantasyTournamentConfig  && currentUser) {
-    // console.log(fantasyTournamentConfig, currentUser)
     const { roster } = currentUser
     const { rosterLock } = fantasyTournamentConfig
-
 
     return (
       <Container fluid>
@@ -28,7 +24,6 @@ const UserRoster = () => {
           User Rank and Score
         </Row>
         <Row>
-          User Roster 
           <UserRosterSelection roster={roster} locked={rosterLock} />
         </Row>
         <Row>

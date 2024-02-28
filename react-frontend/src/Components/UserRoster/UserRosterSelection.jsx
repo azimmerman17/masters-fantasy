@@ -12,7 +12,6 @@ const UserRosterSelection = ({ roster, locked }) => {
   const { tournamentLeaderboardContext, setTournamentLeaderboardContext} = useContext(TournamentLeaderboardContext)
   const { past_champ, usa, intl, wild_card1, wild_card2, wild_card3 } = roster
 
-
   if (tournamentLeaderboardContext) {
      const { leaderboard } = tournamentLeaderboardContext
   
@@ -23,10 +22,8 @@ const UserRosterSelection = ({ roster, locked }) => {
       let cardName
 
       const showGolfer = (key, card) => {
-        console.log(key,roster[key])
         golfer = player.filter(invitee => invitee.id == roster[key])[0]
         cardName = card
-        console.log(player.filter(invitee => invitee.id == roster[key])[0])
       }
 
       const showDefalt = (card) => {
@@ -34,7 +31,6 @@ const UserRosterSelection = ({ roster, locked }) => {
         cardName = card
       }
 
-      // const 
       switch (spot) {
         case 'Past':
           if (past_champ) showGolfer('past_champ', 'Past Champion')
