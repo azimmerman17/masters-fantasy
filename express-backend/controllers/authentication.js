@@ -103,17 +103,36 @@ router.get('/profile', async (req, res) => {
         wins: UserRows[0]["wins"],
         best_finish: UserRows[0]["best_finish"],
         low_score: UserRows[0]["low_score"],
-        roster: {
-          year: rosterRows[0]["year"],
-          past_champ: rosterRows[0]["past_champ"],
-          usa: rosterRows[0]["usa"],
-          intl: rosterRows[0]["intl"],
-          wild_card1: rosterRows[0]["wild_card1"],
-          wild_card2: rosterRows[0]["wild_card2"],
-          wild_card3: rosterRows[0]["wild_card3"],
-        }
       }
 
+      if (rosterRows.length > 0) {
+        user = {
+          ...user,
+          roster: {
+            year: rosterRows[0]["year"],
+            past_champ: rosterRows[0]["past_champ"],
+            usa: rosterRows[0]["usa"],
+            intl: rosterRows[0]["intl"],
+            wild_card1: rosterRows[0]["wild_card1"],
+            wild_card2: rosterRows[0]["wild_card2"],
+            wild_card3: rosterRows[0]["wild_card3"],
+          }
+        }
+      } else {
+        user = {
+          ...user,
+          roster: {
+            year: null,
+            past_champ: null,
+            usa: null,
+            intl: null,
+            wild_card1: null,
+            wild_card2: null,
+            wild_card3: null,
+          }
+        }
+      }
+      
       res.status(200).send(user)
     } catch (error) {
     console.error(error)

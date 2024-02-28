@@ -10,6 +10,7 @@ import RosterSpot from './RosterSpot';
 
 const UserRosterSelection = ({ roster, locked }) => {
   const { tournamentLeaderboardContext, setTournamentLeaderboardContext} = useContext(TournamentLeaderboardContext)
+  console.log(roster)
   const { past_champ, usa, intl, wild_card1, wild_card2, wild_card3 } = roster
 
 
@@ -21,40 +22,56 @@ const UserRosterSelection = ({ roster, locked }) => {
 
       let golfer
       let cardName
+
+      const showGolfer = (key, card) => {
+        console.log(key,roster[key])
+        golfer = player.filter(invitee => invitee.id == roster[key])[0]
+        cardName = card
+        console.log(player.filter(invitee => invitee.id == roster[key])[0])
+      }
+
+      const showDefalt = (card) => {
+        golfer = null
+        cardName = card
+      }
+
+      // const 
       switch (spot) {
         case 'Past':
-          golfer = player.filter(invitee => invitee.id == past_champ)[0]
-          cardName = 'Past Champion'
+          console.log(past_champ)
+          if (past_champ) showGolfer('past_champ', 'Past Champion')
+          else showDefalt('Past Champion')
           break
         case 'USA':
-          golfer = player.filter(invitee => invitee.id == usa)[0]
-          cardName = 'USA'
+          if (usa) showGolfer('usa', 'USA')
+          else showDefalt('USA')
           break
         case 'Intl':
-          golfer = player.filter(invitee => invitee.id == intl)[0]
-          cardName = 'International'
+          if (intl) showGolfer('intl', 'International')
+          else showDefalt('International')
           break
         case 'WC1':
-          golfer = player.filter(invitee => invitee.id == wild_card1)[0]
-          cardName = 'Wild Card'
+          if (wild_card1) showGolfer('wild_card1', 'Wild Card')
+          else showDefalt('Wild Card')
           break
         case 'WC2':
-          golfer = player.filter(invitee => invitee.id == wild_card2)[0]
-          cardName = 'Wild Card'
-
+          if (wild_card2) showGolfer('wild_card2', 'Wild Card')
+          else showDefalt('Wild Card')
           break
         case 'WC3':
-          golfer = player.filter(invitee => invitee.id == wild_card3)[0]
-          cardName = 'Wild Card'
+          if (wild_card3) showGolfer('wild_card3', 'Wild Card')
+          else showDefalt('Wild Card')
           break      
       }
-            return (
-        <Col key={`roster-spot-${spot}-${golfer.id}`} xs={12} sm={12} md={6} xl={4} xxl={2}>
+
+      return (
+        <Col key={`roster-spot-${spot}-${golfer ? golfer.id : 'default'}`} xs={12} sm={12} md={6} xl={4} xxl={2}>
           <RosterSpot player={golfer} cardName={cardName} lock={locked} i={i}/>
         </Col>
       )
     })
   
+
     return (
       <Container fluid>
         <Row>
