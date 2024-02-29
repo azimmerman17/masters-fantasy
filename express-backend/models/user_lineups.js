@@ -3,51 +3,47 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class User_Roster extends Model {
+  class User_Lineups extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // user => user_data 1:Many
-      User_Roster.belongsTo(Users, { foreignKey: 'user_id' })
-      // user_roster => user_lineups 1:Many
-      User_Roster.hasMany(User_Lineups, { foreignKey: 'roster_id' })
+      // user => user_lineups 1:many
+      User_Lineups.belongsTo(Users, { foreignKey: 'user_id' })
+      // user_roster => user_lineups 1:many
+      User_Lineups.belongsTo(UserRoster, { foreignKey: 'roster_id' })
     }
   }
-  User_Roster.init({
+  User_Lineups.init({
     user_id: {
       allowNull: false,
       unique: true,
+      type: DataTypes.INTEGER
+    },
+    user_id: {
+      allowNull: false,
+      type: DataTypes.INTEGER
+    },
+    roster_id: {
+      allowNull: false,
       type: DataTypes.INTEGER
     },
     year: {
       allowNull: false,
       type: DataTypes.INTEGER,
     },
-    past_champ: {
-      allowNull: true,
-      type: DataTypes.INTEGER
-    },
-    usa: {
-      allowNull: true,
+    round: {
       type: DataTypes.INTEGER,
     },
-    intl: {
-      allowNull: true,
+    player1: {
       type: DataTypes.INTEGER,
     },
-    wild_card1: {
-      allowNull: true,
+    player2: {
       type: DataTypes.INTEGER,
     },
-    wild_card2: {
-      allowNull: true,
-      type: DataTypes.INTEGER,
-    },
-    wild_card3: {
-      allowNull: true,
+    player3: {
       type: DataTypes.INTEGER,
     },
     created_at: {
@@ -61,8 +57,8 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.NOW
     }
   }, {
-    sequelize,
-    modelName: 'User_Roster',
+    suiequelize,
+    modelName: 'User_Lineups',
   });
-  return User_Roster;
+  return User_Lineups;
 };
