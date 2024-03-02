@@ -73,7 +73,8 @@ router.get('/profile', async (req, res) => {
       WHERE A.user_id = B.user_id
         AND A.user_id = ${req.currentUser};`
 
-    const userRosterQuery = `SELECT A.year,
+    const userRosterQuery = `SELECT A.id,
+        A.year,
         A.past_champ,
         A.usa,
         A.intl,
@@ -109,6 +110,7 @@ router.get('/profile', async (req, res) => {
         user = {
           ...user,
           roster: {
+            roster_id: rosterRows[0]["id"],
             year: rosterRows[0]["year"],
             past_champ: rosterRows[0]["past_champ"],
             usa: rosterRows[0]["usa"],

@@ -18,12 +18,14 @@ app.use(express.urlencoded({ extended: true }))
 // Controllers
 const userController = require('./controllers/users')
 const authController = require('./controllers/authentication')
-const rosterController= require('./controllers/roster')
+const rosterController = require('./controllers/roster')
+const lineupsController = require('./controllers/lineups')
 
 //  Routes
 app.use('/user', userController)
 app.use('/auth', authController)
 app.use('/roster', rosterController)
+app.use('/lineups', lineupsController)
 
 
 // Open Connection andd Listen
