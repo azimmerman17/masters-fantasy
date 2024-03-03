@@ -16,7 +16,8 @@ const FantasyTournamentConfigProvider = ({ children }) => {
     round1Lock: true,
     round2Lock: true,
     round3Lock: true,
-    round4Lock: true,      
+    round4Lock: true,  
+    currentRound: null    
   })
 
   useEffect (() => {
@@ -33,9 +34,9 @@ const FantasyTournamentConfigProvider = ({ children }) => {
           if (statusRound[roundIndex] === 'F') return true  // if current round in status Final LOCKED
           else {
             // if status is not in Final - check for last tee time off 1  is after that time LOCKED
-            const firstTeeStart = group.filter(i => i.tee === '1').length
-            const finalTime = group[firstTeeStart - 1]['time']
-            return CheckTeeTimeLock(finalTime, -5)
+            const firstTeeTime = group[0]["time"]
+            
+            return CheckTeeTimeLock(firstTeeTime, -5)
           }
         } else return false     // Future Round UNLOCKED
       }
@@ -58,7 +59,8 @@ const FantasyTournamentConfigProvider = ({ children }) => {
         round1Lock: getRoundLock(currentRound, round1),
         round2Lock: getRoundLock(currentRound, round2),
         round3Lock: getRoundLock(currentRound, round3),
-        round4Lock: getRoundLock(currentRound, round4),      
+        round4Lock: getRoundLock(currentRound, round4),    
+        currentRound: Number(currentRound)
       })
     }
   }, [eventConfig, tournamentLeaderboardContext])

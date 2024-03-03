@@ -7,6 +7,7 @@ import { PlayersContext } from "../../Contexts/PlayersContext"
 import { FantasyTournamentConfig } from "../../Contexts/FantasyTournamentConfig"
 import { CurrentUser } from "../../Contexts/CurrentUserContext"
 import UserRosterSelection from "./UserRosterSelection"
+import UserLineups from "./Lineups/UserLineups"
 
 const UserRoster = () => {
   const { eventConfig, setEventConfig } = useContext(EventConfig)
@@ -15,7 +16,7 @@ const UserRoster = () => {
   const {currentUser, setCurrentUser} = useContext(CurrentUser)
 
   if (eventConfig && playersContext && fantasyTournamentConfig  && currentUser) {
-    const { roster } = currentUser
+    const { roster, lineups } = currentUser
     const { rosterLock } = fantasyTournamentConfig
 
     return (
@@ -24,10 +25,12 @@ const UserRoster = () => {
           User Rank and Score
         </Row>
         <Row>
+          <h4 className='text-center'>Roster</h4>
           <UserRosterSelection roster={roster} locked={rosterLock} />
         </Row>
         <Row>
-          User Lineups
+          <h4 className='text-center'>Lineups</h4>
+          <UserLineups lineups={lineups} roster={roster} />
         </Row>
       </Container>
     )
