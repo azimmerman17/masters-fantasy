@@ -58,6 +58,9 @@ router.post('/', async (req, res) => {
 router.get('/profile', async (req, res) => {
   if (!req.currentUser) res.status(404).send(null)
   else {
+    // const year = (new Date()).getFullYear()
+    const year = 2023
+
     // find user
     const userExistQuery = `Select A.user_id,
         A.user_name,
@@ -68,72 +71,81 @@ router.get('/profile', async (req, res) => {
         B.appearances,
         B.wins,
         B.best_finish,
-        B.low_score
-      FROM public."Users" A, public."User_Data" B
+        B.low_score,
+        C.id,
+        C.year,
+        C.past_champ,
+        C.usa,
+        C.intl,
+        C.wild_card1,
+        C.wild_card2,
+        C.wild_card3
+      FROM public."Users" A, public."User_Data" B 
+      LEFT JOIN public."User_Rosters" C
+        ON C.user_id = B.user_id
       WHERE A.user_id = B.user_id
+        AND year = ${year}
         AND A.user_id = ${req.currentUser};`
 
-    const userRosterQuery = `SELECT A.id,
-        A.year,
-        A.past_champ,
-        A.usa,
-        A.intl,
-        A.wild_card1,
-        A.wild_card2,
-        A.wild_card3
-      FROM public."User_Rosters" A
+    const userlineupQuery = `SELECT A.player1,
+        A.player2,
+        A.player3
+      FROM public."User_Lineups" A
       WHERE year = 2023 
         AND user_id = ${req.currentUser}`
 
         // WHERE year = ${(new Date()).getFullYear()} CHANGE FOR PROD
     try {
       let userRes = await pool.query(userExistQuery)
-      let rosterRes = await pool.query(userRosterQuery)
+      let linupRes = await pool.query(userlineupQuery)
       // User exists - data to be attached to the user
-      let UserRows = userRes.rows
-      let rosterRows = rosterRes.rows
+      let userRows = userRes.rows
+      let lineupRows = linupRes.rows
+      let lineups = []
+    
+      for (let i = 0; i < 4; i++) {
+        if (lineupRows[i]) {
+          lineups.push({
+            year: year,
+            round: i + 1,
+            player1: lineupRows[i]["player1"],
+            player2: lineupRows[i]["player2"],
+            player3: lineupRows[i]["player3"],
+          })
+        } else {
+          lineups.push({
+            year: year,
+            round: i + 1,
+            player1: null,
+            player2: null,
+            player3: null,
+          })
+        }
+      }
 
       let user = {
-        user_id: UserRows[0]["user_id"],
-        user_name: UserRows[0]["user_name"],
-        first_name: UserRows[0]["first_name"],
-        last_name: UserRows[0]["last_name"],
-        email: UserRows[0]["email"],
-        role: UserRows[0]["role"],
-        appearances: UserRows[0]["appearances"],
-        wins: UserRows[0]["wins"],
-        best_finish: UserRows[0]["best_finish"],
-        low_score: UserRows[0]["low_score"],
+        user_id: userRows[0]["user_id"],
+        user_name: userRows[0]["user_name"],
+        first_name: userRows[0]["first_name"],
+        last_name: userRows[0]["last_name"],
+        email: userRows[0]["email"],
+        role: userRows[0]["role"],
+        appearances: userRows[0]["appearances"],
+        wins: userRows[0]["wins"],
+        best_finish: userRows[0]["best_finish"],
+        low_score: userRows[0]["low_score"],
+        roster: {
+          year: year,
+          past_champ: userRows[0]["past_champ"],
+          usa: userRows[0]["usa"],
+          intl: userRows[0]["intl"],
+          wild_card1: userRows[0]["wild_card1"],
+          wild_card2: userRows[0]["wild_card2"],
+          wild_card3: userRows[0]["wild_card3"],
+        },
+        lineups: lineups
       }
 
-      if (rosterRows.length > 0) {
-        user = {
-          ...user,
-          roster: {
-            roster_id: rosterRows[0]["id"],
-            year: rosterRows[0]["year"],
-            past_champ: rosterRows[0]["past_champ"],
-            usa: rosterRows[0]["usa"],
-            intl: rosterRows[0]["intl"],
-            wild_card1: rosterRows[0]["wild_card1"],
-            wild_card2: rosterRows[0]["wild_card2"],
-            wild_card3: rosterRows[0]["wild_card3"],
-          }
-        }
-      } else {
-        user = {
-          ...user,
-          roster: {
-            year: null,
-            past_champ: null,
-            usa: null,
-            intl: null,
-            wild_card1: null,
-            wild_card2: null,
-            wild_card3: null,
-          }
-        }
-      }
       
       res.status(200).send(user)
     } catch (error) {
