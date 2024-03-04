@@ -8,7 +8,7 @@ import { FantasyTournamentConfig } from "../../../Contexts/FantasyTournamentConf
 import SelectionDropdown from "./SelectionDropDown"
 
 
-const LineupSelection =({ playersRoster, player, roundLineup, round }) => {
+const LineupSelection =({ playersRoster, player, roundLineup, round, lineupSpot }) => {
   const { eventConfig, setEventConfig } = useContext(EventConfig)
   const {fantasyTournamentConfig, setFantasyTournamentConfig} = useContext(FantasyTournamentConfig)
 
@@ -24,24 +24,28 @@ const LineupSelection =({ playersRoster, player, roundLineup, round }) => {
     switch (round) {
       case 1:
         locked = round1Lock
+        break
       case 2:
         locked = round2Lock
+        break
       case 3:
         locked = round3Lock
+        break
       case 4:
         locked = round4Lock
+        break
     }
 
     let selectedPlayer =  playersRoster.filter(rosterPlayer => rosterPlayer.id == player)[0]
     const { first_name, last_name } = selectedPlayer
 
     return (
-      <Row className='border rounded my-1'>
+      <Row className='border rounded my-1 py-1'>
         <Col xs={3}>
           {player ? <Image src={picture} className=' mx-auto border rounded-circle lineup-img' /> : null}
         </Col>
         <Col xs={9} className='my-auto'>
-          {!locked ? <h6 className='fs-5'>{first_name} {last_name}</h6> : <SelectionDropdown playersRoster={playersRoster} selectedPlayer={selectedPlayer} roundLineup={roundLineup} round={round} />}
+          {!locked ? <h6 className='fs-5'>{first_name} {last_name}</h6> : <SelectionDropdown playersRoster={playersRoster} selectedPlayer={selectedPlayer} roundLineup={roundLineup} round={round} lineupSpot={lineupSpot} />}
         </Col>
       </Row>
     )

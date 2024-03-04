@@ -1,35 +1,58 @@
+import { useContext } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 
-const SelectionDropdown = ({ playersRoster, selectedPlayer, roundLineup, round }) => {
+import { CurrentUser } from '../../../Contexts/CurrentUserContext';
+import HandleDBTransaction from '../../../Functions/HandleDBTransaction';
+import BASE_URL from '../../../assets/Files/BASE_URL';
+
+const SelectionDropdown = ({ playersRoster, selectedPlayer, roundLineup, round, lineupSpot }) => {
+  const {currentUser, setCurrentUser} = useContext(CurrentUser)
   const { first_name, last_name } = selectedPlayer
 
-  const dropdownItems = playersRoster.map(player => {
-    const { first_name, last_name, id , status } = player
+  if (currentUser) {
+    const dropdownItems = playersRoster.map(player => {
+      const { first_name, last_name, id , status } = player
+      const { user_id } = currentUser
+
+      const handleClick = async (e, id) => {
+        console.log('player_id', id, 'round', round, 'rosterspot', lineupSpot, 'user', user_id )
+        let path = BASE_URL + 'lineups/' + user_id + '/' + round
+        let payload = {
+          [lineupSpot]: id      
+        }
+  
+        try {
+          let updateResponse = await HandleDBTransaction(path, 'PUT', payload)
+        } catch (error) {
+          console.error(error)
+        }
+        location.reload()
+      }
+  
+      return (
+        <Dropdown.Item
+          key={`lineup-round-${round}-spot-${lineupSpot}-${id}`}
+          onClick={e => handleClick(e, id)}  // function to update db
+          disabled={roundLineup.includes(Number(id)) || status === 'C' || status === 'W' }
+        >
+          {first_name} {last_name}
+        </Dropdown.Item>
+
+      )
+    })
 
     return (
-      <Dropdown.Item
-        onClick={e => console.log(e)}  // function to update db
-        disabled={roundLineup.includes(Number(id)) || status === 'C' || status === 'W' }
+      <DropdownButton 
+        id={`lineup-round-${round}-spot-${lineupSpot}`}
+        title={`${first_name} ${last_name}`}
+        variant='white'
+        size='lg'
       >
-        {first_name} {last_name}
-      </Dropdown.Item>
-
+        {dropdownItems}
+      </DropdownButton>
     )
-  })
-
-
-  return (
-    <DropdownButton 
-      id={`lineup-round-${round}-spot-`}
-      title={`${first_name} ${last_name}`}
-      variant='white'
-      size='lg'
-    >
-      {dropdownItems}
-    </DropdownButton>
-  )
-
+  }
 }
 
 export default SelectionDropdown
