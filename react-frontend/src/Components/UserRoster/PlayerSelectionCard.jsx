@@ -7,8 +7,10 @@ import Alert from "react-bootstrap/Alert";
 
 import HandleDBTransaction from "../../Functions/HandleDBTransaction";
 import BASE_URL from "../../assets/Files/BASE_URL";
+import CreateUpdateLineup from "../../Functions/CreateUpdateLineup";
 
 const PlayerSelectionCard = ({ player, picture, disable, current, currentUser, tournamentYear, column }) => {
+  console.log(currentUser)
   let [message, setMessage] = useState(null)
   let [alert, setAlert] = useState(false)
   const { first_name, last_name, amateur, id } = player
@@ -66,8 +68,6 @@ const PlayerSelectionCard = ({ player, picture, disable, current, currentUser, t
       }
     }
   } 
-
-
 
   return (
     <Container fluid>

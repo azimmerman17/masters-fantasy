@@ -17,8 +17,15 @@ const UserRoster = () => {
 
   if (eventConfig && playersContext && fantasyTournamentConfig  && currentUser) {
     const { roster, lineups } = currentUser
+    const { intl, past_champ, usa, wild_card1, wild_card2, wild_card3 } = roster
     const { rosterLock } = fantasyTournamentConfig
 
+    const showLineups = () => {
+      if (intl && past_champ && usa && wild_card1 && wild_card2 && wild_card3) return  <UserLineups lineups={lineups} roster={roster} />
+      return <p className='m-auto text-center'>A full roster is required to view and update lineups.</p>
+    }
+
+    console.log(roster)
     return (
       <Container fluid>
         <Row>
@@ -30,7 +37,7 @@ const UserRoster = () => {
         </Row>
         <Row>
           <h4 className='text-center'>Lineups</h4>
-          <UserLineups lineups={lineups} roster={roster} />
+          {showLineups()}
         </Row>
       </Container>
     )

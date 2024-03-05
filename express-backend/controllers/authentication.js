@@ -83,13 +83,14 @@ router.get('/profile', async (req, res) => {
       FROM public."Users" A, public."User_Data" B 
       LEFT JOIN public."User_Rosters" C
         ON C.user_id = B.user_id
+          AND C.year = ${year}
       WHERE A.user_id = B.user_id
-        AND year = ${year}
         AND A.user_id = ${req.currentUser};`
 
     const userlineupQuery = `SELECT A.player1,
         A.player2,
-        A.player3
+        A.player3,
+        A.year
       FROM public."User_Lineups" A
       WHERE year = 2023 
         AND user_id = ${req.currentUser}`
@@ -106,7 +107,7 @@ router.get('/profile', async (req, res) => {
       for (let i = 0; i < 4; i++) {
         if (lineupRows[i]) {
           lineups.push({
-            year: year,
+            year: lineupRows[i]["year"],
             round: i + 1,
             player1: lineupRows[i]["player1"],
             player2: lineupRows[i]["player2"],
@@ -114,7 +115,7 @@ router.get('/profile', async (req, res) => {
           })
         } else {
           lineups.push({
-            year: year,
+            year: null,
             round: i + 1,
             player1: null,
             player2: null,
@@ -135,7 +136,7 @@ router.get('/profile', async (req, res) => {
         best_finish: userRows[0]["best_finish"],
         low_score: userRows[0]["low_score"],
         roster: {
-          year: year,
+          year: userRows[0]["year"],
           past_champ: userRows[0]["past_champ"],
           usa: userRows[0]["usa"],
           intl: userRows[0]["intl"],

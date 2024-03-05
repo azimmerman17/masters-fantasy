@@ -27,13 +27,13 @@ const RosterSpot = ({ player, cardName, lock, i }) => {
       if (player) {
         return (
           <>
-            {lock ? <RosterPlayerStats newStatus={player.newStatus} pos={player.pos} topar={player.topar} teetime={player.teetime} status={player.status} /> : <Button variant="primary" onClick={handleClick}>Select Player</Button>}
+            {!lock ? <RosterPlayerStats newStatus={player.newStatus} pos={player.pos} topar={player.topar} teetime={player.teetime} status={player.status} /> : <Button variant="primary" onClick={handleClick}>Select Player</Button>}
           </>
         )
       } else {
         return (
           <>
-            {lock ? null : <Button variant="primary" onClick={handleClick}>Select Player</Button>}
+            {!lock ? null : <Button variant="primary" onClick={handleClick}>Select Player</Button>}
           </>
         )
       }
