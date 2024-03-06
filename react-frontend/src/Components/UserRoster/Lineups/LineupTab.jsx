@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useContext } from "react"
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -9,7 +9,7 @@ import LineupSelection from "./LinupSelection";
 
 const LineupTab = ({ lineup, roster, round }) => {
   const { player1, player2, player3 } = lineup
-  let [roundLineup, setRoundLineup] = useState([player1, player2, player3])
+  let roundLineup = [player1, player2, player3]
   const {tournamentLeaderboardContext, setTournamentLeaderboardContext} = useContext(TournamentLeaderboardContext)
 
   const { past_champ, usa, intl, wild_card1, wild_card2, wild_card3 } = roster
