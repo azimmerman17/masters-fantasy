@@ -1,5 +1,6 @@
 const router = require('express').Router()
 require('dotenv').config()
+const checkLineUpChange = require('../middleware/checkLineupChange')
 const pool = require('../models/db')
 
 // GET
@@ -80,24 +81,44 @@ router.post('/new', async (req, res) => {
 // PUT
 router.put('/:id', async (req, res) => {
   const { id } = req.params
-  const { past_champ, usa, intl, wild_card1, wild_card2, wild_card3 } = req.body
+  const { past_champ, usa, intl, wild_card1, wild_card2, wild_card3, old_id } = req.body
   // const year = (new Date()).getFullYear()
   const year = 2023 // testing
+  let player_id
 
   // build the query 
   let updateRoster = `UPDATE public."User_Rosters" SET updated_at = NOW()`
-  if (past_champ) updateRoster = updateRoster + `, past_champ = ${past_champ}` 
-  if (usa) updateRoster = updateRoster + `, usa = ${usa}`
-  if (intl) updateRoster = updateRoster + `, intl = ${intl}`
-  if (wild_card1) updateRoster = updateRoster + `, wild_card1 = ${wild_card1}`
-  if (wild_card2) updateRoster = updateRoster + `, wild_card2 = ${wild_card2}`
-  if (wild_card3) updateRoster = updateRoster + `, wild_card3 = ${wild_card3}`
+  if (past_champ) {
+    updateRoster = updateRoster + `, past_champ = ${past_champ}`
+    player_id = past_champ
+  }
+  if (usa) {
+    updateRoster = updateRoster + `, usa = ${usa}`
+    player_id = usa
+  }
+  if (intl) {
+    updateRoster = updateRoster + `, intl = ${intl}`
+    player_id = intl
+  }
+  if (wild_card1) {
+    updateRoster = updateRoster + `, wild_card1 = ${wild_card1}`
+    player_id = wild_card1
+  }
+  if (wild_card2) {
+    updateRoster = updateRoster + `, wild_card2 = ${wild_card2}`
+    player_id = wild_card2
+  }
+  if (wild_card3) {
+    updateRoster = updateRoster + `, wild_card3 = ${wild_card3}`
+    player_id = wild_card3
+  }
   // add where clause
   updateRoster = updateRoster + ` WHERE user_id = ${id}
     AND year = ${year};`  
 
   try {
     const response = await pool.query(updateRoster)
+    await checkLineUpChange(id, year, player_id, old_id)
     if (response.error) res.status(500).send({msg: 'Error - Roster update Failed'})
     else res.status(201).send({msg: 'Roster Updated'})
   } catch (error) {

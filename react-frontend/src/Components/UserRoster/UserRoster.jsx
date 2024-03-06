@@ -25,7 +25,6 @@ const UserRoster = () => {
       return <p className='m-auto text-center'>A full roster is required to view and update lineups.</p>
     }
 
-    console.log(roster)
     return (
       <Container fluid>
         <Row>

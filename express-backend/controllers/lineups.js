@@ -137,7 +137,7 @@ router.post('/new', async (req, res) => {
             continue
           }
           else {
-            // Create lineup if exists
+            // Create lineup if not exists
             let insertRoundQuery = `INSERT INTO public."User_Lineups" (user_id, roster_id, year, round, player1, player2, player3, created_at, updated_at)
               VALUES (${user_id}, ${roster_id}, ${year}, ${i}, ${past_champ}, ${usa}, ${intl}, NOW(), NOW());`
             

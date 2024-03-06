@@ -7,7 +7,6 @@ import Alert from "react-bootstrap/Alert";
 
 import HandleDBTransaction from "../../Functions/HandleDBTransaction";
 import BASE_URL from "../../assets/Files/BASE_URL";
-import CreateUpdateLineup from "../../Functions/CreateUpdateLineup";
 
 const PlayerSelectionCard = ({ player, picture, disable, current, currentUser, tournamentYear, column }) => {
   console.log(currentUser)
@@ -26,7 +25,7 @@ const PlayerSelectionCard = ({ player, picture, disable, current, currentUser, t
       let payload = {
         year:  tournamentYear,
         [column]: id,
-        user_id: user_id
+        user_id: user_id,
       }
 
       try {
@@ -48,9 +47,11 @@ const PlayerSelectionCard = ({ player, picture, disable, current, currentUser, t
       // Record already exists - UPDATE
       let path = BASE_URL + 'roster/' + user_id
       let payload = {
-        [column]: id      
+        year:  tournamentYear,
+        [column]: id,
+        old_id: roster[column]
       }
-
+      
       try {
         let updateResponse = await HandleDBTransaction(path, 'PUT', payload)
         let { status } = updateResponse
