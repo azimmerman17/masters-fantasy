@@ -22,8 +22,8 @@ const RosterPlayerStats  = ({ newStatus, pos, topar, teetime, status }) =>{
             <p className='m-0 text-center label-small'>Score</p>
           </Col>
           <Col>
-            <h6 className='m-0 text-center'>{CheckTeeTime(teetime, -5) ? status : teetime}</h6>
-            <p className='m-0 text-center label-small'>{CheckTeeTime(teetime, -5) ? 'Thru' : 'Tee Time'}</p>
+            <h6 className='m-0 text-center'>{Number(status) > 0 || status === 'F' ? status : teetime}</h6>
+            <p className='m-0 text-center label-small'>{Number(status) > 0 || status === 'F' ? 'Thru' : 'Tee Time'}</p>
           </Col>
         </Row>
       )
