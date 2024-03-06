@@ -13,7 +13,7 @@ const LineupSelection =({ playersRoster, player, roundLineup, round, lineupSpot 
   const {fantasyTournamentConfig, setFantasyTournamentConfig} = useContext(FantasyTournamentConfig)
 
   if (eventConfig && fantasyTournamentConfig) {
-    const { round1Lock, round2Lock, round3Lock, round4Lock, currentRound } = fantasyTournamentConfig 
+    const { round1Lock, round2Lock, round3Lock, round4Lock } = fantasyTournamentConfig 
     const { dataSettings } = eventConfig
     const { tournamentYear } = dataSettings
 

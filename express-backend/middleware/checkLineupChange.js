@@ -1,15 +1,14 @@
 const pool = require('../models/db')
 
 async function checkLineUpChange(user_id, year, new_id, old_id)  {
-  console.log(user_id, year, new_id, old_id)
-
   // get the user's roster
   const rosterQuery = `SELECT A.past_champ,
       A.usa,
       A.intl,
       A.wild_card1,
       A.wild_card2,
-      A.wild_card3
+      A.wild_card3,
+      A.id
     FROM public."User_Rosters" A
     WHERE user_id =${user_id}
       AND A.year = ${year};`
@@ -26,6 +25,7 @@ async function checkLineUpChange(user_id, year, new_id, old_id)  {
         let past_champ = rows[0]["past_champ"]
         let usa = rows[0]["usa"]
         let intl = rows[0]["intl"]
+        let roster_id = rows[0]["id"]
 
         // Full roster check for lineups
         const lineupsQuery = `SELECT A.round,

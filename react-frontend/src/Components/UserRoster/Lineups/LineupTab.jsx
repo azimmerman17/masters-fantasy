@@ -54,8 +54,7 @@ const LineupTab = ({ lineup, roster, round }) => {
           </Col>
         </Row>
       </Container>
-      )
-      
+    )
   }
 }
 

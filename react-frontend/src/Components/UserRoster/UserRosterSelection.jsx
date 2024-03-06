@@ -1,7 +1,6 @@
 import { useContext } from "react"
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import Image from 'react-bootstrap/Image';
 import Container from 'react-bootstrap/esm/Container';
 
 import { TournamentLeaderboardContext } from "../../Contexts/TournamentLeaderboard"
@@ -65,7 +64,6 @@ const UserRosterSelection = ({ roster, locked }) => {
       )
     })
   
-
     return (
       <Container fluid>
         <Row>
@@ -73,7 +71,6 @@ const UserRosterSelection = ({ roster, locked }) => {
         </Row>
       </Container>
     )
-
   }
 }
 

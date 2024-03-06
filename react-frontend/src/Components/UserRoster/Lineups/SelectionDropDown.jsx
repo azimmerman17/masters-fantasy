@@ -16,14 +16,13 @@ const SelectionDropdown = ({ playersRoster, selectedPlayer, roundLineup, round, 
       const { user_id } = currentUser
 
       const handleClick = async (e, id) => {
-        console.log('player_id', id, 'round', round, 'rosterspot', lineupSpot, 'user', user_id )
         let path = BASE_URL + 'lineups/' + user_id + '/' + round
         let payload = {
           [lineupSpot]: id      
         }
   
         try {
-          let updateResponse = await HandleDBTransaction(path, 'PUT', payload)
+          await HandleDBTransaction(path, 'PUT', payload)
         } catch (error) {
           console.error(error)
         }
@@ -56,5 +55,3 @@ const SelectionDropdown = ({ playersRoster, selectedPlayer, roundLineup, round, 
 }
 
 export default SelectionDropdown
-
-// needs for PUT request - player_id, user_id, round, rosterspot
