@@ -9,6 +9,7 @@ import HandleDBTransaction from "../../Functions/HandleDBTransaction";
 import BASE_URL from "../../assets/Files/BASE_URL";
 
 const PlayerSelectionCard = ({ player, picture, disable, current, currentUser, tournamentYear, column }) => {
+  console.log(currentUser)
   let [message, setMessage] = useState(null)
   let [alert, setAlert] = useState(false)
   const { first_name, last_name, amateur, id } = player
@@ -24,7 +25,7 @@ const PlayerSelectionCard = ({ player, picture, disable, current, currentUser, t
       let payload = {
         year:  tournamentYear,
         [column]: id,
-        user_id: user_id
+        user_id: user_id,
       }
 
       try {
@@ -46,9 +47,11 @@ const PlayerSelectionCard = ({ player, picture, disable, current, currentUser, t
       // Record already exists - UPDATE
       let path = BASE_URL + 'roster/' + user_id
       let payload = {
-        [column]: id      
+        year:  tournamentYear,
+        [column]: id,
+        old_id: roster[column]
       }
-
+      
       try {
         let updateResponse = await HandleDBTransaction(path, 'PUT', payload)
         let { status } = updateResponse
@@ -66,8 +69,6 @@ const PlayerSelectionCard = ({ player, picture, disable, current, currentUser, t
       }
     }
   } 
-
-
 
   return (
     <Container fluid>
