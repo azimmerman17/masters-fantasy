@@ -53,27 +53,27 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       defaultValue: 0
     },
-    total_NoBB: {
+    total_no_bb: {
       allowNull: false,
       type: DataTypes.INTEGER,
       defaultValue: 9999
     },
-    round1_NoBB: {
+    round1_no_bb: {
       allowNull: false,
       type: DataTypes.INTEGER,
       defaultValue: 9999
     },
-    round2_NoBB: {
+    round2_no_bb: {
       allowNull: false,
       type: DataTypes.INTEGER,
       defaultValue: 999
     },
-    round3_NoBB: {
+    round3_no_bb: {
       allowNull: false,
       type: DataTypes.INTEGER,
       defaultValue: 999
     },
-    round4_NoBB: {
+    round4_no_bb: {
       allowNull: false,
       type: DataTypes.INTEGER,
       defaultValue: 999

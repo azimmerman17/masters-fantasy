@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Fantasy_Scorings', {
+    await queryInterface.createTable('Fantasy_Scoring', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -47,27 +47,27 @@ module.exports = {
         type: Sequelize.INTEGER,
         defaultValue: 0
       },
-      total_NoBB: {
+      total_no_bb: {
         allowNull: false,
         type: Sequelize.INTEGER,
         defaultValue: 9999
       },
-      round1_NoBB: {
+      round1_no_bb: {
         allowNull: false,
         type: Sequelize.INTEGER,
         defaultValue: 9999
       },
-      round2_NoBB: {
+      round2_no_bb: {
         allowNull: false,
         type: Sequelize.INTEGER,
         defaultValue: 999
       },
-      round3_NoBB: {
+      round3_no_bb: {
         allowNull: false,
         type: Sequelize.INTEGER,
         defaultValue: 999
       },
-      round4_NoBB: {
+      round4_no_bb: {
         allowNull: false,
         type: Sequelize.INTEGER,
         defaultValue: 999
@@ -82,10 +82,9 @@ module.exports = {
         allowNull: false,
         defaultValue: Sequelize.NOW
       }
-        
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Fantasy_Scorings');
+    await queryInterface.dropTable('Fantasy_Scoring');
   }
 };
