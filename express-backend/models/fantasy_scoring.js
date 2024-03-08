@@ -28,11 +28,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       defaultValue: 0
     },
-    total: {
-      allowNull: false,
-      type: DataTypes.INTEGER,
-      defaultValue: 0
-    },
     round1: {
       allowNull: false,
       type: DataTypes.INTEGER,
@@ -53,27 +48,22 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       defaultValue: 0
     },
-    total_no_bb: {
+    round1_aggr: {
       allowNull: false,
       type: DataTypes.INTEGER,
       defaultValue: 9999
     },
-    round1_no_bb: {
-      allowNull: false,
-      type: DataTypes.INTEGER,
-      defaultValue: 9999
-    },
-    round2_no_bb: {
+    round2_aggr: {
       allowNull: false,
       type: DataTypes.INTEGER,
       defaultValue: 999
     },
-    round3_no_bb: {
+    round3_aggr: {
       allowNull: false,
       type: DataTypes.INTEGER,
       defaultValue: 999
     },
-    round4_no_bb: {
+    round4_aggr: {
       allowNull: false,
       type: DataTypes.INTEGER,
       defaultValue: 999
