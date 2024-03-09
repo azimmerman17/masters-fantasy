@@ -76,16 +76,47 @@ router.get('/profile', async (req, res) => {
         C.wild_card1,
         C.wild_card2,
         C.wild_card3,
-        (D.round1 + D.round2 + D.round3 + D.round4) as "total",
-        D.round1,
-        D.round2,
-        D.round3,
-        D.round4,
-        (D.round1_aggr + D.round2_aggr + D.round3_aggr + D.round4_aggr) as "total_aggr",
-        D.round1_aggr,
-        D.round2_aggr,
-        D.round3_aggr,
-        D.round4_aggr
+        D.holes_completed,
+        CASE 
+          WHEN D.holes_completed = 0 THEN 0
+          ELSE (D.round1 + D.round2 + D.round3 + D.round4)
+        END as "total",
+        CASE 
+          WHEN D.holes_completed = 0 THEN 0
+          ELSE D.round1
+        END,
+        CASE 
+          WHEN D.holes_completed <= 18 THEN 0
+          ELSE D.round2
+        END,
+        CASE 
+          WHEN D.holes_completed <= 36 THEN 0
+          ELSE D.round3
+        END,
+        CASE 
+          WHEN D.holes_completed <= 54 THEN 0
+          ELSE D.round4 
+        END,
+        CASE 
+          WHEN D.holes_completed = 0 THEN 0 
+          ELSE (D.round1_aggr + D.round2_aggr + D.round3_aggr + D.round4_aggr) 
+        END as "total_aggr",
+        CASE 
+          WHEN D.holes_completed = 0 THEN 0 
+          ELSE D.round1_aggr
+        END,
+        CASE 
+          WHEN D.holes_completed <= 18 THEN 0 
+          ELSE D.round2_aggr
+        END,
+        CASE 
+          WHEN D.holes_completed <= 36 THEN 0 
+          ELSE D.round3_aggr
+        END,
+        CASE 
+          WHEN D.holes_completed <= 55 THEN 0 
+          ELSE D.round4_aggr 
+        END
       FROM public."Users" A, public."User_Data" B 
       LEFT JOIN public."User_Rosters" C
         ON C.user_id = B.user_id
@@ -155,6 +186,7 @@ router.get('/profile', async (req, res) => {
         },
         lineups: lineups,
         scoring: {
+          hole_completed:  userRows[0]["holes_completed"],
           year: userRows[0]["year"],
           total: {
             score: userRows[0]["total"],
