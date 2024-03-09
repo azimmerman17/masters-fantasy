@@ -186,29 +186,36 @@ router.get('/profile', async (req, res) => {
         },
         lineups: lineups,
         scoring: {
-          hole_completed:  userRows[0]["holes_completed"],
+          holes_completed:  userRows[0]["holes_completed"],
           year: userRows[0]["year"],
           total: {
             score: userRows[0]["total"],
             aggr: userRows[0]["total_aggr"] 
 
           },
-          round1: {
-            score: userRows[0]["round1"],
-            aggr: userRows[0]["round1_aggr"]
-          },
-          round2: {
-            score: userRows[0]["round2"],
-            aggr: userRows[0]["round2_aggr"]
-          },
-          round3: {
-            score: userRows[0]["round3"],
-            aggr: userRows[0]["round3_aggr"]
-          },
-          round4: {
-            score: userRows[0]["round4"],
-            aggr: userRows[0]["round4_aggr"]
-          }
+          rounds: [
+            {
+              round: 1,
+              score: userRows[0]["round1"],
+              aggr: userRows[0]["round1_aggr"]
+            },
+            {
+              round: 2,
+              score: userRows[0]["round2"],
+              aggr: userRows[0]["round2_aggr"]
+            },
+            {              
+              round: 3,
+              score: userRows[0]["round3"],
+              aggr: userRows[0]["round3_aggr"]
+            },
+            {
+              round: 4,
+              score: userRows[0]["round4"],
+              aggr: userRows[0]["round4_aggr"]
+            }
+
+          ]
         }
       }
 

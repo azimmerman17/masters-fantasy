@@ -2,19 +2,18 @@ import { useContext } from "react"
 import Container from "react-bootstrap/Container"
 import Row from "react-bootstrap/Row"
 
-import { PlayersContext } from "../../Contexts/PlayersContext"
 import { FantasyTournamentConfig } from "../../Contexts/FantasyTournamentConfig"
 import { CurrentUser } from "../../Contexts/CurrentUserContext"
 import UserRosterSelection from "./UserRosterSelection"
 import UserLineups from "./Lineups/UserLineups"
+import UserScores from "./UserScores/UserScores"
 
 const UserRoster = () => {
-  const { playersContext, setPlayersContext} = useContext(PlayersContext)
   const {fantasyTournamentConfig, setFantasyTournamentConfig} = useContext(FantasyTournamentConfig)
   const {currentUser, setCurrentUser} = useContext(CurrentUser)
 
-  if (playersContext && fantasyTournamentConfig  && currentUser) {
-    const { roster, lineups } = currentUser
+  if (fantasyTournamentConfig  && currentUser) {
+    const { roster, lineups, scoring } = currentUser
     const { intl, past_champ, usa, wild_card1, wild_card2, wild_card3 } = roster
     const { rosterLock } = fantasyTournamentConfig
 
@@ -26,7 +25,7 @@ const UserRoster = () => {
     return (
       <Container fluid>
         <Row>
-          User Rank and Score
+          <UserScores scoring={scoring} lineups={lineups}/>
         </Row>
         <Row>
           <h4 className='text-center'>Roster</h4>

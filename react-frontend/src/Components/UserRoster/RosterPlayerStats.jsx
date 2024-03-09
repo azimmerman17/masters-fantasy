@@ -1,7 +1,6 @@
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import CheckTeeTime from "../../Functions/CheckTeeTimeLock";
 import ScoreColor from "../../Functions/ScoreColor";
 
 const RosterPlayerStats  = ({ newStatus, pos, topar, teetime, status }) =>{
