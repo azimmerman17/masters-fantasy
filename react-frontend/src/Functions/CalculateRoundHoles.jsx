@@ -1,19 +1,12 @@
 // Calculates the number of holes completed to display 
 const CalculateRoundHoles = (holes_completed, roundNum, players) => {
-  console.log(18 * roundNum)
-  // check if golfers still on course
-
-    let roundStatus = 'F'
-    players.forEach(player => {
-      const { status } = player
-      if (status !== 'F') {
-        console.log('init')
-        roundStatus = 18
-      }
-    })
-
-    console.log(roundStatus)
-
+  let roundStatus = 'F'
+  players.forEach(player => {
+    const { status } = player
+    if (status !== 'F') {
+      roundStatus = 18
+    }
+  })
 
   // Checks for overall event
   if (!roundNum) {

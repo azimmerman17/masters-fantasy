@@ -10,6 +10,7 @@ import { CurrentUser } from "../../Contexts/CurrentUserContext";
 import DeleteAlert from "./DeleteAlert";
 import DisplayPersonalData from "./DisplayPersonalData";
 import EditUserData from "./EditUserData";
+import UserRoster from "../UserRoster/UserRoster";
 import BASE_URL from '../../assets/Files/BASE_URL';
 
 const UserProfile = () => {
@@ -32,10 +33,12 @@ const UserProfile = () => {
       let foundUser = await fetch(BASE_URL + `user/${username}`, options)
       const data = await foundUser.json()
       setUser(data)
-      setHidePersonalData(true)
+      if (currentUser.user_name == username) setHidePersonalData(false)
+      else setHidePersonalData(true)
+
     }
     
-    if (!user) {
+    if (!user && currentUser) {
       if (!username) {
         setUser(currentUser)
         setHidePersonalData(false)
@@ -43,10 +46,9 @@ const UserProfile = () => {
       else fetchUser(username)
       
       if (!username) setHidePersonalData(false)
-      else if (currentUser && currentUser.user_name == username) setHidePersonalData(false)
     else setHidePersonalData(true)
 } 
-}, [user, currentUser])
+}, [user, currentUser, hidePersonalData])
 
 if (user) {
   const { appearances, best_finish, email, first_name, last_name, low_score, user_name, wins } = user
@@ -94,6 +96,7 @@ if (user) {
           </Col>          
         </Row>
         <hr className='mt-2'/>
+        {hidePersonalData ? null : <UserRoster />}
       </Container>
     )
 }

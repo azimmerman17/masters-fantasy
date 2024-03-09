@@ -30,7 +30,7 @@ const UserScores = ({ scoring, lineups }) => {
       ]
   
       return (
-        <Row className='m-0 p-1 border rounded'>
+        <Row className={`m-0 p-1 border rounded${label === 'Total' ? ' shadow-sm border-primary' : ''}`}>
           <h5>{label}</h5>
           <Col>
             <h6 className={`m-auto ${ScoreColor(score)}`}>{score}</h6>
@@ -51,7 +51,7 @@ const UserScores = ({ scoring, lineups }) => {
     const roundScores = rounds.map((round, i) => {
       if (holes_completed > i * 18) {
         return (
-          <Col className='m-1' key={`score-round-${i + 1}`} xs={12} sm={12}>
+          <Col className='my-1' key={`score-round-${i + 1}`} xs={12} sm={6} lg={3}>
             {displayScore(round, `Round ${i + 1}`, lineups[i])}
           </Col>
         )
@@ -62,7 +62,7 @@ const UserScores = ({ scoring, lineups }) => {
       <Container className='text-center' fluid>
         <h4>Fantasy Comptetion Score</h4>
         <Row>
-          <Col xs={12} sm={6} className='m-1'>
+          <Col xs={12} className='my-1'>
             {holes_completed > 0 ? displayScore(total, 'Total', lineups[3]) : null}
           </Col>
             {roundScores}
