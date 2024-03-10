@@ -1,6 +1,20 @@
+const axios = require('axios')
+
 async function updateScores(state) {
+// Get the master config file
+const ConfigUrl = 'https://www.masters.com/en_US/scores/feeds/2023/scores.json'
+
+try {
+  
+  const mastersConfig = await axios.get(ConfigUrl)
+  const { data } = mastersConfig
+  console.log(data)
+} catch (error) {
+  console.error(error)
+}
 
 // Fetch leaderboard data from Masters
+
 
 // Get tournament state, round active/ inactive, tournament active/inactive, 
 
@@ -26,5 +40,7 @@ async function updateScores(state) {
 // set the resfresh interval/ clear the interval, depending on state - pass in the state for the next run
 
 }
+
+updateScores()
 
 module.exports = updateScores
