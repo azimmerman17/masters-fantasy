@@ -3,6 +3,7 @@ const pool = require('./models/db')
 const cors = require('cors')
 require('dotenv').config()
 const defineCurrentUser = require('./middleware/defineCurrentUser')
+const updateScores = require('./middleware/updateScores')
 
 
 const app = express()
