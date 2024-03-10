@@ -36,6 +36,12 @@ async function checkLineUpChange(user_id, year, new_id, old_id)  {
           WHERE A.user_id = ${user_id} 
             AND A.year = ${year};`
 
+        // Check for scoring record
+        const scoringQuery = `SELECT 'x'
+          FROM public."Fantasy_Scoring" A
+          WHERE A.user_id = ${user_id} 
+            AND A.year = ${year};`
+
         const lineupResponse = await pool.query(lineupsQuery)
         const { rowCount } = lineupResponse
         // if no lineups, create lineups with defaults
@@ -73,6 +79,19 @@ async function checkLineUpChange(user_id, year, new_id, old_id)  {
             await pool.query(updateQuery2)
             await pool.query(updateQuery3)
           }
+        } // END LINEUPS
+        const scoringResponse = await pool.query(scoringQuery)
+        const scoringRowCount = scoringResponse.rowCount
+        console.log(scoringResponse)
+        if (scoringRowCount < 1) {
+          // no current scoring record - create new
+          const insertScoringQuery = `INSERT INTO public."Fantasy_Scoring" (user_id, year, created_at, updated_at)
+            VALUES (${user_id}, ${year}, NOW(), NOW());`
+
+          const response = await pool.query(insertScoringQuery)
+          if (response.error) console.log(`Scoring Record 500 Error - Record not created`)
+          else console.log(`Scoring Record - Successfully inserted`)
+
         }
       }
     }  

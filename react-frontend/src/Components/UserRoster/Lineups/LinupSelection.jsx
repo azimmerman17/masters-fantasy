@@ -37,10 +37,10 @@ const LineupSelection =({ playersRoster, player, roundLineup, round, lineupSpot 
     }
 
     let selectedPlayer =  playersRoster.filter(rosterPlayer => rosterPlayer.id == player)[0]
-    const { first_name, last_name , amateur} = selectedPlayer
+    const { first_name, last_name , amateur, newStatus} = selectedPlayer
 
     return (
-      <Row className='border rounded my-1 py-1'>
+      <Row className={`border rounded my-1 py-1${round > 2 && (newStatus === 'C' || newStatus === 'W' ) ? ' border-danger' : ''}`}>
         <Col xs={3}>
           {player ? <Image src={picture} className=' mx-auto border rounded-circle lineup-img' /> : null}
         </Col>

@@ -27,20 +27,20 @@ const RosterSpot = ({ player, cardName, lock, i }) => {
       if (player) {
         return (
           <>
-            {lock ? <RosterPlayerStats newStatus={player.newStatus} pos={player.pos} topar={player.topar} teetime={player.teetime} status={player.status} /> : <Button variant="primary" onClick={handleClick}>Select Player</Button>}
+            {!lock ? <RosterPlayerStats newStatus={player.newStatus} pos={player.pos} topar={player.topar} teetime={player.teetime} status={player.status} /> : <Button variant="primary" onClick={handleClick}>Select Player</Button>}
           </>
         )
       } else {
         return (
           <>
-            {lock ? null : <Button variant="primary" onClick={handleClick}>Select Player</Button>}
+            {!lock ? null : <Button variant="primary" onClick={handleClick}>Select Player</Button>}
           </>
         )
       }
     }
 
     return (
-      <Card className='m-1 p-1 text-center' >
+      <Card className={`m-1 p-1 text-center${player ? player.newStatus === 'C' || player.newStatus === 'W' ? ' border-danger' : ' border-success shadow-lg' : ''}`}>
         {player ? <Image src={picture} className=' mx-auto border rounded-circle roster-img' /> : null}
         <Card.Body className='text-center'>
           {player ? <Card.Title>{player.first_name} {player.last_name} {player.amateur ? '(A)' : null}</Card.Title> : <IoGolf className='bg-success text-white border border-success rounded-circle' style={{height:'75px', width:'75px'}}/>}

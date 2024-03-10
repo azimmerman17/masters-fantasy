@@ -57,7 +57,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.NOW
     }
   }, {
-    suiequelize,
+    sequelize,
     modelName: 'User_Lineups',
   });
   return User_Lineups;

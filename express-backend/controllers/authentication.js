@@ -1,14 +1,13 @@
 const router = require('express').Router()
 require('dotenv').config()
 const jwt = require('json-web-token')
-// const defineCurrentUser = require('../middleware/defineCurrentUser')
-
 
 const decryptValue = require('../functions/decryptValue')
 const hashValue = require('../functions/hashValue')
 const pool = require('../models/db')
-const { request } = require('express')
 
+// const year = (new Date()).getFullYear()
+const year = 2023
 
 router.post('/', async (req, res) => {
   const { user_name, password } = req.body
@@ -58,9 +57,6 @@ router.post('/', async (req, res) => {
 router.get('/profile', async (req, res) => {
   if (!req.currentUser) res.status(404).send(null)
   else {
-    // const year = (new Date()).getFullYear()
-    const year = 2023
-
     // find user
     const userExistQuery = `Select A.user_id,
         A.user_name,
@@ -79,11 +75,55 @@ router.get('/profile', async (req, res) => {
         C.intl,
         C.wild_card1,
         C.wild_card2,
-        C.wild_card3
+        C.wild_card3,
+        D.holes_completed,
+        CASE 
+          WHEN D.holes_completed = 0 THEN 0
+          ELSE (D.round1 + D.round2 + D.round3 + D.round4)
+        END as "total",
+        CASE 
+          WHEN D.holes_completed = 0 THEN 0
+          ELSE D.round1
+        END,
+        CASE 
+          WHEN D.holes_completed <= 18 THEN 0
+          ELSE D.round2
+        END,
+        CASE 
+          WHEN D.holes_completed <= 36 THEN 0
+          ELSE D.round3
+        END,
+        CASE 
+          WHEN D.holes_completed <= 54 THEN 0
+          ELSE D.round4 
+        END,
+        CASE 
+          WHEN D.holes_completed = 0 THEN 0 
+          ELSE (D.round1_aggr + D.round2_aggr + D.round3_aggr + D.round4_aggr) 
+        END as "total_aggr",
+        CASE 
+          WHEN D.holes_completed = 0 THEN 0 
+          ELSE D.round1_aggr
+        END,
+        CASE 
+          WHEN D.holes_completed <= 18 THEN 0 
+          ELSE D.round2_aggr
+        END,
+        CASE 
+          WHEN D.holes_completed <= 36 THEN 0 
+          ELSE D.round3_aggr
+        END,
+        CASE 
+          WHEN D.holes_completed <= 55 THEN 0 
+          ELSE D.round4_aggr 
+        END
       FROM public."Users" A, public."User_Data" B 
       LEFT JOIN public."User_Rosters" C
         ON C.user_id = B.user_id
           AND C.year = ${year}
+      LEFT JOIN public."Fantasy_Scoring" D
+        ON D.user_id = B.user_id
+          AND D.year = ${year}
       WHERE A.user_id = B.user_id
         AND A.user_id = ${req.currentUser};`
 
@@ -144,7 +184,39 @@ router.get('/profile', async (req, res) => {
           wild_card2: userRows[0]["wild_card2"],
           wild_card3: userRows[0]["wild_card3"],
         },
-        lineups: lineups
+        lineups: lineups,
+        scoring: {
+          holes_completed:  userRows[0]["holes_completed"],
+          year: userRows[0]["year"],
+          total: {
+            score: userRows[0]["total"],
+            aggr: userRows[0]["total_aggr"] 
+
+          },
+          rounds: [
+            {
+              round: 1,
+              score: userRows[0]["round1"],
+              aggr: userRows[0]["round1_aggr"]
+            },
+            {
+              round: 2,
+              score: userRows[0]["round2"],
+              aggr: userRows[0]["round2_aggr"]
+            },
+            {              
+              round: 3,
+              score: userRows[0]["round3"],
+              aggr: userRows[0]["round3_aggr"]
+            },
+            {
+              round: 4,
+              score: userRows[0]["round4"],
+              aggr: userRows[0]["round4_aggr"]
+            }
+
+          ]
+        }
       }
 
       
