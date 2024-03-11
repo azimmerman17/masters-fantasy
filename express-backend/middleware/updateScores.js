@@ -12,7 +12,7 @@ async function updateScores() {
 
   // if empty - clear the interval
 
-  // Get current round
+  // Get current round and pars
   const current_round = updateScoresFile.round
 
   // Fetch scoring data from public."Fanstay_Scoring"
@@ -31,7 +31,6 @@ async function updateScores() {
     console.log('no players - quit')
     return 'no players - quit'
    } else {
-    console.log(response.rowCount)
      const { rows } = response  
      // For each record on public."Fanstay_Scoring" - update scorings for the round.
       rows.forEach(async (row) => {
@@ -40,28 +39,7 @@ async function updateScores() {
       })
      }
     
-
-  
-   
-   
-   
-
-
-
-
-  // Fetch the Lineup from public."User_Lineups"
-
-  // For each hole, get the lowest score - translate to vsPar
-
-  // Sum the aggregate score for the round
-
-  // Calculate the holes_completed 
-
-  // UPDATE STATEMENT FOR public."Fanstay_Scoring"
-
-  // set the resfresh interval/ clear the interval, depending on state - pass in the state for the next run
-  // Get tournament state, round active/ inactive, tournament active/inactive, 
-
+     
   } catch (error) {
   console.error(error)
    return error
