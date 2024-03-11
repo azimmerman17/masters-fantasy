@@ -78,15 +78,13 @@ router.get('/:id', async (req, res) => {
 // receive scores from Masters and Frontend
 router.post('/sendscores', async (req, res) => {
   const { data } = req.body
-  const { currentRound, statusRound, player, pars } = data
+  const { currentRound, player, pars } = data
   const { round1, round2, round3, round4 } = pars
   
   let round 
   // check for active round
   for (let i = 0; i < currentRound.length; i++) {
     if (currentRound[i] === '1') {
-      // if (statusRound[i] === 'F') updateScoresFile.round_active = 1 //change to 0 after testing 
-      // else updateScoresFile.round_active = 1
       updateScoresFile.round = i + 1
       round = i + 1
       break
@@ -99,14 +97,11 @@ router.post('/sendscores', async (req, res) => {
   else if (round === 3) updateScoresFile.pars = round3
   else if (round === 4) updateScoresFile.pars = round4
 
-  console.log(updateScoresFile.lastUpdate)
-
   // get 10 minutes proir to now
   let now = new Date()
   now.setMinutes(now.getMinutes() - 10)
 
   // start update process IF Process IS NOT active and the round IS active
-  console.log(new Date(), updateScoresFile.lastUpdate)
   if (new Date(now) > updateScoresFile.lastUpdate) {
   // if (updateScoresFile.process_active == 0 && updateScoresFile.round_active == 1){
     updateScoresFile.process_active = 1
@@ -119,8 +114,10 @@ router.post('/updatescores', async (req, res) => {
   updateScoresFile.lastUpdate = new Date()
   try {
       await updateScores()
+      res.status(200).send('Done')
   } catch (error) {
     console.error(error)
+    res.status(500).send('Error')
   }
 
 })
