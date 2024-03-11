@@ -1,46 +1,73 @@
-const axios = require('axios')
+require('dotenv').config()
+const updateRoundScore = require('../functions/updateRoundScore')
+const updateScoresFile = require('../middleware/updateScoresFile')
+const pool = require('../models/db')
+ 
+async function updateScores() {
+  //  Derive the date
+  // const year = (new Date().getFullYear())
+  const year = 2023
+  // Fetch leaderboard data from env
+  const leaderboard = updateScoresFile.scores
 
-async function updateScores(state) {
-// Get the master config file
-const ConfigUrl = 'https://www.masters.com/en_US/scores/feeds/2023/scores.json'
+  // if empty - clear the interval
 
-try {
+  // Get current round
+  const current_round = updateScoresFile.round
+
+  // Fetch scoring data from public."Fanstay_Scoring"
+  let fetchScores = `SELECT A.user_id
+  FROM public."Fantasy_Scoring" A
+  WHERE year = ${year}`
+
+  try {
+  const response = await pool.query(fetchScores)
   
-  const mastersConfig = await axios.get(ConfigUrl)
-  const { data } = mastersConfig
-  console.log(data)
-} catch (error) {
+  if (response.error) {
+    updateScoresFile.process_active = 0
+    return response.error
+  } else if (response.rows > 1) {
+    updateScoresFile.process_active = 0
+    console.log('no players - quit')
+    return 'no players - quit'
+   } else {
+    console.log(response.rowCount)
+     const { rows } = response  
+     // For each record on public."Fanstay_Scoring" - update scorings for the round.
+      rows.forEach(async (row) => {
+        // Update the score for the round
+        await updateRoundScore(row['user_id'], year, current_round, leaderboard)
+      })
+     }
+    
+
+  
+   
+   
+   
+
+
+
+
+  // Fetch the Lineup from public."User_Lineups"
+
+  // For each hole, get the lowest score - translate to vsPar
+
+  // Sum the aggregate score for the round
+
+  // Calculate the holes_completed 
+
+  // UPDATE STATEMENT FOR public."Fanstay_Scoring"
+
+  // set the resfresh interval/ clear the interval, depending on state - pass in the state for the next run
+  // Get tournament state, round active/ inactive, tournament active/inactive, 
+
+  } catch (error) {
   console.error(error)
+   return error
+  }
 }
 
-// Fetch leaderboard data from Masters
-
-
-// Get tournament state, round active/ inactive, tournament active/inactive, 
-
-// if tournament inactive, no updates
-
-// Get current round
-
-// Fetch scoring data from public."Fanstay_Scoring"
-
-// For each record on public."Fanstay_Scoring" - update scorings for the round.
-// If round is live or Finsihed update current, if not yet started update previous
-
-// Fetch the Lineup from public."User_Lineups"
-
-// For each hole, get the lowest score - translate to vsPar
-
-// Sum the aggregate score for the round
-
-// Calculate the holes_completed 
-
-// UPDATE STATEMENT FOR public."Fanstay_Scoring"
-
-// set the resfresh interval/ clear the interval, depending on state - pass in the state for the next run
-
-}
-
-updateScores()
+// Clear interval at the top
 
 module.exports = updateScores

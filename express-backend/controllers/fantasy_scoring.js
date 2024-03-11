@@ -1,5 +1,7 @@
 const router = require('express').Router()
 require('dotenv').config()
+const updateScores = require('../middleware/updateScores')
+const updateScoresFile = require('../middleware/updateScoresFile')
 const pool = require('../models/db')
 
 //  Derive the date
@@ -20,7 +22,7 @@ router.get('/', async (req, res) => {
     FROM public."Users" A, public."Fantasy_Scoring" B
     WHERE A.user_id = B.user_id
       AND year = ${year}
-    ORDER BY 3, 2 desc, 7, 6, 5, 4, (B.round1_no_bb + B.round2_no_bb + B.round3_no_bb + B.round4_no_bb) desc, B.round1_no_bb desc,  B.round2_no_bb desc, B.round3_no_bb desc, B.round4_no_bb desc ;`
+    ORDER BY 3, 2 desc, 7, 6, 5, 4, (B.round1_aggr + B.round2_aggr + B.round3_aggr + B.round4_aggr) desc, B.round1_aggr desc,  B.round2_aggr desc, B.round3_aggr desc, B.round4_aggr desc ;`
 
   try {
     const response = await pool.query(getScores)
@@ -47,16 +49,16 @@ router.get('/:id', async (req, res) => {
       B.round2,
       B.round3,
       B.round4,
-      (B.round1_no_bb + B.round2_no_bb + B.round3_no_bb + B.round4_no_bb), as "total_no_bb"
-      B.round1_no_bb,
-      B.round2_no_bb, 
-      B.round3_no_bb,
-      B.round4_no_bb 
+      (B.round1_aggr + B.round2_aggr + B.round3_aggr + B.round4_aggr), as "total_aggr"
+      B.round1_aggr,
+      B.round2_aggr, 
+      B.round3_aggr,
+      B.round4_aggr 
     FROM public."Users" A, public."Fantasy_Scoring" B
     WHERE A.user_id = B.user_id
       AND year = ${year}
       AND A.user_id = ${id}
-    ORDER BY 3, 2 desc, 7, 6, 5, 4, (B.round1_no_bb + B.round2_no_bb + B.round3_no_bb + B.round4_no_bb) desc, B.round1_no_bb desc,  B.round2_no_bb desc, B.round3_no_bb desc, B.round4_no_bb desc ;`
+    ORDER BY 3, 2 desc, 7, 6, 5, 4, (B.round1_aggr + B.round2_aggr + B.round3_aggr + B.round4_aggr) desc, B.round1_aggr desc,  B.round2_aggr desc, B.round3_aggr desc, B.round4_aggr desc ;`
 
   try {
     const response = await pool.query(getScores)
@@ -73,6 +75,44 @@ router.get('/:id', async (req, res) => {
 })
 
 // POST
+// receive scores from Masters and Frontend
+router.post('/sendscores', async (req, res) => {
+  const { data } = req.body
+  const { currentRound, statusRound, player } = data
+  
+  // update the player list file
+  updateScoresFile.scores = player
+  
+  let round
+  // check for active round
+  for (let i = 0; i < currentRound.length; i++) {
+    if (currentRound[i] === '1') {
+      if (statusRound[i] === 'F') updateScoresFile.round_active = 1 //change to 0 after testing 
+      else updateScoresFile.round_active = 1
+      updateScoresFile.round = i + 1
+      break
+    }
+  }
+
+  // start update process IF Process IS NOT active and the round IS active
+  if (updateScoresFile.process_active == 0 && updateScoresFile.round_active == 1){
+    updateScoresFile.process_active = 1
+    res.redirect(307, '/scoring/updatescores') 
+  }
+  else res.send('Sent')
+})
+
+router.post('/updatescores', async (req, res) => {
+  try {
+      await updateScores()
+  } catch (error) {
+    console.error(error)
+  }
+
+})
+
+
+// create new scoring record
 router.post('/new', async (req, res) => {
   // pass in user_id
   // derive year
@@ -109,7 +149,7 @@ router.post('/new', async (req, res) => {
 // Update user scores 
 router.put('/:id', async (req, res) => {
   const { id } = req.params
-  const { holes_completed, round1, round2, round3, round4, round1_no_bb, round2_no_bb, round3_no_bb, round4_no_bb } = req.body
+  const { holes_completed, round1, round2, round3, round4, round1_aggr, round2_aggr, round3_aggr, round4_aggr } = req.body
 
   // build the query 
   let updateScoring = `UPDATE public."Fantasy_Scoring" SET updated_at = NOW()`
@@ -118,10 +158,10 @@ router.put('/:id', async (req, res) => {
   if (round2) updateScoring = updateScoring + `, round2 = ${round2}`
   if (round3) updateScoring = updateScoring + `, round3 = ${round3}`
   if (round4) updateScoring = updateScoring + `, round4 = ${round4}`
-  if (round1_no_bb) updateScoring = updateScoring + `, round1_no_bb = ${round1_no_bb}`
-  if (round2_no_bb) updateScoring = updateScoring + `, round2_no_bb = ${round2_no_bb}`
-  if (round3_no_bb) updateScoring = updateScoring + `, round3_no_bb = ${round3_no_bb}`
-  if (round4_no_bb) updateScoring = updateScoring + `, round4_no_bb = ${round4_no_bb}`
+  if (round1_aggr) updateScoring = updateScoring + `, round1_aggr = ${round1_aggr}`
+  if (round2_aggr) updateScoring = updateScoring + `, round2_aggr = ${round2_aggr}`
+  if (round3_aggr) updateScoring = updateScoring + `, round3_aggr = ${round3_aggr}`
+  if (round4_aggr) updateScoring = updateScoring + `, round4_aggr = ${round4_aggr}`
 
   // add where clause
   updateLineups = updateLineups + ` WHERE user_id = ${id}
@@ -145,7 +185,7 @@ router.put('/:id/:round', async (req, res) => {
   if (round !== 4 || round !== 3 || round !== 2 || round !== 1) res.status(400).send({msg: 'Invalid Round'})
   else {
     let scoreKey = `round${round}`
-    let score_aggrKey = `round${round}_no_bb`
+    let score_aggrKey = `round${round}_aggr`
 
     // build the query 
     let updateScoring = `UPDATE public."Fantasy_Scoring" SET updated_at = NOW()`
