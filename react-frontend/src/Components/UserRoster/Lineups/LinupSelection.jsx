@@ -44,9 +44,9 @@ const LineupSelection =({ playersRoster, player, roundLineup, round, lineupSpot 
         <Col xs={3}>
           {player ? <Image src={picture} className=' mx-auto border rounded-circle lineup-img' /> : null}
         </Col>
-        <Col xs={9} className='my-auto'>
-          {!locked ? <h6 className='fs-5'>{first_name} {last_name}{amateur ? ' (A)' : '' }</h6> : <SelectionDropdown playersRoster={playersRoster} selectedPlayer={selectedPlayer} roundLineup={roundLineup} round={round} lineupSpot={lineupSpot} />}
-        </Col>
+        <Col xs={9} md={6} className='my-auto'>
+          {locked ? <h6 className='fs-5'>{first_name} {last_name}{amateur ? ' (A)' : '' }</h6> : <SelectionDropdown playersRoster={playersRoster} selectedPlayer={selectedPlayer} roundLineup={roundLineup} round={round} lineupSpot={lineupSpot} />}
+        </Col >
       </Row>
     )
   }

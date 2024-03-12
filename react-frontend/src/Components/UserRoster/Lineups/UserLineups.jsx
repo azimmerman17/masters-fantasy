@@ -9,20 +9,21 @@ const UserLineups = ({ lineups, roster }) => {
   const {fantasyTournamentConfig, setFantasyTournamentConfig} = useContext(FantasyTournamentConfig)
 
   if (fantasyTournamentConfig) {
-    const { currentRound } = fantasyTournamentConfig 
+    const { currentRound } = fantasyTournamentConfig
 
     const roundTabs = lineups.map(lineup => {
       const { round } = lineup
 
+
       return (
-        <Tab eventKey={`Rd ${round}`} title={`Rd ${round}`} key={`round-${round}`}>
+        <Tab eventKey={round} title={`Rd ${round}`} key={`round-${round}`} id={`round-tab-${round}`}>
           <LineupTab lineup={lineup} roster={roster} round={round}/>
         </Tab>
       )
     })
 
     return (
-      <Tabs defaultActiveKey={currentRound - 1} justify>
+      <Tabs defaultActiveKey={currentRound || 1} justify>
         {roundTabs}
       </Tabs>
     )

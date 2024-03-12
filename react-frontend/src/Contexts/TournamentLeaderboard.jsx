@@ -24,7 +24,7 @@ const TournamentLeaderboardContextProvider = ({ children }) => {
       } catch (error) {
         console.error(error)
       }
-      console.log(data)
+      // console.log(data)
     }
 
     const fetchData = async () => {
