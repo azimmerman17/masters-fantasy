@@ -3,7 +3,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 
-const PlayerBio = ({ age, amateur, countryCode, countryName, height, overview, swing, turnedPro, weight, wins, first_name, last_name }) => {
+const PlayerBio = ({ age, amateur, countryCode, countryName, height, swing, turnedPro, weight, wins, first_name, last_name }) => {
   const data = [age, countryName, height, weight,  swing, turnedPro, wins]
   const labels = ['Age', 'Country', 'Height', 'Weight', 'Swings', 'Turned Pro', 'PGA Tour Wins']
 
@@ -40,13 +40,7 @@ const PlayerBio = ({ age, amateur, countryCode, countryName, height, overview, s
       <h5 className={`text-success ${window.innerWidth < 775 ? 'text-end' : 'text-start'}`}>{first_name} {last_name} Bio</h5>
       <Row>
           {bioData}
-      </Row>
-      <hr className='my-2' />
-      <Row>
-        <p className='mb-0 mt-2'>
-          {overview}
-        </p>
-      </Row>
+      </Row> 
     </Container>
   )
 }

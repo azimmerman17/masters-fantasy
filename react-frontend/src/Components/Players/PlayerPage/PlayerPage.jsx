@@ -54,7 +54,7 @@ const PlayerPage = () => {
     const { bio } = playerData
 
     const { player } = bio
-    const { age, avgRound, bestFinish, countryCode, countryName, cutsMade, first_name, height, highRound, last_name, lowRound, overview, pastMasters, photo_url, swing, tournamentsPlayed, turnedPro, weight, wins, roundsUnderPar, roundsPlayed } = player
+    const { age, avgRound, bestFinish, countryCode, countryName, cutsMade, first_name, height, highRound, last_name, lowRound, pastMasters, photo_url, swing, tournamentsPlayed, turnedPro, weight, wins, roundsUnderPar, roundsPlayed } = player
     const { meduim, large } = photo_url[photo_url.length - 1]
     
     // playerStat var destructure
@@ -88,8 +88,13 @@ const PlayerPage = () => {
           <hr className='my-2' />
         </Row>
         <Row>
-          <PlayerBio age={age} amateur={amateur} countryCode={countryCode} countryName={countryName} height={height} overview={overview} swing={swing} turnedPro={turnedPro} weight={weight} wins={wins} first_name={first_name} last_name={last_name} />
+          <PlayerBio age={age} amateur={amateur} countryCode={countryCode} countryName={countryName} height={height} swing={swing} turnedPro={turnedPro} weight={weight} wins={wins} first_name={first_name} last_name={last_name} />
           <hr className='my-2' />
+        </Row>
+        <Row>
+          <a href={`https://www.masters.com/en_US/players/player_${playerId}.html`} target='_blank' className='text-center text-success'>
+            For a complete profile for {first_name} {last_name} please visit masters.com
+          </a>
         </Row>
       </Container>
     )
