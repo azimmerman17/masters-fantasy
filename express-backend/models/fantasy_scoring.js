@@ -51,22 +51,22 @@ module.exports = (sequelize, DataTypes) => {
     round1_aggr: {
       allowNull: false,
       type: DataTypes.INTEGER,
-      defaultValue: 9999
+      defaultValue: 0
     },
     round2_aggr: {
       allowNull: false,
       type: DataTypes.INTEGER,
-      defaultValue: 999
+      defaultValue: 0
     },
     round3_aggr: {
       allowNull: false,
       type: DataTypes.INTEGER,
-      defaultValue: 999
+      defaultValue: 0
     },
     round4_aggr: {
       allowNull: false,
       type: DataTypes.INTEGER,
-      defaultValue: 999
+      defaultValue: 0
     },
     created_at: {
       type: DataTypes.DATE,
