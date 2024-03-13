@@ -10,7 +10,10 @@ export const TournamentLeaderboardContext = createContext()
 const TournamentLeaderboardContextProvider = ({ children }) => {
   const { eventConfig, setEventConfig } = useContext(EventConfig)
 
-  const [tournamentLeaderboardContext, setTournamentLeaderboardContext] = useState(null)
+  const [tournamentLeaderboardContext, setTournamentLeaderboardContext] = useState({
+    pairings: null,
+    leaderboard: null
+  })
 
   useEffect(() => {
     const sendScores = async (data) => {
@@ -24,7 +27,6 @@ const TournamentLeaderboardContextProvider = ({ children }) => {
       } catch (error) {
         console.error(error)
       }
-      // console.log(data)
     }
 
     const fetchData = async () => {
@@ -32,15 +34,40 @@ const TournamentLeaderboardContextProvider = ({ children }) => {
       const { liveScore, pairings } = scoringData
       const { path } = liveScore
       // Get the Leaderboard Data
-      const leaderboardRes = await fetch('https://www.masters.com' + path)
-      const leaderboardData = await leaderboardRes.json()
+      try {
+        const leaderboardRes = await fetch('https://www.masters.com' + path)
+        const leaderboardData = await leaderboardRes.json()
+        setTournamentLeaderboardContext({
+          ...tournamentLeaderboardContext,
+          leaderboard: leaderboardData.data
+         })
+
+         sendScores(leaderboardData.data) 
+      } catch (error) {
+        console.log('No leaderboard data')
+        setTournamentLeaderboardContext({
+          ...tournamentLeaderboardContext,
+          leaderboard: 'No Leaderboard Data'
+         })
+      }
+
       // Get the Pairings Data
-      const pairingsRes = await fetch('https://www.masters.com' + pairings)
-      const pairingsData = await pairingsRes.json()
+      try {
+        const pairingsRes = await fetch('https://www.masters.com' + pairings)
+        const pairingsData = await pairingsRes.json()
+        setTournamentLeaderboardContext({
+          ...tournamentLeaderboardContext,
+          pairings: pairingsData
+         })
 
-      sendScores(leaderboardData.data)
-
-      setTournamentLeaderboardContext({pairings: pairingsData , leaderboard:leaderboardData.data})
+         sendScores(leaderboardData.data) 
+      } catch (error) {
+        console.log('No pairings data')
+        setTournamentLeaderboardContext({
+          ...tournamentLeaderboardContext,
+          pairings: 'No pairings Data'
+         })
+      }
     }
     
     if (eventConfig && tournamentLeaderboardContext === null) {
