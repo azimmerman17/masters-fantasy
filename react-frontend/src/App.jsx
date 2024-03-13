@@ -16,6 +16,7 @@ import SignUp from './Components/SignUp'
 import HomePage from './Components/HomePage'
 import UserProfile from './Components/User/UserProfile'
 import UserRoster from './Components/UserRoster/UserRoster'
+import Footer from './Components/Footer'
 
 function App() {
   const [title, setTitle] = useState('APP')
@@ -25,42 +26,42 @@ function App() {
   }, [title])
 
   return (
-    <div>
+    <>
       <Router>
         <CurrentUserProvider>
           <EventConfigProvider>
               <TournamentLeaderboardContextProvider>
                 <PlayersContextProvider>
-            <FantasyTournamentConfigProvider>
-                  <header>
-                    <NavBar />
-                  </header>
-                  <main  style={{marginTop: '50px'}} className='mx-0 p-0'>
-                    <Routes>
-                      {/* Home Page  if logged in user_profile else log out*/}
-                      {/* Login PAge */}
-                      <Route exact path='/' element={<HomePage />} />
-                      <Route path='/tournament/leaderboard' element={<TournamentLeaderboard />} />
-                      <Route path='/tournament/players' element={<TournamentPlayers />} />
-                      <Route path='/tournament/players/:playerId' element={<PlayerPage />} />  
-                      <Route path='/newuser' element={<SignUp />} />       
-                      <Route path='/profile' element={<UserProfile />} />
-                      <Route path='/profile/:username' element={<UserProfile />} />
-                      <Route path='/roster' element={<UserRoster />} />
-                      <Route path='/roster/:username' element={<UserRoster />} />
+                  <FantasyTournamentConfigProvider>
+                    <header>
+                      <NavBar />
+                    </header>
+                    <main  style={{marginTop: '50px', marginBottom: '100px'}} className='mx-0 p-0'>
+                      <Routes>
+                        {/* Home Page  if logged in user_profile else log out*/}
+                        {/* Login PAge */}
+                        <Route exact path='/' element={<HomePage />} />
+                        <Route path='/tournament/leaderboard' element={<TournamentLeaderboard />} />
+                        <Route path='/tournament/players' element={<TournamentPlayers />} />
+                        <Route path='/tournament/players/:playerId' element={<PlayerPage />} />  
+                        <Route path='/newuser' element={<SignUp />} />       
+                        <Route path='/profile' element={<UserProfile />} />
+                        <Route path='/profile/:username' element={<UserProfile />} />
+                        <Route path='/roster' element={<UserRoster />} />
+                        <Route path='/roster/:username' element={<UserRoster />} />
 
-                    </Routes>
-                  </main>
-                  <footer>
-                    Masters Fantasty Golf 
-                  </footer>
-            </FantasyTournamentConfigProvider>
+                      </Routes>
+                    </main>
+                    <footer style={{marginTop: '75px'}}>
+                      <Footer />
+                    </footer>
+                  </FantasyTournamentConfigProvider>
                 </PlayersContextProvider>
               </TournamentLeaderboardContextProvider>
           </EventConfigProvider>
         </CurrentUserProvider>
       </Router>
-    </div>
+    </>
   )
 
 }
