@@ -94,7 +94,6 @@ const TournamentLeaderboardContextProvider = ({ children }) => {
     }, refresh * 1000)  //refresh every 60 seconds or masters set refresh rate
 
     return () => clearInterval(interval)
-
   }, [tournamentLeaderboardContext, eventConfig])
 
   return (

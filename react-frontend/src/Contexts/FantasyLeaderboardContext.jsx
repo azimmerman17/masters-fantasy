@@ -14,28 +14,32 @@ const FantasyLeaderboardProvider = ({ children }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // fetch the data
         const response = await fetch(BASE_URL + 'scoring')
         const data = await response.json()
+        // clean the data
         const { rows, rowCount } = data
+        // set the context
         if (rowCount < 1) setFantasyLeaderboard(null)
         else setFantasyLeaderboard(rows)
       } catch (error) {
         console.log('Error fetching leaderboard')
       }
       console.log('init')
-      // fetch the data
-
-      // clean the data
-
-      // set the context
     }
-
 
     if (!currentUser) setFantasyLeaderboard(null)
     else if (currentUser && !fantasyLeaderboard ) fetchData()
 
     //set on refresh interval - 5 or 10 minutes
+    let refresh = 5 // minutes for refresh
+    let interval = setInterval(() => {
+      if (currentUser) {
+        fetchData()
+      }
+    }, refresh * 60 * 1000)
 
+    return () => clearInterval(interval)
   }, [currentUser, fantasyLeaderboard])
 
   console.log(currentUser)
