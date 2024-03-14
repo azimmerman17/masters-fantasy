@@ -96,7 +96,9 @@ if (user) {
           </Col>          
         </Row>
         <hr className='mt-2'/>
-        {hidePersonalData ? null : <UserRoster />}
+          <h5 className='text-center'>Manage Roster</h5>
+          {hidePersonalData ? null : <UserRoster />}
+
       </Container>
     )
 }
