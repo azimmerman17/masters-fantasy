@@ -24,12 +24,13 @@ const FantasyLeaderboardProvider = ({ children }) => {
         else setFantasyLeaderboard(rows)
       } catch (error) {
         console.log('Error fetching leaderboard')
+
       }
-      console.log('init')
     }
 
-    if (!currentUser) setFantasyLeaderboard(null)
-    else if (currentUser && !fantasyLeaderboard ) fetchData()
+    if (!currentUser && !fantasyLeaderboard)  setFantasyLeaderboard('Pending')
+    if (!currentUser) setFantasyLeaderboard('Login Required')
+    else if (currentUser && (!fantasyLeaderboard  || fantasyLeaderboard === 'Login Required' || fantasyLeaderboard === 'Pending')) fetchData()
 
     //set on refresh interval - 5 or 10 minutes
     let refresh = 5 // minutes for refresh
@@ -42,8 +43,6 @@ const FantasyLeaderboardProvider = ({ children }) => {
     return () => clearInterval(interval)
   }, [currentUser, fantasyLeaderboard])
 
-  console.log(currentUser)
-  console.log(fantasyLeaderboard)
   return (
     <FantasyLeaderboard.Provider value={{fantasyLeaderboard, setFantasyLeaderboard}}>
       {children}
