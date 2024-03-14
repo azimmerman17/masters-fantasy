@@ -14,9 +14,7 @@ const TournamentLeaderboard = () => {
   const { tournamentLeaderboardContext, setTournamentLeaderboardContext } = useContext(TournamentLeaderboardContext)
 
   if (tournamentLeaderboardContext) {
-    console.log(tournamentLeaderboardContext)
     if (tournamentLeaderboardContext.leaderboard) {
-      console.log('init')
       const { leaderboard } = tournamentLeaderboardContext
       const { currentRound, player, statusRound } = leaderboard
   

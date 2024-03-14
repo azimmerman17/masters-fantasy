@@ -11,6 +11,7 @@ const EventConfigProvider = ({ children }) => {
     const fetchData = async () => {
       const response = await fetch('https://www.masters.com/en_US/json/gen/config_web.json')
       const data = await response.json()
+      console.log(data)
       const { dataSettings, scoringData } = data
       setEventConfig({
         dataSettings,
