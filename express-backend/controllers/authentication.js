@@ -55,7 +55,7 @@ router.post('/', async (req, res) => {
 })
 
 router.get('/profile', async (req, res) => {
-  if (!req.currentUser) res.status(404).send(null)
+  if (!req.currentUser) res.status(204).send(null)
   else {
     // find user
     const userExistQuery = `Select A.user_id,

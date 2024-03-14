@@ -4,15 +4,24 @@ import Row from "react-bootstrap/Row"
 
 import { FantasyTournamentConfig } from "../../Contexts/FantasyTournamentConfig"
 import { CurrentUser } from "../../Contexts/CurrentUserContext"
+import { TournamentLeaderboardContext } from "../../Contexts/TournamentLeaderboard"
 import UserRosterSelection from "./UserRosterSelection"
 import UserLineups from "./Lineups/UserLineups"
 import UserScores from "./UserScores/UserScores"
 
 const UserRoster = () => {
   const {fantasyTournamentConfig, setFantasyTournamentConfig} = useContext(FantasyTournamentConfig)
+  const { tournamentLeaderboardContext, setTournamentLeaderboardContext } = useContext(TournamentLeaderboardContext)
   const {currentUser, setCurrentUser} = useContext(CurrentUser)
 
-  if (fantasyTournamentConfig  && currentUser) {
+  if (fantasyTournamentConfig  && currentUser && tournamentLeaderboardContext) {
+    const { leaderboard } = tournamentLeaderboardContext
+    if (!leaderboard) {
+      return (
+        <p className='my-3 text-center'>Roster Tools are unavablile please check back later</p>
+      )
+    }
+
     const { roster, lineups, scoring } = currentUser
     const { intl, past_champ, usa, wild_card1, wild_card2, wild_card3 } = roster
     const { rosterLock } = fantasyTournamentConfig

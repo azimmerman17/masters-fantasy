@@ -53,7 +53,7 @@ function App() {
                       </Routes>
                     </main>
                     <footer style={{marginTop: '75px'}}>
-                      <Footer />
+                      {/* <Footer /> */}
                     </footer>
                   </FantasyTournamentConfigProvider>
                 </PlayersContextProvider>

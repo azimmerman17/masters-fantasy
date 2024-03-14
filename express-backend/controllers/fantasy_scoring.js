@@ -78,46 +78,51 @@ router.get('/:id', async (req, res) => {
 // receive scores from Masters and Frontend
 router.post('/sendscores', async (req, res) => {
   const { data } = req.body
-  const { currentRound, player, pars, wallClockTime } = data
-  const { round1, round2, round3, round4 } = pars
-  
-  // check wallClock time - to see if tournament is active\
+  try {
+    const { currentRound, player, pars, wallClockTime } = data
+    const { round1, round2, round3, round4 } = pars
+    
+    // check wallClock time - to see if tournament is active\
 
-  let mastersTime = new Date(wallClockTime)
-  
-  // get 10 minutes proir to now - interval for updating the leaderboard
-  let timeMinus10 = new Date()
-  timeMinus10.setMinutes(timeMinus10.getMinutes() - 10)
-  
-  // get 1 hour proir to now - interval for determining the tournament is inactive
-  let timeMinusHour = new Date()
-  timeMinusHour.setMinutes(timeMinusHour.getHours() - 1)
+    let mastersTime = new Date(wallClockTime)
+    
+    // get 10 minutes proir to now - interval for updating the leaderboard
+    let timeMinus10 = new Date()
+    timeMinus10.setMinutes(timeMinus10.getMinutes() - 10)
+    
+    // get 1 hour proir to now - interval for determining the tournament is inactive
+    let timeMinusHour = new Date()
+    timeMinusHour.setMinutes(timeMinusHour.getHours() - 1)
 
-  if (mastersTime < timeMinusHour) res.status(202).send('Tournament not active')
-  else if (timeMinus10 < updateScoresFile.lastUpdate) {
-    //get interval remaining until update
-    let interval = ((updateScoresFile.lastUpdate - timeMinus10) / 1000).toFixed(0) //total seconds remaing
-    interval = `${Math.floor(interval / 60)}:${interval % 60}`
-    res.status(202).send(`${interval} remaining until next update`)
-  } else {
-    let round 
-    // check for active round
-    for (let i = 0; i < currentRound.length; i++) {
-      if (currentRound[i] === '1') {
-        updateScoresFile.round = i + 1
-        round = i + 1
-        break
+    if (mastersTime < timeMinusHour) res.status(202).send('Tournament not active')
+    else if (timeMinus10 < updateScoresFile.lastUpdate) {
+      //get interval remaining until update
+      let interval = ((updateScoresFile.lastUpdate - timeMinus10) / 1000).toFixed(0) //total seconds remaing
+      interval = `${Math.floor(interval / 60)}:${interval % 60}`
+      res.status(202).send(`${interval} remaining until next update`)
+    } else {
+      let round 
+      // check for active round
+      for (let i = 0; i < currentRound.length; i++) {
+        if (currentRound[i] === '1') {
+          updateScoresFile.round = i + 1
+          round = i + 1
+          break
+        }
       }
-    }
-    // update the player and par list file
-    updateScoresFile.scores = player
-    if (round === 1) updateScoresFile.pars = round1
-    else if (round === 2) updateScoresFile.pars = round2
-    else if (round === 3) updateScoresFile.pars = round3
-    else if (round === 4) updateScoresFile.pars = round4
+      // update the player and par list file
+      updateScoresFile.scores = player
+      if (round === 1) updateScoresFile.pars = round1
+      else if (round === 2) updateScoresFile.pars = round2
+      else if (round === 3) updateScoresFile.pars = round3
+      else if (round === 4) updateScoresFile.pars = round4
 
-    updateScoresFile.process_active = 1
-    res.redirect(307, '/scoring/updatescores') 
+      updateScoresFile.process_active = 1
+      res.redirect(307, '/scoring/updatescores') 
+    }
+  } catch (error) {
+      console.error(error)
+      res.status(202).send('No data sent')
   }
 })
 
