@@ -26,7 +26,7 @@ router.get('/', async (req, res) => {
 
   try {
     const response = await pool.query(getScores)
-    console.log(response)
+    // console.log(response)
     if (response.error) res.status(500).send({response})
     else {
       // clean the data
