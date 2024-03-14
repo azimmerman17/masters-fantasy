@@ -52,7 +52,7 @@ const TournamentLeaderboard = () => {
             responsive
           >
             <thead>
-              <LeaderboardTableHeader />
+              <LeaderboardTableHeader headers={LeaderboardHeaders} />
             </thead>
             <tbody>
               {playerList}

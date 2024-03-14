@@ -5,6 +5,8 @@ import Table from "react-bootstrap/Table"
 import { FantasyLeaderboard } from '../../../Contexts/FantasyLeaderboardContext'
 import { EventConfig } from '../../../Contexts/EventConfig';
 import Login from '../../Login'
+import LeaderboardTableHeader from '../LeaderboardTableHeaders';
+import FantasyLeaderboardHeaders from '../../../assets/Files/FantasyLeaderboardHeaders'
 
 const FantasyLeaderboardView = ({}) => {
   const { fantasyLeaderboard, setFantasyLeaderboard } = useContext(FantasyLeaderboard)
@@ -34,7 +36,7 @@ const FantasyLeaderboardView = ({}) => {
             responsive
           >
             <thead>
-
+              <LeaderboardTableHeader headers={FantasyLeaderboardHeaders} />
             </thead>
             <tbody>
 
