@@ -12,6 +12,7 @@ import NavBar from './Components/NavBar'
 import TournamentLeaderboard from './Components/Leaderboard/TournamentLeaderboard/TournamentLeaderboard'
 import TournamentPlayers from './Components/Players/TournamentPlayers'
 import PlayerPage from './Components/Players/PlayerPage/PlayerPage'
+import FantasyLeaderboard from './Components/Leaderboard/FantasyLeaderboard/FantasyLeaderboard'
 import SignUp from './Components/SignUp'
 import HomePage from './Components/HomePage'
 import UserProfile from './Components/User/UserProfile'
@@ -49,7 +50,7 @@ function App() {
                         <Route path='/profile/:username' element={<UserProfile />} />
                         <Route path='/roster' element={<UserRoster />} />
                         <Route path='/roster/:username' element={<UserRoster />} />
-
+                        <Route path='/leaderboard' element={<FantasyLeaderboard />} />
                       </Routes>
                     </main>
                     <footer style={{marginTop: '75px'}}>

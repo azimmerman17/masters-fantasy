@@ -51,7 +51,8 @@ const NavBar = () => {
         </NavDropdown>
         {/* Fantasy Info */}
         <NavDropdown title='Fantasy Tournament' id='fantasy-info-dropdown'>
-          {/* <NavDropdown.Item href='/'>Fantasy Leaderboard</NavDropdown.Item> */}
+          <NavDropdown.Item href='/leaderboard'>Fantasy Leaderboard</NavDropdown.Item>
+          {/* <NavDropdown.Item href='/rules'>Fantasy Rules</NavDropdown.Item> */}
         </NavDropdown>
         {/* User Info */}
         { currentUser ? loggedInNav() : loggedOutNav()}
