@@ -21,9 +21,9 @@ td, th {
 }
 
 .footer {
-  position: absolute;
   bottom: 0;
   width: 100%;
+  position: sticky;
   /* height: 100px; */
 
 }
