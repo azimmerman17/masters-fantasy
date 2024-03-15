@@ -1,5 +1,5 @@
 const FantasyLeaderboardHeaders = [
-  'POS',
+  // 'POS',
   'PLAYER',
   'TOTAL',
   'THRU',
