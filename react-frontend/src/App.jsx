@@ -39,7 +39,7 @@ function App() {
                       <header>
                         <NavBar />
                       </header>
-                      <main  style={{marginTop: '50px', marginBottom: '100px'}} className='mx-0 p-0'>
+                      <main  role='main' style={{marginTop: '50px', marginBottom: '100px'}} className='mx-0 p-0'>
                         <Routes>
                           {/* Home Page  if logged in user_profile else log out*/}
                           {/* Login PAge */}
@@ -55,8 +55,8 @@ function App() {
                           <Route path='/leaderboard' element={<FantasyLeaderboardView />} />
                         </Routes>
                       </main>
-                      <footer style={{marginTop: '75px'}}>
-                        {/* <Footer /> */}
+                      <footer className='footer'>
+                        <Footer />
                       </footer>
                     </FantasyLeaderboardProvider>
                   </FantasyTournamentConfigProvider>

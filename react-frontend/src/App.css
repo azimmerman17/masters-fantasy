@@ -1,7 +1,8 @@
 #root {
   width: 100%; 
   margin: 0 auto;
-  padding: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 td, th {
@@ -17,6 +18,14 @@ td, th {
 .roster-img {
   height: 100px;
   width: 100px
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* height: 100px; */
+
 }
 
 .lineup-img {
