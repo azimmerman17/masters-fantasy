@@ -42,7 +42,7 @@ const RulesSheet = () => {
       </ul>
       <hr />
       <h5>Adjustments to Scores</h5>
-      <p className='mb-1'>At times, penalty strokes or disqualifications are incurred in between rounds.  In an event this occurs, scores will be reviewed and adjusted to reflect the official scores of the Master's Golf Tournament.</p>      
+      <p className='mb-1'>At times, penalty strokes or disqualifications are incurred in between rounds.  Scores will be reviewed and adjusted to reflect the official scores of the Master's Golf Tournament, should this occur.</p>      
       <hr />
       <h5>Breaking of Ties</h5>
       <p className='mb-1'>Ties will be broken in the following order:</p>
