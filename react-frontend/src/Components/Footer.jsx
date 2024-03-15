@@ -6,18 +6,14 @@ import Col from 'react-bootstrap/Col';
 
 const Footer = () => {
   return (
-    <Navbar fixed='bottom' bg='success' variant='success'>
-      <Container fluid className='text-white'>
-        <Row>
-          <Col xs={12}>
-            <Navbar.Brand className='text-white' href='/'><h6>Master's Fantasy Golf</h6></Navbar.Brand>
-          </Col>
-        </Row>
-        <p>This application has no affliation with the Master's Golf Tournamnet</p>
-        <a href='www.masters.com' target='_blank' className='text-white'>Complete coverage of the event</a>
+    // <Navbar fixed='bottom' bg='success' variant='success'>
+      <Container fluid className='text-white bg-success p-1 text-center'>
+        <h6>Master's Fantasy Golf</h6>
+        <a href='https://www.masters.com' target='_blank' className='text-white'>Complete coverage of the event</a>
+        <p className='label-small mb-0 mt-2'>This application has no affliation with the Master's Golf Tournamnet</p>
 
       </Container>
-    </Navbar>
+    // </Navbar>
   )
 }
 
