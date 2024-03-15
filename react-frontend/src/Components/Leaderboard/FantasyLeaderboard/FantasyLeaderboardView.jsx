@@ -7,6 +7,7 @@ import { EventConfig } from '../../../Contexts/EventConfig';
 import Login from '../../Login'
 import LeaderboardTableHeader from '../LeaderboardTableHeaders';
 import FantasyLeaderboardHeaders from '../../../assets/Files/FantasyLeaderboardHeaders'
+import LeaderboardTableData from '../LeaderboardTableData';
 
 const FantasyLeaderboardView = ({}) => {
   const { fantasyLeaderboard, setFantasyLeaderboard } = useContext(FantasyLeaderboard)
@@ -21,12 +22,28 @@ const FantasyLeaderboardView = ({}) => {
     displayYear = tournamentYear
   }
 
+  
   //validation if the leaderboard should be shown
   const display = () => {
     if (fantasyLeaderboard === 'Pending') return null
     else if (fantasyLeaderboard === 'Login Required') return  <Login />
     else {
       //Leaderboard Table
+      const playerList = fantasyLeaderboard.map(player => {
+        const { user_name } = player
+        console.log(player)
+
+        const rowData = FantasyLeaderboardHeaders.map(header => {
+          return <LeaderboardTableData player={player} header={header} view={'fantasy'} key={`leaderboard-${user_name}-row-${header}`} />
+        })
+
+        return (
+          <tr key={`leaderboard-${user_name}-row`}>
+            {rowData}
+          </tr>
+        )
+      })
+
       return (
         <>
           <Table
@@ -39,6 +56,7 @@ const FantasyLeaderboardView = ({}) => {
               <LeaderboardTableHeader headers={FantasyLeaderboardHeaders} />
             </thead>
             <tbody>
+              {playerList}
 
             </tbody>
           </Table>
@@ -46,26 +64,18 @@ const FantasyLeaderboardView = ({}) => {
             <small>
               - If a player is THRU 18, they have scores for each hole, but still have golfers on the course.  THRU F, indicates all the player's golfers have completed thier round.
             </small>
-            </p>
-            <p className='mt-3'>
-
           </p>
-
         </>
       )
     }
   }
 
-  
-
-
-    return (
-      <Container fluid>
-        <h4 className=' my-3 text-center'>{displayYear} Fantasy Leaderboard</h4>
-        {fantasyLeaderboard ? display() : null}
-      </Container>
-    ) 
-  
+  return (
+    <Container fluid>
+      <h4 className=' my-3 text-center'>{displayYear} Fantasy Leaderboard</h4>
+      {fantasyLeaderboard ? display() : null}
+    </Container>
+  ) 
 }
 
 export default FantasyLeaderboardView

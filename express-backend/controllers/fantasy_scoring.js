@@ -18,7 +18,12 @@ router.get('/', async (req, res) => {
       B.round1,
       B.round2,
       B.round3,
-      B.round4
+      B.round4,      
+      (B.round1_aggr + B.round2_aggr + B.round3_aggr + B.round4_aggr) as "total_aggr",
+      B.round1_aggr,
+      B.round2_aggr, 
+      B.round3_aggr,
+      B.round4_aggr 
     FROM public."Users" A, public."Fantasy_Scoring" B
     WHERE A.user_id = B.user_id
       AND year = ${year}

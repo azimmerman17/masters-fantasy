@@ -25,13 +25,14 @@ const DisplayTableHeader = (item) => {
     case 'R4':
       if (window.innerWidth < 768) return null
     case 'STROKES':
+      if (window.innerWidth < 768) return null
       return (
         <th key={`header-${item}`} className='text-center leaderboard-header' style={{fontSize: '14px'}}>
           {item}
         </th>
       )
     case 'TOTAL AGGR':
-      if (window.innerWidth < 992) return null
+      if (window.innerWidth < 1200) return null
     case 'R1 AGGR':
       if (window.innerWidth < 1200) return null
     case 'R2 AGGR':
