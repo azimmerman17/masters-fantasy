@@ -7,11 +7,13 @@ import EventConfigProvider from './Contexts/EventConfig'
 import TournamentLeaderboardContextProvider from './Contexts/TournamentLeaderboard'
 import PlayersContextProvider from './Contexts/PlayersContext'
 import FantasyTournamentConfigProvider from './Contexts/FantasyTournamentConfig'
+import FantasyLeaderboardProvider from './Contexts/FantasyLeaderboardContext'
 
 import NavBar from './Components/NavBar'
 import TournamentLeaderboard from './Components/Leaderboard/TournamentLeaderboard/TournamentLeaderboard'
 import TournamentPlayers from './Components/Players/TournamentPlayers'
 import PlayerPage from './Components/Players/PlayerPage/PlayerPage'
+import FantasyLeaderboardView from './Components/Leaderboard/FantasyLeaderboard/FantasyLeaderboardView'
 import SignUp from './Components/SignUp'
 import HomePage from './Components/HomePage'
 import UserProfile from './Components/User/UserProfile'
@@ -33,28 +35,30 @@ function App() {
               <TournamentLeaderboardContextProvider>
                 <PlayersContextProvider>
                   <FantasyTournamentConfigProvider>
-                    <header>
-                      <NavBar />
-                    </header>
-                    <main  style={{marginTop: '50px', marginBottom: '100px'}} className='mx-0 p-0'>
-                      <Routes>
-                        {/* Home Page  if logged in user_profile else log out*/}
-                        {/* Login PAge */}
-                        <Route exact path='/' element={<HomePage />} />
-                        <Route path='/tournament/leaderboard' element={<TournamentLeaderboard />} />
-                        <Route path='/tournament/players' element={<TournamentPlayers />} />
-                        <Route path='/tournament/players/:playerId' element={<PlayerPage />} />  
-                        <Route path='/newuser' element={<SignUp />} />       
-                        <Route path='/profile' element={<UserProfile />} />
-                        <Route path='/profile/:username' element={<UserProfile />} />
-                        <Route path='/roster' element={<UserRoster />} />
-                        <Route path='/roster/:username' element={<UserRoster />} />
-
-                      </Routes>
-                    </main>
-                    <footer style={{marginTop: '75px'}}>
-                      {/* <Footer /> */}
-                    </footer>
+                    <FantasyLeaderboardProvider>
+                      <header>
+                        <NavBar />
+                      </header>
+                      <main  style={{marginTop: '50px', marginBottom: '100px'}} className='mx-0 p-0'>
+                        <Routes>
+                          {/* Home Page  if logged in user_profile else log out*/}
+                          {/* Login PAge */}
+                          <Route exact path='/' element={<HomePage />} />
+                          <Route path='/tournament/leaderboard' element={<TournamentLeaderboard />} />
+                          <Route path='/tournament/players' element={<TournamentPlayers />} />
+                          <Route path='/tournament/players/:playerId' element={<PlayerPage />} />  
+                          <Route path='/newuser' element={<SignUp />} />       
+                          <Route path='/profile' element={<UserProfile />} />
+                          <Route path='/profile/:username' element={<UserProfile />} />
+                          <Route path='/roster' element={<UserRoster />} />
+                          <Route path='/roster/:username' element={<UserRoster />} />
+                          <Route path='/leaderboard' element={<FantasyLeaderboardView />} />
+                        </Routes>
+                      </main>
+                      <footer style={{marginTop: '75px'}}>
+                        {/* <Footer /> */}
+                      </footer>
+                    </FantasyLeaderboardProvider>
                   </FantasyTournamentConfigProvider>
                 </PlayersContextProvider>
               </TournamentLeaderboardContextProvider>
