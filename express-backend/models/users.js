@@ -52,6 +52,14 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: 'basic' 
     },
+    guid_token: {
+      type: DataTypes.STRING,
+      allowNull: true, 
+    },
+    guid_expire: {
+      type: DataTypes.DATE,
+      allowNull: true, 
+    },
     created_at: {
       type: DataTypes.DATE,
       allowNull: false,
