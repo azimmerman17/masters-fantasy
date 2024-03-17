@@ -32,7 +32,7 @@ app.use('/auth', authController)
 app.use('/roster', rosterController)
 app.use('/lineups', lineupsController)
 app.use('/scoring', fantasyScoringController)
-app.use('/emails', emailsController)
+app.use('/email', emailsController)
 
 // Open Connection andd Listen
 const PORT = process.env.PORT
