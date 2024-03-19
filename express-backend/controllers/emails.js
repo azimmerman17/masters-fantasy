@@ -73,7 +73,8 @@ router.post('/forgotpassword', async (req, res) => {
 
 })
 
-router.post('/resetpassword', (req, res) => {
+router.post('/resetpassword', async (req, res) => {
+  // const { token, password, confirmPassword } = req.body
 
 })
 

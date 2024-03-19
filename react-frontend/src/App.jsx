@@ -21,6 +21,7 @@ import UserRoster from './Components/UserRoster/UserRoster'
 import Footer from './Components/Footer'
 import RulesSheet from './Components/RulesSheet'
 import ResetPasswordForm from './Components/User/ResetPasswordForm'
+import ResetPassword from './Components/User/ResetPassword'
 
 function App() {
   const [title, setTitle] = useState('APP')
@@ -55,7 +56,7 @@ function App() {
                           <Route path='/leaderboard' element={<FantasyLeaderboardView />} />
                           <Route path='/rules' element={<RulesSheet />} />
                           <Route path='/forgot-password' element={<ResetPasswordForm />} />
-
+                          <Route path='/resetpassword' element={<ResetPassword />} />
                         </Routes>
                       </main>
                       <footer className='footer'>
