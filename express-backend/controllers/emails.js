@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const { UAParser } =require('ua-parser-js')
 require('dotenv').config()
 const decryptValue = require('../functions/decryptValue')
 const generatePasswordResetToken = require('../functions/generatePasswordResetToken')
@@ -11,12 +12,19 @@ const pool = require('../models/db')
 // Forgot Password Reset
 router.post('/forgotpassword', async (req, res) => {
   // pass in user_name or email
-  const { user_info, os, browser } = req.body
+  const { user_info } = req.body
+  const userAgent = req.headers['user-agent']
+  // parser the userAgent for OS and Browser
+  let parser = new UAParser(userAgent); // you need to pass the user-agent for nodejs
+
+  let browser = parser.getBrowser()
+  browser = browser.name
+  let os = parser.getOS()
+  os = os.name
 
   if (!user_info) res.status(400).send('Need email or user_name')
   else if (!os || !browser) res.status(400).send('Need browser and os data')
   else {
-
     // check if user exists 
     const userExistsQuery = `SELECT user_name, first_name, last_name, email, salt FROM public."Users"
       WHERE user_name ='${user_info}'
@@ -25,7 +33,6 @@ router.post('/forgotpassword', async (req, res) => {
     try {
       let userExistsRespose = await pool.query(userExistsQuery)
       const { rows, rowCount } = userExistsRespose
-
       if (rowCount < 1) res.status(400).send('User does not exist')
       else if (rowCount > 1) res.status(400).send('User cannot be indentified')
       else {

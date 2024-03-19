@@ -20,6 +20,7 @@ import UserProfile from './Components/User/UserProfile'
 import UserRoster from './Components/UserRoster/UserRoster'
 import Footer from './Components/Footer'
 import RulesSheet from './Components/RulesSheet'
+import ResetPasswordForm from './Components/User/ResetPasswordForm'
 
 function App() {
   const [title, setTitle] = useState('APP')
@@ -42,8 +43,6 @@ function App() {
                       </header>
                       <main  role='main' style={{marginTop: '50px', marginBottom: '100px'}} className='mx-0 p-0'>
                         <Routes>
-                          {/* Home Page  if logged in user_profile else log out*/}
-                          {/* Login PAge */}
                           <Route exact path='/' element={<HomePage />} />
                           <Route path='/tournament/leaderboard' element={<TournamentLeaderboard />} />
                           <Route path='/tournament/players' element={<TournamentPlayers />} />
@@ -55,6 +54,7 @@ function App() {
                           <Route path='/roster/:username' element={<UserRoster />} />
                           <Route path='/leaderboard' element={<FantasyLeaderboardView />} />
                           <Route path='/rules' element={<RulesSheet />} />
+                          <Route path='/forgot-password' element={<ResetPasswordForm />} />
 
                         </Routes>
                       </main>
