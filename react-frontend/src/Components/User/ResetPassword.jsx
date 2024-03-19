@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useSearchParams } from "react-router-dom";
 
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -9,8 +10,10 @@ import EditProfileAlert from './EditProfileAlert';
 import BASE_URL from '../../assets/Files/BASE_URL';
 
 const ResetPassword = () => {
+  const [searchParams, setSearchParams] = useSearchParams();  
   let [showAlert, setShowAlert] = useState(false)
   let [resetPassword, SetResetPassword] = useState({
+    token: searchParams.get('token'),
     changePassword: undefined,
     confirmPassword: undefined
   })
@@ -62,7 +65,7 @@ const ResetPassword = () => {
         type="submit"
         variant='primary' 
         className='m-2 mx-auto' 
-        disabled={resetPassword.changePassword.length < 6 || !resetPassword.changePassword || resetPassword.changePassword !== resetPassword.confirmPassword} 
+        disabled={(resetPassword.changePassword && resetPassword.changePassword.length < 6) || !resetPassword.changePassword || resetPassword.changePassword !== resetPassword.confirmPassword} 
       >
         Change Password
       </Button>
