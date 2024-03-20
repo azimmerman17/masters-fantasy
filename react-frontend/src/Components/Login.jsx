@@ -1,15 +1,18 @@
-import Button from 'react-bootstrap/Button';
+import { useContext, useState } from 'react';
+import { useNavigate } from "react-router-dom"
 import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/esm/Row';
 import Col from 'react-bootstrap/esm/Col';
 import Container from 'react-bootstrap/esm/Container';
-import { useContext, useState } from 'react';
+import Button from 'react-bootstrap/Button';
+
 
 import { CurrentUser } from "../Contexts/CurrentUserContext"
 import BASE_URL from '../assets/Files/BASE_URL';
 
 const Login = () => {
   const { currentUser, setCurrentUser } = useContext(CurrentUser)
-
+  const navigate = useNavigate();
   let [validated, setValidated] = useState(false)
   let [errorMessage, setErrorMessage] = useState(null)
   let [user, setUser] = useState({
@@ -46,6 +49,7 @@ const Login = () => {
       setCurrentUser(data.user)
       localStorage.setItem('token', data.token)
       setErrorMessage(null)
+      navigate('/')
     } else {
       setErrorMessage(data.message)
     }
@@ -74,7 +78,14 @@ const Login = () => {
         </Button>
       </Form>
       <hr />
-      <a href='/newUser' className='text-success'>Create an account</a>
+      <Row>
+        <Col>
+          <a href='/newUser' className='text-success'>Create Account</a>
+        </Col>
+        <Col>
+          <a href='/forgot-password' className='text-success'>Forgot Password</a>
+        </Col>
+      </Row>
     </Container>
   );
 }

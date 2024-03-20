@@ -117,7 +117,6 @@ router.post('/resetpassword', async (req, res) => {
         AND guid_expire > NOW();`
         
         const updateResponse = await pool.query(passwordResetQuery)
-        console.log(updateResponse)
         // if failed send reponse to user
         if (updateResponse.error) res.status(500).send('Password Update Unsuccessful')
         else if(updateResponse.rowCount === 0) res.status(400).send('Password Update Unsuccessful')
