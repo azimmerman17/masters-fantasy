@@ -104,7 +104,7 @@ router.post('/new', async (req, res) => {
     if (!user_name || !email || !password) res.status(400).send('Invalid request - Required fields not entered')
     else if (userNameResponse.rowCount > 0) res.status(400).send('Invalid request - Username or Email already exists')
     else {
-      salt = generateSalt()// function to generate salt
+      salt = generateSalt(32)// function to generate salt
       let encryptedSalt = encryptVaule(salt) // function to encrypt the salt
       let passwordHash = hashValue(password + salt) // funtion to hash the password
 

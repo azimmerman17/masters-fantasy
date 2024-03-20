@@ -24,6 +24,7 @@ const PlayersContextProvider = ({ children }) => {
     
     if (eventConfig && playersContext === null) {
       const { scoringData } = eventConfig
+      console.log(eventConfig)
       const { playerList } = scoringData
       if (playerList) fetchData(playerList)
       else  setPlayersContext('No Player Data Avalible')

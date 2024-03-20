@@ -81,7 +81,7 @@ const EditPasswordForm = ({ currentUser }) => {
         type="submit"
         variant='primary' 
         className='m-2 mx-auto' 
-        disabled={!editPassword.changePassword || !editPassword.currentPassword || editPassword.changePassword !== editPassword.confirmPassword} 
+        disabled={(resetPassword.changePassword && resetPassword.changePassword.length < 6) || !editPassword.changePassword || !editPassword.currentPassword || editPassword.changePassword !== editPassword.confirmPassword} 
       >
         Change Password
       </Button>
