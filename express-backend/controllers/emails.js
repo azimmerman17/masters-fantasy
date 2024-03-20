@@ -43,7 +43,7 @@ router.post('/forgotpassword', async (req, res) => {
         let decryptedSalt = decryptValue(salt)
 
         // set Hashed token in the database
-        let hashedToken = hashValue(token[0]+ decryptedSalt)
+        let hashedToken = hashValue(token[1]+ decryptedSalt)
         let updateQuery = `UPDATE public."Users"
           SET guid_token = '${hashedToken}',
             guid_expire = NOW() + INTERVAL '1 hour'
@@ -69,12 +69,68 @@ router.post('/forgotpassword', async (req, res) => {
     res.status(204).send()
     }
   }
-  
-
 })
 
 router.post('/resetpassword', async (req, res) => {
-  // const { token, password, confirmPassword } = req.body
+  const { token, changePassword, confirmPassword } = req.body
+  // console.log(token, changePassword, confirmPassword)
+  // decrypt 
+  const decryptedToken = decryptValue(token)
+  
+  // split the token into arrey for username and guid_token
+  const decryptedTokenArrey = decryptedToken.split(',')
+
+  //Get the Salt
+  const saltQuery = `SELECT user_id, salt, guid_token, guid_expire FROM public."Users" 
+      WHERE user_name = '${decryptedTokenArrey[0]}';`
+
+  try {
+    const response = await pool.query(saltQuery)
+
+    const { rows, rowCount, error } = response 
+    if (error) res.status(500).send('Unable to validate User')
+    else if (rowCount !== 1) res.status(500).send('Unable to validate User')
+    else {
+
+      const { salt, guid_token, guid_expire, user_id } = rows[0]
+      
+      // decrypt the salt from db and hash token
+      let decryptedSalt = decryptValue(salt) 
+      const hashedToken = hashValue(decryptedTokenArrey[1] + decryptedSalt)
+
+      // validate tokens match, passwords match, and token has not expired
+      if (hashedToken !== guid_token || changePassword !== confirmPassword || new Date(guid_expire) < new Date()) {
+        console.log(hashedToken !== guid_token, changePassword !== confirmPassword, new Date(guid_expire) < new Date())
+        res.status(400).send('Pasword update failed')
+      }
+      else {
+        // hash the new password
+        const hashedPassword = hashValue(changePassword + decryptedSalt)
+        
+        // update the password -- revalidate the token and expiration, set expiration to NOW() to eliminate reuse
+        let passwordResetQuery = `UPDATE public."Users"
+        SET updated_at = NOW(),
+          password_hash = '${hashedPassword}',
+          guid_expire = NOW()
+        WHERE user_id = ${user_id}
+        AND guid_token = '${guid_token}'
+        AND guid_expire > NOW();`
+        
+        const updateResponse = await pool.query(passwordResetQuery)
+        console.log(updateResponse)
+        // if failed send reponse to user
+        if (updateResponse.error) res.status(500).send('Password Update Unsuccessful')
+        else if(updateResponse.rowCount === 0) res.status(400).send('Password Update Unsuccessful')
+        // success log user in or redirect to login page?
+        else res.status(202).send('Password Update Successful')
+      }
+    }
+  } catch (error) {
+    console.error(error)
+    res.status(500).send('Password Update Failed')
+  }
+  
+ 
 
 })
 

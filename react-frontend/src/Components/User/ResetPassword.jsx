@@ -8,10 +8,12 @@ import Container from "react-bootstrap/Container";
 
 import EditProfileAlert from './EditProfileAlert';
 import BASE_URL from '../../assets/Files/BASE_URL';
+import Login from "../Login";
 
 const ResetPassword = () => {
   const [searchParams, setSearchParams] = useSearchParams();  
   let [showAlert, setShowAlert] = useState(false)
+  let [alert, setAlert] = useState('Password Reset Unsuccessful')
   let [resetPassword, SetResetPassword] = useState({
     token: searchParams.get('token'),
     changePassword: undefined,
@@ -21,7 +23,6 @@ const ResetPassword = () => {
   const handlePasswordSumbit = async (e) => {
     e.preventDefault()
 
-    console.log(resetPassword)
     const options = {
       method: 'POST',
       headers: {
@@ -32,47 +33,58 @@ const ResetPassword = () => {
     }
 
     let response = await fetch(BASE_URL + `email/resetpassword`, options)
-    if (response) setShowAlert(true)  // show alert
+    if (response.status === 202) {
+      setAlert('Password Update Successful - Please sign in')
+      setShowAlert(true)  // show success alert and login page
+    } else setShowAlert(true)  // show failed alert
+  }  
+
+  if (alert ==='Password Reset Unsuccessful') {
+    return (
+      <Container className='my-2' fliud>
+      <EditProfileAlert show={showAlert} setShow={setShowAlert} message={alert} status={'danger'} />
+      <h5 className='text-center'>Reset Password</h5>
+      <Form onSubmit={e => handlePasswordSumbit(e)}>
+        <Form.Group as={Col} md={6} controlId="changeUserPasword" className="mb-3" onChange={(e) => SetResetPassword({...resetPassword, changePassword: e.target.value})}>
+          <Form.Label>New Password<sup>*</sup></Form.Label>
+          <Form.Control 
+            type="password"
+            placeholder="New Password"
+            required 
+            minLength={6}
+            maxLength={32}/>
+        </Form.Group>
+        <Form.Group as={Col} md={6} controlId="changeUserPaswordConfirm" className="mb-3" onChange={(e) => SetResetPassword({...resetPassword, confirmPassword: e.target.value})}>
+          <Form.Label>Confirm New Password<sup>*</sup></Form.Label>
+          <Form.Control 
+            type="password" 
+            placeholder="Confirm New Password"
+            required 
+            isInvalid={resetPassword.password !== resetPassword.password_confirm} />
+          <Form.Control.Feedback type="invalid">
+            Passwords do not match
+          </Form.Control.Feedback>
+        </Form.Group>
+        <Button 
+          type="submit"
+          variant='primary' 
+          className='m-2 mx-auto' 
+          disabled={(resetPassword.changePassword && resetPassword.changePassword.length < 6) || !resetPassword.changePassword || resetPassword.changePassword !== resetPassword.confirmPassword} 
+        >
+          Change Password
+        </Button>
+      </Form>
+    </Container>
+    )
+  } else {
+    return (
+      <Container className='my-2' fluid>
+        <EditProfileAlert show={showAlert} setShow={setShowAlert} message={alert} status={'success'} />
+        <Login />
+      </Container>
+    )
   }
-
-
-  return (
-    <Container>
-    <EditProfileAlert show={showAlert} setShow={setShowAlert} message={'Password Reset Unsuccessful'} status={'danger'} />
-    <h5 className='text-center'>Reset Password</h5>
-    <Form onSubmit={e => handlePasswordSumbit(e)}>
-      <Form.Group as={Col} md={6} controlId="changeUserPasword" className="mb-3" onChange={(e) => SetResetPassword({...resetPassword, changePassword: e.target.value})}>
-        <Form.Label>New Password<sup>*</sup></Form.Label>
-        <Form.Control 
-          type="password"
-          placeholder="New Password"
-          required 
-          minLength={6}
-          maxLength={32}/>
-      </Form.Group>
-      <Form.Group as={Col} md={6} controlId="changeUserPaswordConfirm" className="mb-3" onChange={(e) => SetResetPassword({...resetPassword, confirmPassword: e.target.value})}>
-        <Form.Label>Confirm New Password<sup>*</sup></Form.Label>
-        <Form.Control 
-          type="password" 
-          placeholder="Confirm New Password"
-          required 
-          isInvalid={resetPassword.password !== resetPassword.password_confirm} />
-        <Form.Control.Feedback type="invalid">
-          Passwords do not match
-        </Form.Control.Feedback>
-      </Form.Group>
-      <Button 
-        type="submit"
-        variant='primary' 
-        className='m-2 mx-auto' 
-        disabled={(resetPassword.changePassword && resetPassword.changePassword.length < 6) || !resetPassword.changePassword || resetPassword.changePassword !== resetPassword.confirmPassword} 
-      >
-        Change Password
-      </Button>
-    </Form>
-  </Container>
-
-  )
 }
+
 
 export default ResetPassword
