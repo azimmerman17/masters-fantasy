@@ -12,6 +12,7 @@ import DisplayPersonalData from "./DisplayPersonalData";
 import EditUserData from "./EditUserData";
 import UserRoster from "../UserRoster/UserRoster";
 import BASE_URL from '../../assets/Files/BASE_URL';
+import Logout from "../Logout";
 
 const UserProfile = () => {
   const { username } = useParams()
@@ -72,14 +73,17 @@ if (user) {
             <DisplayPersonalData varible={email} label='Email' hide={true} hidePersonalData={hidePersonalData} />
           </Col>
         </Row>
-        <Row>
-          {hidePersonalData ? null : (
-            <Col className='text-end'>
-              <EditUserData currentUser={currentUser} setCurrentUser={setCurrentUser}/>
-              <DeleteAlert />
-            </Col>
-          )}
-        </Row>
+        {hidePersonalData ? null : (
+          <Row>
+              <Col  className='text-end'>
+                <Logout />
+              </Col>
+              <Col className='text-end'>
+                <EditUserData currentUser={currentUser} setCurrentUser={setCurrentUser}/>
+                <DeleteAlert />
+              </Col>
+          </Row>
+        )}
         <hr className='mt-2'/>
         <Row>
           <Col xs={6} md={3}>
