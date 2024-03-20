@@ -3,7 +3,11 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 
-const PlayerBio = ({ age, amateur, countryCode, countryName, height, swing, turnedPro, weight, wins, first_name, last_name }) => {
+const PlayerBio = ({ bio }) => {
+  const { player } = bio
+  const { age, amateur, countryCode, countryName, height, swing, turnedPro, weight, wins, first_name, last_name } = player
+ 
+  // create data arreys
   const data = [age, countryName, height, weight,  swing, turnedPro, wins]
   const labels = ['Age', 'Country', 'Height', 'Weight', 'Swings', 'Turned Pro', 'PGA Tour Wins']
 
