@@ -42,7 +42,7 @@ function App() {
                       <header>
                         <NavBar />
                       </header>
-                      <main  role='main' style={{marginTop: '50px', marginBottom: '100px'}} className='mx-0 p-0'>
+                      <main  role='main' style={{marginTop: '50px', marginBottom: '100px', minHeight: window.innerHeight}} className='mx-0 p-0'>
                         <Routes>
                           <Route exact path='/' element={<HomePage />} />
                           <Route path='/tournament/leaderboard' element={<TournamentLeaderboard />} />
