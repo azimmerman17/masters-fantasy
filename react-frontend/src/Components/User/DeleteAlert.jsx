@@ -1,11 +1,14 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Form from 'react-bootstrap/Form';
 
 import { FaRegTrashCan } from "react-icons/fa6";
+import BASE_URL from '../../assets/Files/BASE_URL';
 
-const DeleteAlert = () => {
+const DeleteAlert = ({ id }) => {
+  const navigate = useNavigate();
   let [show, setShow] = useState(false);
   let [disable, setDisable] =useState(true)
 
@@ -21,9 +24,20 @@ const DeleteAlert = () => {
   }
 
   // function to delete the account
-  const handleSumbit = (e) => {
+  const handleSumbit = async (e) => {
     e.preventDefault()
-    console.log('DELETE ACCOUNT')
+
+    const options = {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'mode': 'no-cors',
+      },
+    }
+    
+    await fetch(BASE_URL + `user/${id}`, options)
+    navigate('/')
+    location.reload()   
   }
 
   return (

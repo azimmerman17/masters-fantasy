@@ -80,7 +80,7 @@ if (user) {
               </Col>
               <Col className='text-end'>
                 <EditUserData currentUser={currentUser} setCurrentUser={setCurrentUser}/>
-                <DeleteAlert />
+                <DeleteAlert id={currentUser.user_id} />
               </Col>
           </Row>
         )}
