@@ -266,23 +266,23 @@ router.put('/:user_id/password', async (req, res) => {
 // DELETE -  remember to cascade!! 
 router.delete('/:id', async (req, res) => {
   const { id } = req.params
+  console.log(id, 'delete user')
+  // // remove User from table - remove data from child tables first
+  // const removeUser = `DELETE FROM public."Users" 
+  //   WHERE user_name = '${id.toLowerCase()}';`
 
-  // remove User from table - remove data from child tables first
-  const removeUser = `DELETE FROM public."Users" 
-    WHERE user_name = '${id.toLowerCase()}';`
+  // const removeUserData = `DELETE FROM public."User_Data" 
+  //   WHERE user_id = (SELECT A.user_id FROM public."Users" A
+  //                       WHERE A.user_name = '${id.toLowerCase()}');`
 
-  const removeUserData = `DELETE FROM public."User_Data" 
-    WHERE user_id = (SELECT A.user_id FROM public."Users" A
-                        WHERE A.user_name = '${id.toLowerCase()}');`
-
-  try {
-    await pool.query(removeUserData)
-    await pool.query(removeUser)
-    res.status(200).send('User Deleted')
-  } catch (error) { 
-    console.error(error)
-    res.status(500).send(error)
-  }
+  // try {
+  //   await pool.query(removeUserData)
+  //   await pool.query(removeUser)
+  //   res.status(200).send('User Deleted')
+  // } catch (error) { 
+  //   console.error(error)
+  //   res.status(500).send(error)
+  // }
 })
 
 
