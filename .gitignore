@@ -2,20 +2,3 @@ node_modules
 .env
 config
 
-# python
-.venv
-
-*.pyc
-__pycache__/
-
-instance/
-
-.pytest_cache/
-.coverage
-htmlcov/
-
-dist/
-build/
-*.egg-info/
-
-config.py

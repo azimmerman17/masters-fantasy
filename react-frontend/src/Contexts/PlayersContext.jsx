@@ -24,7 +24,7 @@ const PlayersContextProvider = ({ children }) => {
     
     if (eventConfig && playersContext === null) {
       const { scoringData, cmsData } = eventConfig
-      console.log(eventConfig)
+
       // first try the player endpoint from scoing object
       if (scoringData.playerList) fetchData(scoringData.playerList)
       else if (cmsData.playerList) fetchData(cmsData.playerList)

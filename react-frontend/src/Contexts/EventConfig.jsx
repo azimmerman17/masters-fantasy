@@ -6,7 +6,6 @@ export const EventConfig = createContext()
 
 
 const EventConfigProvider = ({ children }) => {
-  console.log(import.meta.env.MASTERS_BASE_URL)
   const [eventConfig, setEventConfig] = useState(null)
 
   useEffect(() => {
