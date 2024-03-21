@@ -27,7 +27,7 @@ const LeaderboardTableData = ({ player, header, view }) => {
         else return <td></td>
       case 'PLAYER':
         if (window.innerWidth < 775) return  <td  style={{fontSize: '14px'}}><a href={`/tournament/players/${id}`} className='text-decoration-none text-black fw-bold ps-2'>{display_name} {amateur ? '(A)' : null }</a></td>
-        else return <td style={{fontSize: '14px'}}><a href={`/tournament/players/${id}`} className='text-decoration-none text-black fw-bolder ps-2'><Image className='leaderboard-img' src={`https://images.masters.com/players/2023/240x240/${id}.jpg`} alt={id} roundedCircle /> {display_name} <Image src={`https://www.masters.com/assets/images/flags/${countryCode}_sm.gif`} alt={countryCode} className='leaderboard-flag'/> {amateur ? '(A)' : null }</a></td>
+        else return <td style={{fontSize: '14px'}}><a href={`/tournament/players/${id}`} className='text-decoration-none text-black fw-bolder ps-2'><Image className='leaderboard-img' src={`https://images.masters.com/players/${(new Date()).getFullYear()}/240x240/${id}.jpg`} alt={id} roundedCircle /> {display_name} <Image src={`https://www.masters.com/assets/images/flags/${countryCode}_sm.gif`} alt={countryCode} className='leaderboard-flag'/> {amateur ? '(A)' : null }</a></td>
       case 'TOTAL':
         if (newStatus === 'C') return <td colSpan={3} className='text-center' style={{fontSize: '14px'}}>Missed Cut</td> 
         else if (newStatus === 'W') return <td colSpan={3} className='text-center' style={{fontSize: '14px'}}>Withdrawn</td> 

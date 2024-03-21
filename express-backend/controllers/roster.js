@@ -3,6 +3,9 @@ require('dotenv').config()
 const checkLineUpChange = require('../middleware/checkLineupChange')
 const pool = require('../models/db')
 
+const year = (new Date()).getFullYear()
+
+
 // GET
 router.get('/:id/:year', async (req, res) => {
   const { id, year } = req.params
@@ -37,8 +40,7 @@ router.post('/new', async (req, res) => {
   //derived - year
 
   let { past_champ, usa, intl, wild_card1, wild_card2, wild_card3, user_id } = req.body
-  // const year = (new Date()).getFullYear()
-  const year = 2023 //  testing
+
   
   // validate the  keys
   if (!past_champ) past_champ = null
@@ -82,8 +84,7 @@ router.post('/new', async (req, res) => {
 router.put('/:id', async (req, res) => {
   const { id } = req.params
   const { past_champ, usa, intl, wild_card1, wild_card2, wild_card3, old_id } = req.body
-  // const year = (new Date()).getFullYear()
-  const year = 2023 // testing
+
   let player_id
 
   // build the query 

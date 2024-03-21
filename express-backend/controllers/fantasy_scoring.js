@@ -5,8 +5,7 @@ const updateScoresFile = require('../middleware/updateScoresFile')
 const pool = require('../models/db')
 
 //  Derive the date
-// const year = (new Date().getFullYear())
-const year = 2023
+const year = (new Date().getFullYear())
 
 // GET
 // Get leaderboard for entire field

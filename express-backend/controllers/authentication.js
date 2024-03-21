@@ -6,8 +6,7 @@ const decryptValue = require('../functions/decryptValue')
 const hashValue = require('../functions/hashValue')
 const pool = require('../models/db')
 
-// const year = (new Date()).getFullYear()
-const year = 2023
+const year = (new Date()).getFullYear()
 
 router.post('/', async (req, res) => {
   const { user_name, password } = req.body
@@ -132,7 +131,7 @@ router.get('/profile', async (req, res) => {
         A.player3,
         A.year
       FROM public."User_Lineups" A
-      WHERE year = 2023 
+      WHERE year = ${year} 
         AND user_id = ${req.currentUser}`
 
         // WHERE year = ${(new Date()).getFullYear()} CHANGE FOR PROD

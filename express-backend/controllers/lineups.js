@@ -115,8 +115,7 @@ router.get('/player/:year/:id/round/:round', async (req, res) => {
 router.post('/new', async (req, res) => {
   // DEFAULT LINEUP - past_champ, usa, intl
   const { roster_id, past_champ, usa, intl, user_id } = req.body
-  // const year = (new Date()).getFullYear()
-  const year = 2023 //  testing
+  const year = (new Date()).getFullYear()
 
   let roundInsertmsg = []
   if (!roster_id || !past_champ || !usa || !intl || !user_id) res.status(400).send({msg: 'Unable to add lineups, missing data'})
@@ -160,8 +159,7 @@ router.post('/new', async (req, res) => {
 router.put('/:id/:round', async (req, res) => {
   const { id, round } = req.params
   const { player1, player2, player3 } = req.body
-  // const year = (new Date()).getFullYear()
-  const year = 2023 //  testing
+  const year = (new Date()).getFullYear()
 
   //   // build the query 
   let updateLineups = `UPDATE public."User_Lineups" SET updated_at = NOW()`

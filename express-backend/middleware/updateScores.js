@@ -2,15 +2,13 @@ require('dotenv').config()
 const updateRoundScore = require('../functions/updateRoundScore')
 const updateScoresFile = require('../middleware/updateScoresFile')
 const pool = require('../models/db')
+
+const year = (new Date().getFullYear())
  
 async function updateScores() {
-  //  Derive the date
-  // const year = (new Date().getFullYear())
-  const year = 2023
+
   // Fetch leaderboard data from env
   const leaderboard = updateScoresFile.scores
-
-  // if empty - clear the interval
 
   // Get current round and pars
   const current_round = updateScoresFile.round
@@ -43,7 +41,5 @@ async function updateScores() {
     return error
   }
 }
-
-// Clear interval at the top
 
 module.exports = updateScores
