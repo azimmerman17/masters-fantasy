@@ -267,22 +267,32 @@ router.put('/:user_id/password', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   const { id } = req.params
   console.log(id, 'delete user')
-  // // remove User from table - remove data from child tables first
-  // const removeUser = `DELETE FROM public."Users" 
-  //   WHERE user_name = '${id.toLowerCase()}';`
 
-  // const removeUserData = `DELETE FROM public."User_Data" 
-  //   WHERE user_id = (SELECT A.user_id FROM public."Users" A
-  //                       WHERE A.user_name = '${id.toLowerCase()}');`
+  // list of tables to remove data
+  const tables = [
+    'Fantasy_Scoring',
+    'User_Lineups',
+    'User_Rosters',
+    'User_Data',
+    'Users',
+  ]
 
-  // try {
-  //   await pool.query(removeUserData)
-  //   await pool.query(removeUser)
-  //   res.status(200).send('User Deleted')
-  // } catch (error) { 
-  //   console.error(error)
-  //   res.status(500).send(error)
-  // }
+  try {
+    pool.query('BEGIN')
+    tables.forEach(async (table) => {
+      let removeUser = `DELETE FROM public."${table}"
+      WHERE user_id = ${id};`
+
+    await pool.query(removeUser)
+    })
+
+    pool.query('COMMIT')
+    res.status(200).send('User Deleted')
+  } catch (error) {
+    console.error(error, 'rollback')
+    pool.query('ROLLBACK')
+    res.status(500).send(error)
+  }
 })
 
 

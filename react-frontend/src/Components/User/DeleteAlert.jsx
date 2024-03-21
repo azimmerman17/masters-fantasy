@@ -37,6 +37,7 @@ const DeleteAlert = ({ id }) => {
     
     await fetch(BASE_URL + `user/${id}`, options)
     navigate('/')
+    location.reload()   
   }
 
   return (
