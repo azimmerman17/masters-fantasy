@@ -266,8 +266,7 @@ router.put('/:user_id/password', async (req, res) => {
 // DELETE -  remember to cascade!! 
 router.delete('/:id', async (req, res) => {
   const { id } = req.params
-  console.log(id, 'delete user')
-
+  
   // list of tables to remove data
   const tables = [
     'Fantasy_Scoring',
