@@ -22,7 +22,6 @@ const FantasyLeaderboardView = ({}) => {
     displayYear = tournamentYear
   }
 
-  
   //validation if the leaderboard should be shown
   const display = () => {
     if (fantasyLeaderboard === 'Pending') return null
@@ -73,7 +72,11 @@ const FantasyLeaderboardView = ({}) => {
   return (
     <Container fluid>
       <h4 className=' my-3 text-center'>{displayYear} Fantasy Leaderboard</h4>
-      {fantasyLeaderboard ? display() : null}
+      {fantasyLeaderboard ? display() : ( 
+        <p className='my-3 text-center'>
+          The leaderboard is not avaible at this time please check back later.
+        </p>
+      )}
     </Container>
   ) 
 }
