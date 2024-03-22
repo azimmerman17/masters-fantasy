@@ -8,11 +8,11 @@ import BASE_URL from '../../../assets/Files/BASE_URL';
 
 const SelectionDropdown = ({ playersRoster, selectedPlayer, roundLineup, round, lineupSpot }) => {
   const {currentUser, setCurrentUser} = useContext(CurrentUser)
-  const { first_name, last_name } = selectedPlayer
+  const {  Amateur, first_name, last_name, amateur  } = selectedPlayer
 
   if (currentUser) {
     const dropdownItems = playersRoster.map(player => {
-      const { first_name, last_name, amateur, id , status } = player
+      const { Amateur, first_name, last_name, amateur, id , status } = player
       const { user_id } = currentUser
 
       const handleClick = async (e, id) => {
@@ -35,7 +35,7 @@ const SelectionDropdown = ({ playersRoster, selectedPlayer, roundLineup, round, 
           onClick={e => handleClick(e, id)}  // function to update db
           disabled={roundLineup.includes(Number(id)) || status === 'C' || status === 'W' }
         >
-          {first_name} {last_name}{amateur ? ' (A)' : '' }
+          {first_name} {last_name}{Amateur || amateur ? ' (A)' : '' }
         </Dropdown.Item>
 
       )
@@ -44,7 +44,7 @@ const SelectionDropdown = ({ playersRoster, selectedPlayer, roundLineup, round, 
     return (
       <DropdownButton 
         id={`lineup-round-${round}-spot-${lineupSpot}`}
-        title={`${first_name} ${last_name}${amateur ? ' (A)' : '' }`}
+        title={`${first_name} ${last_name}${Amateur || amateur ? ' (A)' : '' }`}
         variant='white'
         size='lg'
       >
