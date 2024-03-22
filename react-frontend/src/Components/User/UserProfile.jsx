@@ -100,8 +100,12 @@ if (user) {
           </Col>          
         </Row>
         <hr className='mt-2'/>
-          <h5 className='text-center'>Manage Roster</h5>
-          {hidePersonalData ? null : <UserRoster />}
+          {hidePersonalData && !currentUser.roster ? null : 
+          <>
+            <h5 className='text-center'>Manage Roster</h5>
+            <UserRoster />
+          </>
+          }
 
       </Container>
     )

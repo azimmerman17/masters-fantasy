@@ -49,7 +49,7 @@ const Login = () => {
       setCurrentUser(data.user)
       localStorage.setItem('token', data.token)
       setErrorMessage(null)
-      navigate('/')
+      location.reload()
     } else {
       setErrorMessage(data.message)
     }
