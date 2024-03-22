@@ -21,7 +21,6 @@ const UserRosterSelection = ({ roster, locked }) => {
       
       playerList = player
     } else if (playersContext) {
-      console.log(playersContext)
       const { players } = playersContext
       playerList = players
     }
