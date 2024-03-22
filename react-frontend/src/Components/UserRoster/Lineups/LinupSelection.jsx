@@ -37,7 +37,7 @@ const LineupSelection =({ playersRoster, player, roundLineup, round, lineupSpot 
     }
 
     let selectedPlayer =  playersRoster.filter(rosterPlayer => rosterPlayer.id == player)[0]
-    const { first_name, last_name , amateur, newStatus} = selectedPlayer
+    const { Amateur, first_name, last_name, amateur, newStatus} = selectedPlayer
 
     return (
       <Row className={`border rounded my-1 py-1${round > 2 && (newStatus === 'C' || newStatus === 'W' ) ? ' border-danger' : ''}`}>
@@ -45,7 +45,7 @@ const LineupSelection =({ playersRoster, player, roundLineup, round, lineupSpot 
           {player ? <Image src={picture} className=' mx-auto border rounded-circle lineup-img' /> : null}
         </Col>
         <Col xs={9} md={6} className='my-auto'>
-          {locked ? <h6 className='fs-5'>{first_name} {last_name}{amateur ? ' (A)' : '' }</h6> : <SelectionDropdown playersRoster={playersRoster} selectedPlayer={selectedPlayer} roundLineup={roundLineup} round={round} lineupSpot={lineupSpot} />}
+          {locked ? <h6 className='fs-5'>{first_name} {last_name}{amateur || Amateur ? ' (A)' : '' }</h6> : <SelectionDropdown playersRoster={playersRoster} selectedPlayer={selectedPlayer} roundLineup={roundLineup} round={round} lineupSpot={lineupSpot} />}
         </Col >
       </Row>
     )

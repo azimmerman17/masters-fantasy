@@ -3,6 +3,7 @@ import Container from "react-bootstrap/Container"
 import Row from "react-bootstrap/Row"
 
 import { FantasyTournamentConfig } from "../../Contexts/FantasyTournamentConfig"
+import { PlayersContext } from "../../Contexts/PlayersContext"
 import { CurrentUser } from "../../Contexts/CurrentUserContext"
 import { TournamentLeaderboardContext } from "../../Contexts/TournamentLeaderboard"
 import UserRosterSelection from "./UserRosterSelection"
@@ -10,13 +11,15 @@ import UserLineups from "./Lineups/UserLineups"
 import UserScores from "./UserScores/UserScores"
 
 const UserRoster = () => {
+  const {playersContext, setPlayersContext} = useContext(PlayersContext)
   const {fantasyTournamentConfig, setFantasyTournamentConfig} = useContext(FantasyTournamentConfig)
-  const { tournamentLeaderboardContext, setTournamentLeaderboardContext } = useContext(TournamentLeaderboardContext)
+  const {tournamentLeaderboardContext, setTournamentLeaderboardContext} = useContext(TournamentLeaderboardContext)
   const {currentUser, setCurrentUser} = useContext(CurrentUser)
 
-  if (fantasyTournamentConfig  && currentUser && tournamentLeaderboardContext) {
+  if ((fantasyTournamentConfig || playersContext)  && currentUser && tournamentLeaderboardContext) {
+    const { players } = playersContext
     const { leaderboard } = tournamentLeaderboardContext
-    if (!leaderboard) {
+    if (!leaderboard && !players) {
       return (
         <p className='my-3 text-center'>Roster Tools are unavablile please check back later</p>
       )
