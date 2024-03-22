@@ -19,6 +19,7 @@ const UserRoster = () => {
   console.log(playersContext)
 
   if ((fantasyTournamentConfig || playersContext)  && currentUser && tournamentLeaderboardContext) {
+    console.log(playersContext)
     const { players } = playersContext
     const { leaderboard } = tournamentLeaderboardContext
     if (!leaderboard && !players) {
@@ -28,7 +29,6 @@ const UserRoster = () => {
     }
 
     const { roster, lineups, scoring } = currentUser
-    console.log(roster, lineups, scoring)
     const { intl, past_champ, usa, wild_card1, wild_card2, wild_card3 } = roster
     const { rosterLock } = fantasyTournamentConfig
 
@@ -44,11 +44,11 @@ const UserRoster = () => {
         </Row>
         <Row>
           <h4 className='text-center'>Roster</h4>
-          {/* <UserRosterSelection roster={roster} locked={rosterLock} /> */}
+          <UserRosterSelection roster={roster} locked={rosterLock} />
         </Row>
         <Row>
           <h4 className='text-center'>Lineups</h4>
-          {/* {showLineups()} */}
+          {showLineups()}
         </Row>
       </Container>
     )

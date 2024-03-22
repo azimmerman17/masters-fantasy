@@ -4,24 +4,35 @@ import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/esm/Container';
 
 import { TournamentLeaderboardContext } from "../../Contexts/TournamentLeaderboard"
+import { PlayersContext } from "../../Contexts/PlayersContext"
 import FantasyRosterSpots from '../../assets/Files/FantasyRosterSpots'
 import RosterSpot from './RosterSpot';
 
 const UserRosterSelection = ({ roster, locked }) => {
+  const {playersContext, setPlayersContext} = useContext(PlayersContext)
   const { tournamentLeaderboardContext, setTournamentLeaderboardContext} = useContext(TournamentLeaderboardContext)
   const { past_champ, usa, intl, wild_card1, wild_card2, wild_card3 } = roster
 
-  if (tournamentLeaderboardContext) {
-     const { leaderboard } = tournamentLeaderboardContext
-  
-    const rosterCards = FantasyRosterSpots.map((spot, i) => {
+  if (tournamentLeaderboardContext && playersContext) {
+    let playerList
+    if (tournamentLeaderboardContext.leaderboard) {
+      const { leaderboard } = tournamentLeaderboardContext
       const { player } = leaderboard
+      
+      playerList = player
+    } else if (playersContext) {
+      console.log(playersContext)
+      const { players } = playersContext
+      playerList = players
+    }
+    
+    const rosterCards = FantasyRosterSpots.map((spot, i) => {
 
       let golfer
       let cardName
 
       const showGolfer = (key, card) => {
-        golfer = player.filter(invitee => invitee.id == roster[key])[0]
+        golfer = playerList.filter(invitee => invitee.id == roster[key])[0]
         cardName = card
       }
 
