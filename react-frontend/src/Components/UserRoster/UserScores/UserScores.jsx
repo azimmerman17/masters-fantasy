@@ -10,7 +10,7 @@ import ScoreColor from "../../../Functions/ScoreColor"
 const UserScores = ({ scoring, lineups }) => {
   const { tournamentLeaderboardContext, setTournamentLeaderboardContext } = useContext(TournamentLeaderboardContext)
   
-  if (tournamentLeaderboardContext) {
+  if (tournamentLeaderboardContext.leaderboard && tournamentLeaderboardContext.pairings) {
     const { leaderboard } = tournamentLeaderboardContext
     const { player } = leaderboard
     const { holes_completed, rounds, total } = scoring
@@ -70,7 +70,7 @@ const UserScores = ({ scoring, lineups }) => {
       </Container>
     
     )
-  }
+  } else return null
 }
 
 export default UserScores
