@@ -16,7 +16,7 @@ const UserRoster = () => {
   const {tournamentLeaderboardContext, setTournamentLeaderboardContext} = useContext(TournamentLeaderboardContext)
   const {currentUser, setCurrentUser} = useContext(CurrentUser)
 
-  if ((fantasyTournamentConfig || playersContext)  && currentUser && tournamentLeaderboardContext) {
+  if (fantasyTournamentConfig && playersContext  && currentUser && tournamentLeaderboardContext) {
     const { players } = playersContext
     const { leaderboard } = tournamentLeaderboardContext
     if (!leaderboard && !players) {
