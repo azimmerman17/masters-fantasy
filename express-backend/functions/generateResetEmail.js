@@ -3,12 +3,15 @@
 
 
 const emailCSS = require("../assets/emailStyle")
-const githubRepo = require('../assets/githubRepo')
-const homepage = require("../assets/homepage")
-const support_url = require('../assets/supportUrl')
 const encryptValue = require("./encryptValue")
 
 const generateResetEmail = async (first_name, last_name, os, browser, token) => {
+  const githubRepo = process.env.GITHUB_REPO
+  const homepage = process.env.FRONTEND_URL
+  const support_url = process.env.SUPPORT_URL
+
+
+
   let encryptedtoken = encryptValue(`${token}`)
 
   const action_url = `${homepage}/resetpassword?token=${encryptedtoken}`

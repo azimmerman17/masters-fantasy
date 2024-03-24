@@ -5,9 +5,9 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import Form from 'react-bootstrap/Form';
 
 import { FaRegTrashCan } from "react-icons/fa6";
-import BASE_URL from '../../assets/Files/BASE_URL';
 
 const DeleteAlert = ({ id }) => {
+  const BASE_URL = import.meta.env.VITE_BASE_URL
   const navigate = useNavigate();
   let [show, setShow] = useState(false);
   let [disable, setDisable] =useState(true)

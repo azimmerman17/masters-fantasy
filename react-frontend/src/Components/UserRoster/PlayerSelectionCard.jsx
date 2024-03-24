@@ -6,9 +6,9 @@ import Container from 'react-bootstrap/Container';
 import Alert from "react-bootstrap/Alert";
 
 import HandleDBTransaction from "../../Functions/HandleDBTransaction";
-import BASE_URL from "../../assets/Files/BASE_URL";
 
 const PlayerSelectionCard = ({ player, picture, disable, current, currentUser, tournamentYear, column }) => {
+  const BASE_URL = import.meta.env.VITE_BASE_URL
   let [message, setMessage] = useState(null)
   let [alert, setAlert] = useState(false)
   const { first_name, last_name, amateur, id } = player

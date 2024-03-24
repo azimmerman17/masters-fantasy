@@ -7,10 +7,10 @@ import Col from 'react-bootstrap/Col';
 import Container from "react-bootstrap/Container";
 
 import EditProfileAlert from './EditProfileAlert';
-import BASE_URL from '../../assets/Files/BASE_URL';
 import Login from "../Login";
 
 const ResetPassword = () => {
+  const BASE_URL = import.meta.env.VITE_BASE_URL
   const [searchParams, setSearchParams] = useSearchParams();  
   let [showAlert, setShowAlert] = useState(false)
   let [alert, setAlert] = useState('Password Reset Unsuccessful')

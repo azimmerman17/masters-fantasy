@@ -2,12 +2,13 @@
 import { useEffect, createContext, useContext, useState } from "react";
 
 import { EventConfig } from './EventConfig'
-import BASE_URL from "../assets/Files/BASE_URL";
 import HandleDBTransaction from '../Functions/HandleDBTransaction'
+import MASTERS_URL from "../assets/Files/MASTERS_URL";
 
 export const TournamentLeaderboardContext = createContext()
 
 const TournamentLeaderboardContextProvider = ({ children }) => {
+  const BASE_URL = import.meta.env.VITE_BASE_URL
   const { eventConfig, setEventConfig } = useContext(EventConfig)
   const [tournamentLeaderboardContext, setTournamentLeaderboardContext] = useState(null)
 
@@ -30,11 +31,11 @@ const TournamentLeaderboardContextProvider = ({ children }) => {
     const fetchData = async (path, pairings) => {
       // Get the Leaderboard Data
       try {
-        const leaderboardRes = await fetch('https://www.masters.com' + path)
+        const leaderboardRes = await fetch(MASTERS_URL + path)
         const leaderboardData = await leaderboardRes.json()
 
         // Get the Pairings Data
-        const pairingsRes = await fetch('https://www.masters.com' + pairings)
+        const pairingsRes = await fetch(MASTERS_URL + pairings)
         const pairingsData = await pairingsRes.json()
 
         const { data } = leaderboardData

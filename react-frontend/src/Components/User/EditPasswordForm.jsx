@@ -5,9 +5,9 @@ import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 
 import EditProfileAlert from './EditProfileAlert';
-import BASE_URL from '../../assets/Files/BASE_URL';
 
 const EditPasswordForm = ({ currentUser }) => {
+  const BASE_URL = import.meta.env.VITE_BASE_URL
   let [showAlert, setShowAlert] = useState(false)
   let [status, setStatus] = useState('Danger')
   let [passwordMessage, setPasswordMessage] = useState('Password Update Unsuccessful')

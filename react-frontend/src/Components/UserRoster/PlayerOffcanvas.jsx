@@ -11,12 +11,11 @@ import { CurrentUser } from "../../Contexts/CurrentUserContext"
 import { PlayersContext } from "../../Contexts/PlayersContext"
 import { EventConfig } from "../../Contexts/EventConfig"
 import HandleDBTransaction from "../../Functions/HandleDBTransaction";
-import BASE_URL from "../../assets/Files/BASE_URL";
 import PlayerSelectionCard from "./PlayerSelectionCard";
 
 
-
 const PlayerOffcanvas = ({ show, cardName, setShow, i }) => {
+  const BASE_URL = import.meta.env.VITE_BASE_URL
   const { playersContext, setPlayersContext } = useContext(PlayersContext)
   const { currentUser, setCurrentUser } = useContext(CurrentUser)
   const { eventConfig, setEventConfig } = useContext(EventConfig)

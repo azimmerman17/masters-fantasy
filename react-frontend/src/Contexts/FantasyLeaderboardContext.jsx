@@ -2,12 +2,11 @@
 import { useEffect, createContext, useState, useContext } from "react";
 
 import { CurrentUser } from './CurrentUserContext'
-import BASE_URL from "../assets/Files/BASE_URL";
-
 
 export const FantasyLeaderboard = createContext()
 
 const FantasyLeaderboardProvider = ({ children }) => {
+  const BASE_URL = import.meta.env.VITE_BASE_URL
   const [fantasyLeaderboard, setFantasyLeaderboard] = useState(null)
   const { currentUser, setCurrentUser } = useContext(CurrentUser)
 

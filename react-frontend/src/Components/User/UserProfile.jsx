@@ -11,10 +11,10 @@ import DeleteAlert from "./DeleteAlert";
 import DisplayPersonalData from "./DisplayPersonalData";
 import EditUserData from "./EditUserData";
 import UserRoster from "../UserRoster/UserRoster";
-import BASE_URL from '../../assets/Files/BASE_URL';
 import Logout from "../Logout";
 
 const UserProfile = () => {
+  const BASE_URL = import.meta.env.VITE_BASE_URL
   const { username } = useParams()
   const {currentUser, setCurrentUser} = useContext(CurrentUser)
 

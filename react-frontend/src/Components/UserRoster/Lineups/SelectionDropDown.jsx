@@ -4,9 +4,9 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 
 import { CurrentUser } from '../../../Contexts/CurrentUserContext';
 import HandleDBTransaction from '../../../Functions/HandleDBTransaction';
-import BASE_URL from '../../../assets/Files/BASE_URL';
 
 const SelectionDropdown = ({ playersRoster, selectedPlayer, roundLineup, round, lineupSpot }) => {
+  const BASE_URL = import.meta.env.VITE_BASE_URL
   const {currentUser, setCurrentUser} = useContext(CurrentUser)
   const {  Amateur, first_name, last_name, amateur  } = selectedPlayer
 

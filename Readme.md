@@ -64,7 +64,7 @@
 <!-- ABOUT THE PROJECT -->
 # About The Project
 
-The project (MASTERS FANTASY GOLF) was buit to provide a fantasy golf game in conjunction with the Master's Golf Tournament and provide limited coverage of the Tournament. This app utilizes data from The Masters API to provide player data, statistics, and scoring.  This data assists user decisions on their Fantasy Roster and Lineup, and updates the Users' scores in real-time.  
+This project (MASTERS FANTASY GOLF) was buit to provide a fantasy golf game in conjunction with the Master's Golf Tournament and provide limited coverage of the Tournament. This app utilizes data from The Masters API to provide player data, statistics, and scoring.  This data assists user decisions on their Fantasy Roster and Lineup, and updates the Users' scores in real-time.  
 
 MASTERS FANTASY GOLF does not intend to be a replacement for the coverage provided by The Master's Golf Tournament and user's are encouraged to ulitize masters.com for complete tournament coverage
 

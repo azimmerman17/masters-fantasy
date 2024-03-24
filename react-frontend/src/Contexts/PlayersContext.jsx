@@ -2,6 +2,7 @@
 import { useEffect, createContext, useContext, useState } from "react";
 
 import { EventConfig } from './EventConfig'
+import MASTERS_URL from "../assets/Files/MASTERS_URL";
 
 export const PlayersContext = createContext()
 
@@ -13,7 +14,7 @@ const PlayersContextProvider = ({ children }) => {
   useEffect(() => {
     const fetchData = async (playerList) => {
       try {
-        const response = await fetch('https://www.masters.com' + playerList)
+        const response = await fetch(MASTERS_URL + playerList)
         const data = await response.json()
         setPlayersContext(data)
       } catch (error) {

@@ -5,9 +5,9 @@ import Col from 'react-bootstrap/Col';
 import InputGroup from 'react-bootstrap/InputGroup';
 
 import EditProfileAlert from './EditProfileAlert';
-import BASE_URL from '../../assets/Files/BASE_URL';
 
 const EditProfileForm = ({ currentUser }) => {
+  const BASE_URL = import.meta.env.VITE_BASE_URL
   let [showAlert, setShowAlert] = useState(false)
   let [userNameEmailList, setUserNameEmailList] = useState([])
   let [usernameUnique, setUsernameUnique] = useState(true)

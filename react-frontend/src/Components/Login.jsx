@@ -8,9 +8,9 @@ import Button from 'react-bootstrap/Button';
 
 
 import { CurrentUser } from "../Contexts/CurrentUserContext"
-import BASE_URL from '../assets/Files/BASE_URL';
 
 const Login = () => {
+  const BASE_URL = import.meta.env.VITE_BASE_URL
   const { currentUser, setCurrentUser } = useContext(CurrentUser)
   const navigate = useNavigate();
   let [validated, setValidated] = useState(false)

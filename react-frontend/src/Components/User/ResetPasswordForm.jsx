@@ -3,9 +3,9 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/esm/Container';
 
-import BASE_URL from '../../assets/Files/BASE_URL';
 
 const ResetPasswordForm = () => {
+  const BASE_URL = import.meta.env.VITE_BASE_URL
   let [user_info, setUserInfo] = useState(null)
   let [showForm, setShowForm] = useState(true)
 

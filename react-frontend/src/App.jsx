@@ -26,8 +26,6 @@ import ResetPassword from './Components/User/ResetPassword'
 function App() {
   const [title, setTitle] = useState('APP')
 
-  console.log(import.meta.env.VITE_BASE_URL)
-
   useEffect(() => {
     document.title = 'Master\'s Fantasy Golf'
   }, [title])

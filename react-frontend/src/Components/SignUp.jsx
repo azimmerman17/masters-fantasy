@@ -6,9 +6,9 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
 
-import BASE_URL from '../assets/Files/BASE_URL';
 
 const SignUp = () => {
+  const BASE_URL = import.meta.env.VITE_BASE_URL
   let [validated, setValidated] = useState(false)
   let [user, setUser] = useState({
 		first_name: '',

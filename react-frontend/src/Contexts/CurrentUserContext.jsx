@@ -2,9 +2,9 @@
 import { useEffect, createContext, useState } from "react";
 
 export const CurrentUser = createContext()
-import BASE_URL from '../assets/Files/BASE_URL';
 
 const CurrentUserProvider = ({ children }) => {
+  const BASE_URL = import.meta.env.VITE_BASE_URL
   const [currentUser, setCurrentUser] = useState(null)
 
   useEffect(() => {
