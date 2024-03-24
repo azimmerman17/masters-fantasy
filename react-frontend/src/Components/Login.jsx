@@ -1,16 +1,18 @@
-import Button from 'react-bootstrap/Button';
+import { useContext, useState } from 'react';
+import { useNavigate } from "react-router-dom"
 import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/esm/Row';
 import Col from 'react-bootstrap/esm/Col';
 import Container from 'react-bootstrap/esm/Container';
-import { useContext, useState } from 'react';
+import Button from 'react-bootstrap/Button';
+
 
 import { CurrentUser } from "../Contexts/CurrentUserContext"
 
-const BASE_URL = 'http://localhost:8080/'
-
 const Login = () => {
+  const BASE_URL = import.meta.env.VITE_BASE_URL
   const { currentUser, setCurrentUser } = useContext(CurrentUser)
-
+  const navigate = useNavigate();
   let [validated, setValidated] = useState(false)
   let [errorMessage, setErrorMessage] = useState(null)
   let [user, setUser] = useState({
@@ -47,23 +49,24 @@ const Login = () => {
       setCurrentUser(data.user)
       localStorage.setItem('token', data.token)
       setErrorMessage(null)
+      location.reload()
     } else {
       setErrorMessage(data.message)
     }
   };
 
   return (
-    <Container id='log-in-form'>
+    <Container id='log-in-form' style={{maxWidth: '300px'}}>
       {!errorMessage ? <p style={{minHeight: '30px'}}></p> : <p className='mt-2 mb-2 bg-danger-subtle border border-danger text-center rounded-pill'>{errorMessage}</p>}
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
-        <Form.Group className="mb-3" as={Col} md={6} controlId="loginUserNameEmail" onChange={e => setUser({...user, user_name: e.target.value })}>
+        <Form.Group className="mb-3 login-form-group" as={Col}  controlId="loginUserNameEmail" onChange={e => setUser({...user, user_name: e.target.value })}>
           <Form.Label>Username or Email Address</Form.Label>
           <Form.Control 
             type="text" 
             placeholder="Enter Username or Email Address" 
             required/>
         </Form.Group>
-        <Form.Group className="mb-3" as={Col} md={6} controlId="loginPassword" onChange={e => setUser({...user, password: e.target.value })}>
+        <Form.Group className="mb-3 login-form-group"  as={Col} controlId="loginPassword" onChange={e => setUser({...user, password: e.target.value })}>
           <Form.Label>Password</Form.Label>
           <Form.Control 
             type="password" 
@@ -75,7 +78,14 @@ const Login = () => {
         </Button>
       </Form>
       <hr />
-      <a href='/newUser' className='text-success'>Create an account</a>
+      <Row>
+        <Col>
+          <a href='/newUser' className='text-success'>Create Account</a>
+        </Col>
+        <Col>
+          <a href='/forgot-password' className='text-success'>Forgot Password</a>
+        </Col>
+      </Row>
     </Container>
   );
 }

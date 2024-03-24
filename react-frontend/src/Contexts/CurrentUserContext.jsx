@@ -2,9 +2,9 @@
 import { useEffect, createContext, useState } from "react";
 
 export const CurrentUser = createContext()
-const BASE_URL = 'http://localhost:8080/'
 
 const CurrentUserProvider = ({ children }) => {
+  const BASE_URL = import.meta.env.VITE_BASE_URL
   const [currentUser, setCurrentUser] = useState(null)
 
   useEffect(() => {
@@ -22,7 +22,7 @@ const CurrentUserProvider = ({ children }) => {
     }
     getLoggedInUser()
   }, [])
-
+  
   return (
     <CurrentUser.Provider value={{ currentUser, setCurrentUser }}>
         {children}

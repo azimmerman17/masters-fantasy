@@ -1,6 +1,7 @@
 // context for tournament data from the Masters
 import { useEffect, createContext, useState } from "react";
 
+
 export const EventConfig = createContext()
 
 
@@ -11,10 +12,11 @@ const EventConfigProvider = ({ children }) => {
     const fetchData = async () => {
       const response = await fetch('https://www.masters.com/en_US/json/gen/config_web.json')
       const data = await response.json()
-      const { dataSettings, scoringData } = data
+      const { dataSettings, scoringData, cmsData } = data
       setEventConfig({
         dataSettings,
-        scoringData
+        scoringData,
+        cmsData
       })
     }
 

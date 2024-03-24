@@ -2,6 +2,7 @@
 import { useEffect, createContext, useContext, useState } from "react";
 
 import { EventConfig } from './EventConfig'
+import MASTERS_URL from "../assets/Files/MASTERS_URL";
 
 export const PlayersContext = createContext()
 
@@ -11,18 +12,27 @@ const PlayersContextProvider = ({ children }) => {
   const [playersContext, setPlayersContext] = useState(null)
 
   useEffect(() => {
-    const fetchData = async () => {
-      // console.log(eventConfig)
-      const { scoringData } = eventConfig
-      const { playerList } = scoringData
-      const response = await fetch('https://www.masters.com' + playerList)
-      const data = await response.json()
-      setPlayersContext(data)
+    const fetchData = async (playerList) => {
+      try {
+        const response = await fetch(MASTERS_URL + playerList)
+        const data = await response.json()
+        setPlayersContext(data)
+      } catch (error) {
+        console.log('error')
+        setPlayersContext('No Player Data Avalible')
+      }
     }
     
-    if (eventConfig && playersContext === null) fetchData()
+    if (eventConfig && playersContext === null) {
+      const { scoringData, cmsData } = eventConfig
 
+      // first try the player endpoint from scoing object
+      if (scoringData.playerList) fetchData(scoringData.playerList)
+      else if (cmsData.playerList) fetchData(cmsData.playerList)
+      else  setPlayersContext('No Player Data Avalible')
+    }
   }, [playersContext, eventConfig])
+
 
   return (
     <PlayersContext.Provider value={{ playersContext, setPlayersContext }}>

@@ -6,9 +6,9 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
 
-const BASE_URL = 'http://localhost:8080/'
 
 const SignUp = () => {
+  const BASE_URL = import.meta.env.VITE_BASE_URL
   let [validated, setValidated] = useState(false)
   let [user, setUser] = useState({
 		first_name: '',
@@ -23,7 +23,6 @@ const SignUp = () => {
   let [emailUnique, setEmailUnique] = useState(false)
 
   useEffect(() => {
-
     const fetchData = async () => {
       const path = 'user/usernamelist'
       const response = await fetch(BASE_URL + path)

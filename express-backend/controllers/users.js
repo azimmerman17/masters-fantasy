@@ -15,8 +15,13 @@ router.get('/', async (req, res) => {
       A.user_name,
       A.first_name,
       A.last_name,
-      A.email
-    FROM public."Users" A;`
+      A.email,
+      B.appearances,
+      B.wins,
+      B.best_finish,
+      B.low_score
+    FROM public."Users" A, public."User_Data" B
+    WHERE A.user_id = B.user_id;`
 
     try {
       const response = await pool.query(getUsers)
@@ -58,16 +63,24 @@ router.get('/:id', async (req, res) => {
       A.user_name,
       A.first_name,
       A.last_name,
-      A.email
-    FROM public."Users" A
-    WHERE A.user_name = ${id}
-      OR  A.user_id = ${id};`
+      A.email,
+      B.appearances,
+      B.wins,
+      B.best_finish,
+      B.low_score
+    FROM public."Users" A, public."User_Data" B
+    WHERE A.user_id = B.user_id 
+      AND A.user_name = '${id}';`
 
     try {
       const response = await pool.query(getUser)
       if (response.error) res.status(500).send({response})
-      else res.status(200).send(response)
+      else {
+        const { rows } = response
+        res.status(200).send(rows[0])
+      }
     } catch (error) {
+      console.error(error)
       res.status(500).send(error)
     }
 })
@@ -91,7 +104,7 @@ router.post('/new', async (req, res) => {
     if (!user_name || !email || !password) res.status(400).send('Invalid request - Required fields not entered')
     else if (userNameResponse.rowCount > 0) res.status(400).send('Invalid request - Username or Email already exists')
     else {
-      salt = generateSalt()// function to generate salt
+      salt = generateSalt(32)// function to generate salt
       let encryptedSalt = encryptVaule(salt) // function to encrypt the salt
       let passwordHash = hashValue(password + salt) // funtion to hash the password
 
@@ -106,10 +119,27 @@ router.post('/new', async (req, res) => {
           NOW(), 
           NOW());`
 
-      const response = await pool.query(createUser)
+      let response = await pool.query(createUser)
       if (response.error) res.status(500).send({response})
-      else res.status(200).send(response)
-    }
+      else {
+        // Query to get the user id 
+        const getUserId = `SELECT A.user_id FROM public."Users" A
+          WHERE A.user_name = '${user_name.toLowerCase()}';`
+
+        response = await pool.query(getUserId)
+        if (response.error) res.status(500).send({response})
+        else {
+          const { rows } = response
+          // Query to add record to the User Data Table
+          const userDataInsert = `INSERT INTO public."User_Data" (user_id, created_at, updated_at)
+            VALUES (${rows[0]["user_id"]}, NOW(), NOW());` 
+
+            response = await pool.query(userDataInsert)
+            if (response.error) res.status(500).send({response})
+            else res.status(200).send(response)
+          }
+        }
+      }
     } catch (error) {
       console.error(error)
       res.status(500).send(error)
@@ -126,9 +156,9 @@ router.put('/:id', async (req, res) => {
   let rowCount = 0
   if (email || user_name) {
     const checkUserName = `SELECT A.user_name FROM public."Users" A
-    WHERE (A.user_name = '${user_name.toLowerCase()}'  
-        OR A.email = '${email.toLowerCase()}')
-      AND A.user_name <> '${user_name.toLowerCase()}';`
+    WHERE (A.user_name = '${user_name ? user_name.toLowerCase() : ''}'  
+        OR A.email = '${email ? email.toLowerCase() : ''}')
+      AND A.user_id <> ${id};`
 
     try {
       const userNameResponse = await pool.query(checkUserName)
@@ -139,7 +169,7 @@ router.put('/:id', async (req, res) => {
     }
   }
 
-  // No update if email 
+  // No update if email or username already exist
   if (rowCount > 0)  res.status(400).send('Invalid request - Username or Email already exists')
   // build the query 
   let updateUser = `UPDATE public."Users"
@@ -152,11 +182,11 @@ router.put('/:id', async (req, res) => {
 
   // and where clause
   updateUser = updateUser + `
-  WHERE user_name = '${id}';`
+  WHERE user_id = '${id}';`
 
   try {
     const response = await pool.query(updateUser)
-    if (response.error) res.status(500).send({response})
+    if (response.error) res.status(500).send(response)
     else res.status(200).send(response)
   } catch (error) {
     console.error(error)
@@ -186,53 +216,80 @@ router.put('/:username/role', async (req, res) => {
 })
 
 // UPDATE USER PASSWORD
-router.put('/:username/password', async (req, res) => {
-  const { password } = req.body
-  const { username } = req.params
+router.put('/:user_id/password', async (req, res) => {
+  const { currentPassword, changePassword, confirmPassword } = req.body
+  const { user_id } = req.params
 
-  // Get salt for password hashing
-  const saltQuery = `SELECT A.salt FROM public."Users" A
-    WHERE user_name = '${username.toLowerCase()}'
-    LIMIT 1;`
+  if (!currentPassword || !changePassword || !confirmPassword) res.status(400).send({msg: 'All Fields are Required'})
+  else if (changePassword !== confirmPassword) res.status(400).send({msg: 'Passswords Do Not Match'})
+  else {
+    // Get salt for password hashing and hash for validation
+    const saltQuery = `SELECT A.salt, A.password_hash FROM public."Users" A
+      WHERE user_id = ${user_id}
+      LIMIT 1;`
 
-  try {
-    const response = await pool.query(saltQuery)
-    if (response.error) {res.status(500).send({response})}
-    else {
-      const { rows } = response 
-      const { salt } = rows[0]
+    try {
+      const response = await pool.query(saltQuery)
 
-      let decryptedSalt = decryptValue(salt) // decrypt salt value from the db
-      let passwordHash = hashValue(password + decryptedSalt) // funtion to hash the new password
+      const { rows, rowCount, error } = response 
+      if (error) res.status(500).send({msg: 'Password Update Unsuccessful'})
+      else if (rowCount === 0) res.status(500).send({msg: 'Password Update Unsuccessful'})
+      else {
+        const { salt, password_hash } = rows[0]
 
-      // build new password query
-      let updateUserPassword = `UPDATE public."Users"
-        SET updated_at = NOW(),
-          password_hash = '${passwordHash}'
-        WHERE user_name = '${username.toLowerCase()}';`
+        // Validate current password is correct
+        let decryptedSalt = decryptValue(salt) // decrypt salt value from the db
 
-      const response = await pool.query(updateUserPassword)
-      if (response.error) {res.status(500).send({response})}
-      else res.status(200).send(response)
+        const currPasswordHAsh =  hashValue(currentPassword + decryptedSalt) // funtion to hash the current password
+        if (currPasswordHAsh !== password_hash) res.status(400).send({msg: 'Current Password is Incorrect'})
+        else {  // current Password Authenicated -- Continue
+        let passwordHash = hashValue(changePassword + decryptedSalt) // funtion to hash the new password
+
+        // build new password query
+        let updateUserPassword = `UPDATE public."Users"
+          SET updated_at = NOW(),
+            password_hash = '${passwordHash}'
+          WHERE user_id = ${user_id};`
+
+        const response = await pool.query(updateUserPassword)
+        if (response.error) {res.status(500).send({msg: 'Password Update Unsuccessful'})}
+        else res.status(200).send({msg: 'Password Update Successful'})
+      }
+      }
+    } catch (error) { // catch for the Salt Query
+      console.error(error)
+      res.status(500).send({msg: 'Password Update Unsuccessful'})
     }
-  } catch (error) { // catch for the Salt Query
-    console.error(error)
-    res.status(500).send(error)
   }
 })
 
 // DELETE -  remember to cascade!! 
 router.delete('/:id', async (req, res) => {
   const { id } = req.params
-  // remove route from Routes Table
-  const removeUser = `DELETE FROM public."Users" 
-    WHERE user_name = '${id}';`
+  
+  // list of tables to remove data
+  const tables = [
+    'Fantasy_Scoring',
+    'User_Lineups',
+    'User_Rosters',
+    'User_Data',
+    'Users',
+  ]
 
   try {
+    pool.query('BEGIN')
+    tables.forEach(async (table) => {
+      let removeUser = `DELETE FROM public."${table}"
+      WHERE user_id = ${id};`
+
     await pool.query(removeUser)
+    })
+
+    pool.query('COMMIT')
     res.status(200).send('User Deleted')
-  } catch (error) { 
-    console.error(error)
+  } catch (error) {
+    console.error(error, 'rollback')
+    pool.query('ROLLBACK')
     res.status(500).send(error)
   }
 })

@@ -3,7 +3,6 @@ require('dotenv').config()
 
 const hashValue = (value) => {
   const key = process.env.ENCRYPTION_KEY
-  // const algorithm = process.env.ALGORITHM
 
   //Calling createHash method
   const hash = crypto.createHash('sha256', key)

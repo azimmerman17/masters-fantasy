@@ -9,8 +9,16 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {
-      // define association here
+    static associate({ User_Data }) {
+      // user => user_data 1:1
+      Users.hasOne(User_Data, { foreignKey: 'user_id' });
+      // user => user_Roster 1:Many
+      Users.hasMany(User_Roster, { foreignKey: 'user_id' });
+      // user => user_lineups 1:Many
+      Users.hasMany(User_Lineups, { foreignKey: 'user_id' });
+      // user => fantasy_scoring 1:many
+      Users.hasMany(Fantasy_Scoring, { foreignKey: 'user_id' })
+
     }
   }
   Users.init({
@@ -21,6 +29,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     first_name: {
       type: DataTypes.STRING,
+      
     },
     last_name: {
       type: DataTypes.STRING,
@@ -28,6 +37,7 @@ module.exports = (sequelize, DataTypes) => {
     email: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
     salt: {
       type: DataTypes.STRING,
@@ -41,6 +51,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ENUM('basic', 'vip', 'admin'),
       allowNull: false,
       defaultValue: 'basic' 
+    },
+    guid_token: {
+      type: DataTypes.STRING,
+      allowNull: true, 
+    },
+    guid_expire: {
+      type: DataTypes.DATE,
+      allowNull: true, 
     },
     created_at: {
       type: DataTypes.DATE,

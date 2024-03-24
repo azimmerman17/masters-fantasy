@@ -4,7 +4,10 @@ import Col from "react-bootstrap/Col"
 import RemoveValueArray from "../../../Functions/RemoveValueArray"
 import PlayerHistoryAccordion from "../PlayerHistoryAccordions"
 
-const PlayerHistory = ({ avgRound, bestFinish, cutsMade, highRound, lowRound, firsttimer, tournamentsPlayed, pastMasters, first_name, last_name, roundsPlayed, roundsUnderPar }) => {
+const PlayerHistory = ({ bio }) => {
+  const { player } = bio
+  const { avgRound, bestFinish, cutsMade, highRound, lowRound, tournamentsPlayed, pastMasters, first_name, last_name, roundsPlayed, roundsUnderPar } = player
+
   let finish = bestFinish.split(' ')
   let finishPos = finish.shift()
   let finishYears = RemoveValueArray(finish, finishPos).join(' ')
@@ -21,7 +24,7 @@ const PlayerHistory = ({ avgRound, bestFinish, cutsMade, highRound, lowRound, fi
     )
   })
 
-  if (firsttimer) {
+  if (pastMasters.length === 0) {
     return (
       <Container fluid>
         <h5 className={`text-success ${window.innerWidth < 775 ? 'text-end' : 'text-start'}`}>Tournament History</h5>
@@ -29,7 +32,6 @@ const PlayerHistory = ({ avgRound, bestFinish, cutsMade, highRound, lowRound, fi
       </Container>
     )
   } else {
-
     return (
       <Container fluid>
         <h5 className={`text-success ${window.innerWidth < 775 ? 'text-end' : 'text-start'}`}>Tournament History</h5>

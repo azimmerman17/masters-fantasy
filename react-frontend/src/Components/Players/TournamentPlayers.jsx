@@ -12,6 +12,13 @@ const TournamentPlayers = () => {
   const { playersContext, setPlayersContext} = useContext(PlayersContext)
 
   if (eventConfig && playersContext) {
+    if (playersContext === 'No Player Data Avalible') {
+      return (
+        <p className="my-3 text-center">
+          The tournament invite list is not available at this time, please check back later.
+        </p>
+      )
+    }
     const { dataSettings } = eventConfig
     const { tournamentYear } = dataSettings
     const { players, past_champions_not_competing } = playersContext
