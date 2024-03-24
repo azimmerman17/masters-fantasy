@@ -30,7 +30,6 @@ const FantasyLeaderboardView = ({}) => {
       //Leaderboard Table
       const playerList = fantasyLeaderboard.map(player => {
         const { user_name } = player
-        console.log(player)
 
         const rowData = FantasyLeaderboardHeaders.map(header => {
           return <LeaderboardTableData player={player} header={header} view={'fantasy'} key={`leaderboard-${user_name}-row-${header}`} />

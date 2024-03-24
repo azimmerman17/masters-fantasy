@@ -5,7 +5,6 @@ const DisplayTableHeader = (item) => {
   // Large	lg	≥992px
   // Extra large	xl	≥1200px
   // Extra extra large	xxl	≥1400px
-  console.log(window.innerWidth, item)
   switch (item) {
     case 'move':
       if (window.innerWidth < 768) return null

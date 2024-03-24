@@ -62,7 +62,6 @@ const LeaderboardTableData = ({ player, header, view }) => {
     }
   }
   if (view === 'fantasy') {
-    console.log(player)
     const { user_name, round1, round2, round3, round4, holes_completed, total, round1_aggr, round2_aggr, round3_aggr,round4_aggr, total_aggr } = player
     switch (header) {
       case 'POS':
