@@ -22,6 +22,7 @@ import Footer from './Components/Footer'
 import RulesSheet from './Components/RulesSheet'
 import ResetPasswordForm from './Components/User/ResetPasswordForm'
 import ResetPassword from './Components/User/ResetPassword'
+import NotFound from './Components/NotFound'
 
 function App() {
   const [title, setTitle] = useState('APP')
@@ -57,6 +58,7 @@ function App() {
                           <Route path='/rules' element={<RulesSheet />} />
                           <Route path='/forgot-password' element={<ResetPasswordForm />} />
                           <Route path='/resetpassword' element={<ResetPassword />} />
+                          <Route path='/*' element={<NotFound />} />
                         </Routes>
                       </main>
                       <footer className='footer'>
