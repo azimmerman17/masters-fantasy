@@ -297,6 +297,7 @@ API documentation to come
 - [ ] Add Stats to the Lineup Components
 - [ ] Rework the Fantasy Leaderboard
 - [ ] Add Stats to the Fantasy Lineups
+- [ ] Utilize Suspense Hook for loading screen
 - [ ] Build endpoint(s) to close out the year
   - [ ] Functionality to update the User Data
   - [ ] Functionality to allow Admin role to remove data from past years
