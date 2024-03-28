@@ -136,7 +136,8 @@ router.post('/new', async (req, res) => {
 
             response = await pool.query(userDataInsert)
             if (response.error) res.status(500).send({response})
-            else res.status(200).send(response)
+            // log in user
+            else res.redirect(307, '/auth/')
           }
         }
       }
