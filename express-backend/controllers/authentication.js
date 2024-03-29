@@ -13,13 +13,18 @@ router.post('/', async (req, res) => {
 
   // Check if username or email exists
   const userExistQuery = `Select A.* FROM public."Users" A
-    WHERE A.user_name = '${user_name}'
-      OR A.email = '${user_name}';`
+    WHERE A.user_name = '${user_name.toLowerCase()}'
+      OR A.email = '${user_name.toLowerCase()}';`
     
   try {
     const user = await pool.query(userExistQuery)
-    if (user.error) res.status(500).send({user})
-    else if(user.rowCount === 0) res.status(404).json({message: 'You have entered an invalid username or password'})
+    if (user.error) {
+      console.error(user.error)
+      res.status(500).send({user})
+    }
+    else if(user.rowCount === 0) {
+      console.log('You have entered an invalid username or password, 0 rows returned')
+      res.status(404).json({message: 'You have entered an invalid username or password'})}
     else {
       // User exists - Validate password matches 
       const { rows } = user
@@ -43,9 +48,9 @@ router.post('/', async (req, res) => {
         const result = await jwt.encode(process.env.ENCRYPTION_KEY, { id: returnedUser.user_id })
         res.status(200).json({ user: returnedUser, token: result.value })
       } else {
+        console.log('You have entered an invalid username or password, unable to authenticate')
         res.status(404).json({message: 'You have entered an invalid username or password'})
       }
-
     }
   } catch (error) {
     console.error(error) 
@@ -217,8 +222,6 @@ router.get('/profile', async (req, res) => {
           ]
         }
       }
-
-      
       res.status(200).send(user)
     } catch (error) {
     console.error(error)
