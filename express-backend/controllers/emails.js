@@ -22,19 +22,31 @@ router.post('/forgotpassword', async (req, res) => {
   let os = parser.getOS()
   os = os.name
 
-  if (!user_info) res.status(400).send('Need email or user_name')
-  else if (!os || !browser) res.status(400).send('Need browser and os data')
+  if (!user_info) {
+    console.error('Need email or user_name')
+    res.status(400).send('Need email or user_name')
+  }
+  else if (!os || !browser) {
+    console.error('Need email or user_name')
+    res.status(400).send('Need browser and os data')
+  }
   else {
     // check if user exists 
     const userExistsQuery = `SELECT user_name, first_name, last_name, email, salt FROM public."Users"
-      WHERE user_name ='${user_info}'
-        OR email = '${user_info}';`
+      WHERE user_name ='${user_info.toLowerCase()}'
+        OR email = '${user_info.toLowerCase()}';`
 
     try {
       let userExistsRespose = await pool.query(userExistsQuery)
       const { rows, rowCount } = userExistsRespose
-      if (rowCount < 1) res.status(400).send('User does not exist')
-      else if (rowCount > 1) res.status(400).send('User cannot be indentified')
+      if (rowCount < 1) {
+        console.error('User does not exist')
+        res.status(400).send('User does not exist')
+      }
+      else if (rowCount > 1) {
+        console.error('User cannot be indentified')   
+        res.status(400).send('User cannot be indentified')
+      }
       else {
         const { user_name, first_name, last_name, salt, email} = rows[0]
         // user exists - create reset password token 
@@ -73,7 +85,6 @@ router.post('/forgotpassword', async (req, res) => {
 
 router.post('/resetpassword', async (req, res) => {
   const { token, changePassword, confirmPassword } = req.body
-  // console.log(token, changePassword, confirmPassword)
   // decrypt 
   const decryptedToken = decryptValue(token)
   
@@ -88,10 +99,15 @@ router.post('/resetpassword', async (req, res) => {
     const response = await pool.query(saltQuery)
 
     const { rows, rowCount, error } = response 
-    if (error) res.status(500).send('Unable to validate User')
-    else if (rowCount !== 1) res.status(500).send('Unable to validate User')
+    if (error) {
+      console.error(error)
+      res.status(500).send('Unable to validate User')
+    }
+    else if (rowCount !== 1) {
+      console.error('Unable to validate User')
+      res.status(500).send('Unable to validate User') 
+    }
     else {
-
       const { salt, guid_token, guid_expire, user_id } = rows[0]
       
       // decrypt the salt from db and hash token
@@ -100,7 +116,7 @@ router.post('/resetpassword', async (req, res) => {
 
       // validate tokens match, passwords match, and token has not expired
       if (hashedToken !== guid_token || changePassword !== confirmPassword || new Date(guid_expire) < new Date()) {
-        console.log(hashedToken !== guid_token, changePassword !== confirmPassword, new Date(guid_expire) < new Date())
+        console.log('Invalid or expired token')
         res.status(400).send('Pasword update failed')
       }
       else {
@@ -118,8 +134,14 @@ router.post('/resetpassword', async (req, res) => {
         
         const updateResponse = await pool.query(passwordResetQuery)
         // if failed send reponse to user
-        if (updateResponse.error) res.status(500).send('Password Update Unsuccessful')
-        else if(updateResponse.rowCount === 0) res.status(400).send('Password Update Unsuccessful')
+        if (updateResponse.error) {
+          console.error(updateResponse.error)
+          res.status(500).send('Password Update Unsuccessful')
+        }
+        else if(updateResponse.rowCount === 0) {
+          console.error('Password Update Unsuccessful')
+          res.status(400).send('Password Update Unsuccessful')
+        }
         // success log user in or redirect to login page?
         else res.status(202).send('Password Update Successful')
       }

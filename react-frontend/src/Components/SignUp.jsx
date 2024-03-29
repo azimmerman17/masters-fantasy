@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom"
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
@@ -80,7 +80,6 @@ const SignUp = () => {
       
       let response = await fetch(BASE_URL + 'user/new', options)
       let data = await response.json()
-      console.log(response.status, response, data)
 
       if (response.status === 200) {
         localStorage.setItem('token', data.token)
