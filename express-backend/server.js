@@ -25,6 +25,7 @@ const rosterController = require('./controllers/roster')
 const lineupsController = require('./controllers/lineups')
 const fantasyScoringController = require('./controllers/fantasy_scoring')
 const emailsController = require('./controllers/emails')
+const catchAllController = require('./controllers/catch_all')
 
 //  Routes
 app.use('/user', userController)
@@ -33,6 +34,8 @@ app.use('/roster', rosterController)
 app.use('/lineups', lineupsController)
 app.use('/scoring', fantasyScoringController)
 app.use('/email', emailsController)
+app.use('/*', catchAllController)
+
 
 // Open Connection andd Listen
 const PORT = process.env.PORT
