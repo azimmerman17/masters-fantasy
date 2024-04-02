@@ -58,11 +58,11 @@ const FantasyLeaderboardView = ({}) => {
 
             </tbody>
           </Table>
-          {/* <p className='mt-3'>
+          <p className='mt-3 text-center'>
             <small>
-              - If a player is THRU 18, they have scores for each hole, but still have golfers on the course.  THRU F, indicates all the player's golfers have completed thier round.
+              Only players with a full roster will appear on the leaderboard - Rosters lock at the start of the Master's Tournament
             </small>
-          </p> */}
+          </p>
         </>
       )
     }
