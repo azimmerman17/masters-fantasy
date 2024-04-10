@@ -62,7 +62,7 @@ const PlayerStatsComponent = ({ stats }) => {
     })
 
     return (
-      <Container fluid className="m-0 p-0">
+      <Container fluid className="m-1 p-0">
         <h5 className={`text-success ${window.innerWidth < 775 ? 'text-end' : 'text-start'}`}>Tournament Statistics</h5>
         {round.length === 0 ? (
           <p className="m-0 p-0 text-center">

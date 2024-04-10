@@ -76,7 +76,7 @@ const PlayerPageScorecard = ({ leaderboard, playerId }) => {
     }
 
     return (
-      <Container fluid className="m-0 p-0">
+      <Container fluid className="m-0 p-1">
         <h5 className={`text-success ${window.innerWidth < 775 ? 'text-end' :'text-start' }`}>Offical Scorecard</h5>
         {round1.roundStatus === 'Pre' || round1.roundStatus === 'not-applicable' ? (
           <p className='text-center'>No Scores to Display</p> 

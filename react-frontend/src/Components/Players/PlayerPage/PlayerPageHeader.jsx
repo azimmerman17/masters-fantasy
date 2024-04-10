@@ -6,6 +6,7 @@ import Container from 'react-bootstrap/esm/Container';
 
 // const PlayerPageHeader = ({ first_name, last_name, amateur, countryCode, position, total, today, playing, teeTime }) => {
 const PlayerPageHeader = ({ bio, scores }) => {
+  console.log(bio, scores)
   const { player } = bio
   const { first_name, last_name, amateur, countryCode } = player
 
@@ -35,7 +36,8 @@ const PlayerPageHeader = ({ bio, scores }) => {
             <p className='text-center m-0 label-small'>Today</p>              
           </Col> 
           <Col className={`${playing === 'MC' || playing === 'WD' ? 'hidden' : null} p-0`}>
-            <h5 className='text-center m-0'>{Number(playing) > 0 || playing.substring(0) == 'F'  ? playing : teeTime }</h5>
+            {/* <h5 className='text-center m-0'>{Number(playing) > 0 || playing.substring(0) == 'F'  ? playing : playing}</h5> */}
+            <h5 className='text-center m-0'>{playing}</h5>
             <p className='text-center m-0 label-small'>{Number(playing) > 0 || playing.substring(0) == 'F'  ? 'Thru' : 'Tee Time'}</p>
           </Col>
         </Row>

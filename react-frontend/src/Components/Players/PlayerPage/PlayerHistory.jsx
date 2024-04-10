@@ -33,9 +33,9 @@ const PlayerHistory = ({ bio }) => {
     )
   } else {
     return (
-      <Container fluid>
+      <Container fluid className='m-1 p-0'>
         <h5 className={`text-success ${window.innerWidth < 775 ? 'text-end' : 'text-start'}`}>Tournament History</h5>
-        <Row>
+        <Row className='m-1 p-0'>
           <Col xs={4} md={3} className='border border-2 border-success rounded'>
             <Row className='mb-1'>
               <h5 className='mb-2 mt-1 fs-6  text-center'>Best Finish</h5>
@@ -53,7 +53,6 @@ const PlayerHistory = ({ bio }) => {
         <Row>
           <PlayerHistoryAccordion pastMasters={pastMasters} />
         </Row>
-
       </Container>
     )
   }
