@@ -22,6 +22,7 @@ const FantasyTournamentConfigProvider = ({ children }) => {
 
   useEffect (() => {
     if (eventConfig && tournamentLeaderboardContext) {
+      console.log(eventConfig, tournamentLeaderboardContext)
       if (!tournamentLeaderboardContext.pairings|| !tournamentLeaderboardContext.leaderboard) {
         setFantasyTournamentConfig({
           rosterLock: false,
@@ -39,6 +40,7 @@ const FantasyTournamentConfigProvider = ({ children }) => {
 
         const getRoundLock = (currentRound, pairing) => {
           const { day, group } = pairing
+
           if (currentRound > day) return true   // past round LOCKED
           else if (currentRound === day) {      // current round
             let roundIndex = Number(currentRound) - 1
@@ -55,7 +57,7 @@ const FantasyTournamentConfigProvider = ({ children }) => {
         const checkRosterLock = (curRnd, rndstatus, pairings) => {
           // locked if round is > 1, or round 1 status is live or final -- unsure of status codes just a guess
           if (curRnd > '1' || rndstatus[0] === 'F' || rndstatus[0] === 'L') return true  
-          if (curRnd >= '1') {
+          if (curRnd >= '1' && rndstatus[0] !== 'N') {
             // lock roster after first tee time of round 1
             const { group } = pairings
             const openingTeeTime = group[0]['time']
