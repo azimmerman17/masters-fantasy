@@ -45,6 +45,7 @@ const FantasyTournamentConfigProvider = ({ children }) => {
           else if (currentRound === day) {      // current round
             let roundIndex = Number(currentRound) - 1
             if (statusRound[roundIndex] === 'F') return true  // if current round in status Final LOCKED
+            else if (statusRound[roundIndex] === 'N') return false  // if current round is not started UNLOCKED
             else {
               // if status is not in Final - check for last tee time off 1  is after that time LOCKED
               const firstTeeTime = group[0]['time']
