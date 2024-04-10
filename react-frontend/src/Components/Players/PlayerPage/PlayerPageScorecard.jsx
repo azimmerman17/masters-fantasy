@@ -1,8 +1,8 @@
-import Container from "react-bootstrap/Container"
+import Container from 'react-bootstrap/Container'
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import ScorecardMobile from "../../Scorecards/ScorecardsMobile";
-import ScorecardDesktop from "../../Scorecards/ScorecardDesktop";
+import ScorecardMobile from '../../Scorecards/ScorecardsMobile';
+import ScorecardDesktop from '../../Scorecards/ScorecardDesktop';
 
 const PlayerPageScorecard = ({ leaderboard, playerId }) => {
   // only display if there is a leaderboard
@@ -65,7 +65,7 @@ const PlayerPageScorecard = ({ leaderboard, playerId }) => {
     const displayScore = () => {
       if (window.innerWidth < 775) {
         return (
-          <Tabs defaultActiveKey={roundArr[roundArr.length - 1]} id="scorecard-tab-switcher" justify>
+          <Tabs defaultActiveKey={roundArr[roundArr.length - 1]} id='scorecard-tab-switcher' justify>
             {roundTabs}
           </Tabs>
         )
@@ -76,7 +76,7 @@ const PlayerPageScorecard = ({ leaderboard, playerId }) => {
     }
 
     return (
-      <Container fluid className="m-0 p-1">
+      <Container fluid className='m-1 p-0'>
         <h5 className={`text-success ${window.innerWidth < 775 ? 'text-end' :'text-start' }`}>Offical Scorecard</h5>
         {round1.roundStatus === 'Pre' || round1.roundStatus === 'not-applicable' ? (
           <p className='text-center'>No Scores to Display</p> 

@@ -41,11 +41,11 @@ const ResetPasswordForm = () => {
           <h2 className='text-center'>Forgot Password</h2>
           <p>Enter the email address or username associated with your account to receive instructions on resetting your password.</p>
           <Form onSubmit={e => handleSubmit(e)}>
-            <Form.Group className="mb-3" controlId="formUsernameOrEmail" onChange={(e) => setUserInfo(e.target.value)}>
+            <Form.Group className='mb-3' controlId='formUsernameOrEmail' onChange={(e) => setUserInfo(e.target.value)}>
               <Form.Label>Username or Email address</Form.Label>
-              <Form.Control type="text" placeholder="Enter Username or Email" />
+              <Form.Control type='text' placeholder='Enter Username or Email' />
             </Form.Group>
-            <Button variant="success" type="submit" disabled={!user_info}>
+            <Button variant='success' type='submit' disabled={!user_info}>
               Submit
             </Button>
           </Form>

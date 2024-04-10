@@ -1,8 +1,8 @@
-import Table from "react-bootstrap/Table"
+import Table from 'react-bootstrap/Table'
 
-import ScorecardMobileHeaders from "../../assets/Files/ScorecardMobileHeders"
-import PlayerScorecardHeaders from "./PlayerScorecardHeaders"
-import PlayerScorecardData from "./PlayerScorecardData"
+import ScorecardMobileHeaders from '../../assets/Files/ScorecardMobileHeders'
+import PlayerScorecardHeaders from './PlayerScorecardHeaders'
+import PlayerScorecardData from './PlayerScorecardData'
 
 const ScorecardMobile = ({ round, pars, scores }) => {
 

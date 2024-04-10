@@ -1,11 +1,11 @@
-import { useContext } from "react"
-import Container from "react-bootstrap/Container"
-import Row from "react-bootstrap/Row"
-import Col from "react-bootstrap/Col"
+import { useContext } from 'react'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 
-import { EventConfig } from "../../Contexts/EventConfig"
-import { PlayersContext } from "../../Contexts/PlayersContext"
-import InviteeCard from "./InviteeCard"
+import { EventConfig } from '../../Contexts/EventConfig'
+import { PlayersContext } from '../../Contexts/PlayersContext'
+import InviteeCard from './InviteeCard'
 
 const TournamentPlayers = () => {
   const { eventConfig, setEventConfig } = useContext(EventConfig)
@@ -14,7 +14,7 @@ const TournamentPlayers = () => {
   if (eventConfig && playersContext) {
     if (playersContext === 'No Player Data Avalible') {
       return (
-        <p className="my-3 text-center">
+        <p className='my-3 text-center'>
           The tournament invite list is not available at this time, please check back later.
         </p>
       )

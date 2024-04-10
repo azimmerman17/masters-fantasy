@@ -1,9 +1,9 @@
-import { useContext } from "react"
+import { useContext } from 'react'
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 
-import { FantasyTournamentConfig } from "../../../Contexts/FantasyTournamentConfig"
-import LineupTab from "./LineupTab";
+import { FantasyTournamentConfig } from '../../../Contexts/FantasyTournamentConfig'
+import LineupTab from './LineupTab';
 
 const UserLineups = ({ lineups, roster }) => {
   const {fantasyTournamentConfig, setFantasyTournamentConfig} = useContext(FantasyTournamentConfig)

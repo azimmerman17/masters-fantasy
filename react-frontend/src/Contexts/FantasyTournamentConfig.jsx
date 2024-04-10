@@ -1,10 +1,10 @@
 // context for configuation for the Fantasy Tournament
-import { useEffect, createContext, useState, useContext } from "react";
+import { useEffect, createContext, useState, useContext } from 'react';
 
 import { EventConfig } from './EventConfig'
-import { TournamentLeaderboardContext } from "./TournamentLeaderboard";
+import { TournamentLeaderboardContext } from './TournamentLeaderboard';
 
-import CheckTeeTimeLock from "../Functions/CheckTeeTimeLock";
+import CheckTeeTimeLock from '../Functions/CheckTeeTimeLock';
 
 export const FantasyTournamentConfig = createContext()
 
@@ -45,7 +45,7 @@ const FantasyTournamentConfigProvider = ({ children }) => {
             if (statusRound[roundIndex] === 'F') return true  // if current round in status Final LOCKED
             else {
               // if status is not in Final - check for last tee time off 1  is after that time LOCKED
-              const firstTeeTime = group[0]["time"]
+              const firstTeeTime = group[0]['time']
               
               return CheckTeeTimeLock(firstTeeTime, -5)
             }

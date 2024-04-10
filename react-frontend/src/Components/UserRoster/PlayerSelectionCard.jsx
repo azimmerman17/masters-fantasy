@@ -1,11 +1,11 @@
-import { useState } from "react"
+import { useState } from 'react'
 import Card from 'react-bootstrap/Card';
 import Image from 'react-bootstrap/Image';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
-import Alert from "react-bootstrap/Alert";
+import Alert from 'react-bootstrap/Alert';
 
-import HandleDBTransaction from "../../Functions/HandleDBTransaction";
+import HandleDBTransaction from '../../Functions/HandleDBTransaction';
 
 const PlayerSelectionCard = ({ player, picture, disable, current, currentUser, tournamentYear, column }) => {
   const BASE_URL = import.meta.env.VITE_BASE_URL
@@ -77,7 +77,7 @@ const PlayerSelectionCard = ({ player, picture, disable, current, currentUser, t
         <Image src={picture} className=' mx-auto border rounded-circle roster-img' />
         <Card.Body>
           <Card.Title>{first_name} {last_name} {amateur ? '(A)' : null}</Card.Title>
-          <Button variant="success" onClick={(e) => handleSelect(e, id)} disabled={disable}>Select Player</Button>
+          <Button variant='success' onClick={(e) => handleSelect(e, id)} disabled={disable}>Select Player</Button>
           <Alert variant='danger' show={alert}>{message} </Alert>
         </Card.Body>
       </Card>

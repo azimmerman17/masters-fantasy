@@ -1,6 +1,6 @@
 const emailCSS = `/* Base ------------------------------ */
     
-  @import url("https://fonts.googleapis.com/css?family=Nunito+Sans:400,700&display=swap");
+  @import url('https://fonts.googleapis.com/css?family=Nunito+Sans:400,700&display=swap');
   body {
     width: 100% !important;
     height: 100%;
@@ -36,7 +36,7 @@ const emailCSS = `/* Base ------------------------------ */
   body,
   td,
   th {
-    font-family: "Nunito Sans", Helvetica, Arial, sans-serif;
+    font-family: 'Nunito Sans', Helvetica, Arial, sans-serif;
   }
   
   h1 {

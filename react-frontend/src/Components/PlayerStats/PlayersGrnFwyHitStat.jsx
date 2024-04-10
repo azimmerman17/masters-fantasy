@@ -1,9 +1,9 @@
-import Container from "react-bootstrap/Container"
-import Row from "react-bootstrap/Row"
-import Col from "react-bootstrap/Col"
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 
-import DoughnutChart from "../Charts/DoughnutChart"
-import PolarAreaChart from "../Charts/PolarAreaChart"
+import DoughnutChart from '../Charts/DoughnutChart'
+import PolarAreaChart from '../Charts/PolarAreaChart'
 
 const PlayersGrnFwyHitStat = ({ stats, mode }) => {
   const DoughnutLabels = [`${mode} Hit`, `${mode} Missed`]
@@ -71,7 +71,7 @@ const PlayersGrnFwyHitStat = ({ stats, mode }) => {
             <Row className='my-2'>
         <Col sm={12} md={6}>
           <Row className='m-2'>
-            <h6 className="text-center text-success">Round Summary</h6>
+            <h6 className='text-center text-success'>Round Summary</h6>
           </Row>
           <Row>
             <Col style={{maxWidth: '400px'}} className='m-auto' >
@@ -81,7 +81,7 @@ const PlayersGrnFwyHitStat = ({ stats, mode }) => {
         </Col>
         <Col sm={12} md={6}>
           <Row className='m-2'>
-            <h6 className="text-center text-success">Tournament Summary</h6>
+            <h6 className='text-center text-success'>Tournament Summary</h6>
           </Row>
           <Row>
             <Col style={{maxWidth: '400px'}} className='m-auto' >

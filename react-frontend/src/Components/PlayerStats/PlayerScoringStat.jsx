@@ -1,9 +1,9 @@
-import Container from "react-bootstrap/Container"
-import Row from "react-bootstrap/Row"
-import Col from "react-bootstrap/Col"
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 
-import DoughnutChart from "../Charts/DoughnutChart"
-import StackedHorizontalChart from "../Charts/StackedHorizontalChart"
+import DoughnutChart from '../Charts/DoughnutChart'
+import StackedHorizontalChart from '../Charts/StackedHorizontalChart'
 
 const PlayerScoringStat = ({ eagles, birdies, pars, bogeys, doubleBogeys }) => {
   const labels = ['Eagles', 'Birdies', 'Pars', 'Bogeys', 'Dbl Bogeys+']
@@ -79,7 +79,7 @@ const PlayerScoringStat = ({ eagles, birdies, pars, bogeys, doubleBogeys }) => {
       <Row className='my-2'>
         <Col sm={12} md={6}> 
           <Row className='m-2'>
-            <h6 className="text-center text-success">Round Summary</h6>
+            <h6 className='text-center text-success'>Round Summary</h6>
           </Row>
           <Row>
             <Col className='m-auto' >
@@ -89,7 +89,7 @@ const PlayerScoringStat = ({ eagles, birdies, pars, bogeys, doubleBogeys }) => {
         </Col>
         <Col sm={12} md={6}>
           <Row className='m-2'>
-            <h6 className="text-center text-success">Tournament Summary</h6>
+            <h6 className='text-center text-success'>Tournament Summary</h6>
           </Row>
           <Row>
             <Col style={{maxWidth: '400px'}} className='m-auto' >

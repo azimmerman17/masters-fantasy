@@ -1,5 +1,5 @@
 // context for configuation for the Fantasy Tournament
-import { useEffect, createContext, useState, useContext } from "react";
+import { useEffect, createContext, useState, useContext } from 'react';
 
 import { CurrentUser } from './CurrentUserContext'
 

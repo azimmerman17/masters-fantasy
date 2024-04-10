@@ -1,6 +1,6 @@
 import {  useContext } from 'react'
-import Container from "react-bootstrap/Container";
-import Table from "react-bootstrap/Table"
+import Container from 'react-bootstrap/Container';
+import Table from 'react-bootstrap/Table'
 
 import { FantasyLeaderboard } from '../../../Contexts/FantasyLeaderboardContext'
 import { EventConfig } from '../../../Contexts/EventConfig';

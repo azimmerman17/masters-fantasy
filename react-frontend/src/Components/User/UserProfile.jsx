@@ -1,17 +1,17 @@
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-import Container from "react-bootstrap/Container"
-import Row from "react-bootstrap/Row"
-import Col from "react-bootstrap/Col"
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 
-import { IoGolf } from "react-icons/io5"
+import { IoGolf } from 'react-icons/io5'
 
-import { CurrentUser } from "../../Contexts/CurrentUserContext";
-import DeleteAlert from "./DeleteAlert";
-import DisplayPersonalData from "./DisplayPersonalData";
-import EditUserData from "./EditUserData";
-import UserRoster from "../UserRoster/UserRoster";
-import Logout from "../Logout";
+import { CurrentUser } from '../../Contexts/CurrentUserContext';
+import DeleteAlert from './DeleteAlert';
+import DisplayPersonalData from './DisplayPersonalData';
+import EditUserData from './EditUserData';
+import UserRoster from '../UserRoster/UserRoster';
+import Logout from '../Logout';
 
 const UserProfile = () => {
   const BASE_URL = import.meta.env.VITE_BASE_URL

@@ -1,11 +1,11 @@
-import { useContext } from "react"
-import Row from "react-bootstrap/Row"
-import Col from "react-bootstrap/Col"
-import Image from "react-bootstrap/Image"
+import { useContext } from 'react'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import Image from 'react-bootstrap/Image'
 
-import { EventConfig } from "../../../Contexts/EventConfig"
-import { FantasyTournamentConfig } from "../../../Contexts/FantasyTournamentConfig"
-import SelectionDropdown from "./SelectionDropDown"
+import { EventConfig } from '../../../Contexts/EventConfig'
+import { FantasyTournamentConfig } from '../../../Contexts/FantasyTournamentConfig'
+import SelectionDropdown from './SelectionDropDown'
 
 
 const LineupSelection =({ playersRoster, player, roundLineup, round, lineupSpot }) => {

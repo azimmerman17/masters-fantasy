@@ -1,11 +1,11 @@
-import Container from "react-bootstrap/Container"
+import Container from 'react-bootstrap/Container'
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 
-import PlayerStatsHeaders from "../../../assets/Files/PlayerStatsHeaders";
-import PlayerScoringStat from "../../PlayerStats/PlayerScoringStat";
-import PlayersGrnFwyHitStat from "../../PlayerStats/PlayersGrnFwyHitStat";
-import PlayerDrivePuttStat from "../../PlayerStats/PlayerDrivePuttStat";
+import PlayerStatsHeaders from '../../../assets/Files/PlayerStatsHeaders';
+import PlayerScoringStat from '../../PlayerStats/PlayerScoringStat';
+import PlayersGrnFwyHitStat from '../../PlayerStats/PlayersGrnFwyHitStat';
+import PlayerDrivePuttStat from '../../PlayerStats/PlayerDrivePuttStat';
 
 const PlayerStatsComponent = ({ stats }) => {
   // do not display if there are no stats
@@ -62,14 +62,14 @@ const PlayerStatsComponent = ({ stats }) => {
     })
 
     return (
-      <Container fluid className="m-1 p-0">
+      <Container fluid className='m-1 p-0'>
         <h5 className={`text-success ${window.innerWidth < 775 ? 'text-end' : 'text-start'}`}>Tournament Statistics</h5>
         {round.length === 0 ? (
-          <p className="m-0 p-0 text-center">
+          <p className='m-0 p-0 text-center'>
             No Statistics to show
           </p>
         ) :(
-          <Tabs defaultActiveKey={PlayerStatsHeaders[0]} id="stats-tab-switcher">
+          <Tabs defaultActiveKey={PlayerStatsHeaders[0]} id='stats-tab-switcher'>
             {statTabs}
           </Tabs>
         )}

@@ -13,7 +13,7 @@ const NotFound = () => {
       <Row>
         <Image src={photo} alt='404 Image' className=' px-0 img-fluid' />
         <p className='label-small text-center'>
-          Photo by <a href="https://unsplash.com/@andrewshelley?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Andrew Shelley</a> on <a href="https://unsplash.com/photos/brown-wooden-dock-on-lake-during-daytime-dyXifZBEJBk?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+          Photo by <a href='https://unsplash.com/@andrewshelley?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash'>Andrew Shelley</a> on <a href='https://unsplash.com/photos/brown-wooden-dock-on-lake-during-daytime-dyXifZBEJBk?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash'>Unsplash</a>
         </p>
       </Row>
       <Row>

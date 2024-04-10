@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from 'react-router-dom'
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
@@ -102,79 +102,79 @@ const SignUp = () => {
       )
       }
       <Form noValidate validated={validated} onSubmit={(e) => handleSubmit(e)}>
-        <Row className="mb-3">
-          <Form.Group as={Col} md={6} controlId="newUserFirstName" className="mb-3" onChange={(e) => setUser({ ...user, first_name: e.target.value})}>
+        <Row className='mb-3'>
+          <Form.Group as={Col} md={6} controlId='newUserFirstName' className='mb-3' onChange={(e) => setUser({ ...user, first_name: e.target.value})}>
             <Form.Label>First name</Form.Label>
             <Form.Control
-              type="text"
-              placeholder="Enter First name"
+              type='text'
+              placeholder='Enter First name'
               maxLength={20}
             />
           </Form.Group>
-          <Form.Group as={Col} md={6} controlId="newUserLastName" className="mb-3" onChange={(e) => setUser({ ...user, last_name: e.target.value})}>
+          <Form.Group as={Col} md={6} controlId='newUserLastName' className='mb-3' onChange={(e) => setUser({ ...user, last_name: e.target.value})}>
             <Form.Label>Last name</Form.Label>
             <Form.Control
-              type="text"
-              placeholder="Enter Last name"
+              type='text'
+              placeholder='Enter Last name'
               maxLength={20}
             />
           </Form.Group>
         </Row>
-        <Row className="mb-3">
-          <Form.Group as={Col} md={4} controlId="newUserUsername" className="mb-3" onChange={(e) => checkUserNameEmail(e.target.value, 'userName')}>
+        <Row className='mb-3'>
+          <Form.Group as={Col} md={4} controlId='newUserUsername' className='mb-3' onChange={(e) => checkUserNameEmail(e.target.value, 'userName')}>
             <Form.Label>Username<sup>*</sup></Form.Label>
             <InputGroup hasValidation>
               <Form.Control
-                type="text"
-                placeholder="Enter Username"
+                type='text'
+                placeholder='Enter Username'
                 required
                 isInvalid={!usernameUnique}
                 maxLength={20}
               />
-              <Form.Control.Feedback type="invalid">
+              <Form.Control.Feedback type='invalid'>
                 {usernameUnique === false ? 'Username not available' : 'Please choose a username'}
               </Form.Control.Feedback>
             </InputGroup>
           </Form.Group>
-          <Form.Group as={Col} md={8} controlId="newUserEmail" className="mb-3" onChange={(e) => checkUserNameEmail(e.target.value, 'email')}>
+          <Form.Group as={Col} md={8} controlId='newUserEmail' className='mb-3' onChange={(e) => checkUserNameEmail(e.target.value, 'email')}>
             <Form.Label>Email<sup>*</sup></Form.Label>
             <Form.Control 
-              type="email"
-              placeholder="Enter Email"
+              type='email'
+              placeholder='Enter Email'
               required
               isInvalid={!emailUnique}
               maxLength={30} />
-            <Form.Control.Feedback type="invalid">
+            <Form.Control.Feedback type='invalid'>
             {usernameUnique === false ? 'Email not available' : ' Please provide a valid email'}
             </Form.Control.Feedback>
           </Form.Group>
-          <Form.Group as={Col} md={6} controlId="newUserPasword" className="mb-3" onChange={(e) => validatePasswords(e.target.value)}>
+          <Form.Group as={Col} md={6} controlId='newUserPasword' className='mb-3' onChange={(e) => validatePasswords(e.target.value)}>
             <Form.Label>Password</Form.Label>
             <Form.Control 
-              type="password"
-              placeholder="Enter Password"
+              type='password'
+              placeholder='Enter Password'
               required 
               minLength={6}
               maxLength={32}/>
-            <Form.Control.Feedback type="invalid">
+            <Form.Control.Feedback type='invalid'>
               {user.password < 6 || user.password.length >32 ? 'Password is too long/short' : 'Please provide a password'}
             </Form.Control.Feedback>
           </Form.Group>
-          <Form.Group as={Col} md={6} controlId="newUserPaswordConfirm" className="mb-3" onChange={(e) => validatePasswords(e.target.value, 'confirm')}>
+          <Form.Group as={Col} md={6} controlId='newUserPaswordConfirm' className='mb-3' onChange={(e) => validatePasswords(e.target.value, 'confirm')}>
             <Form.Label>Confirm Password</Form.Label>
             <Form.Control 
-              type="password" 
-              placeholder="Confirm Password"
+              type='password' 
+              placeholder='Confirm Password'
               required 
               isInvalid={user.password !== user.password_confirm} />
-            <Form.Control.Feedback type="invalid">
+            <Form.Control.Feedback type='invalid'>
               Passwords do not match
             </Form.Control.Feedback>
           </Form.Group>
         </Row>
     
         <Button 
-        type="submit"
+        type='submit'
         disabled={user.password === null || user.password.length < 6 || user.password.length> 32 || user.password !== user.password_confirm || !usernameUnique || !emailUnique}
         >
           Create Account

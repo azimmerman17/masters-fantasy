@@ -1,8 +1,8 @@
-import { useContext } from "react" 
+import { useContext } from 'react' 
 
-import { CurrentUser } from "../Contexts/CurrentUserContext"
-import Login from "./Login"
-import UserProfile from "./User/UserProfile"
+import { CurrentUser } from '../Contexts/CurrentUserContext'
+import Login from './Login'
+import UserProfile from './User/UserProfile'
 
 const  HomePage = () => {
   const {currentUser, setCurrentUser} = useContext(CurrentUser)

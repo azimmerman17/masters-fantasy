@@ -80,50 +80,50 @@ const EditProfileForm = ({ currentUser }) => {
       <EditProfileAlert show={showAlert} setShow={setShowAlert} message={message} status='danger' />
       <h5 className='text-center'>Profile Information</h5>
       <Form onSubmit={e => handleSumbit(e)}>
-        <Form.Group as={Col} md={6} controlId="editUserFirstName" className="mb-3" onChange={(e) => SetEditUser({ ...editUser, first_name: e.target.value})}>
+        <Form.Group as={Col} md={6} controlId='editUserFirstName' className='mb-3' onChange={(e) => SetEditUser({ ...editUser, first_name: e.target.value})}>
           <Form.Label>First name</Form.Label>
           <Form.Control
-            type="text"
+            type='text'
             placeholder={currentUser.first_name}
             maxLength={20}
           />
         </Form.Group>
-        <Form.Group as={Col} md={6} controlId="editUserLastName" className="mb-3" onChange={(e) => SetEditUser({ ...editUser, last_name: e.target.value})}>
+        <Form.Group as={Col} md={6} controlId='editUserLastName' className='mb-3' onChange={(e) => SetEditUser({ ...editUser, last_name: e.target.value})}>
           <Form.Label>Last name</Form.Label>
           <Form.Control
-            type="text"
+            type='text'
             placeholder={currentUser.last_name}
             maxLength={20}
           />
         </Form.Group>
-        <Form.Group as={Col} md={4} controlId="editUserUsername" className="mb-3" onChange={(e) => checkUserNameEmail(e.target.value, 'userName')}>
+        <Form.Group as={Col} md={4} controlId='editUserUsername' className='mb-3' onChange={(e) => checkUserNameEmail(e.target.value, 'userName')}>
           <Form.Label>Username</Form.Label>
           <InputGroup hasValidation>
             <Form.Control
-              type="text"
+              type='text'
               placeholder={currentUser.user_name}
               isInvalid={!usernameUnique}
               maxLength={20}
             />
-            <Form.Control.Feedback type="invalid">
+            <Form.Control.Feedback type='invalid'>
               Username not available
             </Form.Control.Feedback>
           </InputGroup>
         </Form.Group>
-        <Form.Group as={Col} md={8} controlId="editUserEmail" className="mb-3" onChange={(e) => checkUserNameEmail(e.target.value, 'email')}>
+        <Form.Group as={Col} md={8} controlId='editUserEmail' className='mb-3' onChange={(e) => checkUserNameEmail(e.target.value, 'email')}>
           <Form.Label>Email</Form.Label>
           <Form.Control 
-            type="email"
+            type='email'
             placeholder={currentUser.email}
             isInvalid={!emailUnique}
             maxLength={30}
           />
-          <Form.Control.Feedback type="invalid">
+          <Form.Control.Feedback type='invalid'>
             Email not available
           </Form.Control.Feedback>
         </Form.Group>
         <Button 
-          type="submit" 
+          type='submit' 
           variant='primary' 
           className='m-2 mx-auto'
           disabled={!usernameUnique || !emailUnique || (editUser.user_name === undefined && editUser.email === undefined && editUser.first_name === undefined && editUser.last_name === undefined)}

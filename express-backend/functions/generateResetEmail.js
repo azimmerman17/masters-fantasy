@@ -2,8 +2,8 @@
 // https://postmarkapp.com/transactional-email-templates/reset-password
 
 
-const emailCSS = require("../assets/emailStyle")
-const encryptValue = require("./encryptValue")
+const emailCSS = require('../assets/emailStyle')
+const encryptValue = require('./encryptValue')
 
 const generateResetEmail = async (first_name, last_name, os, browser, token) => {
   const githubRepo = process.env.GITHUB_REPO
@@ -90,10 +90,10 @@ const generateResetEmail = async (first_name, last_name, os, browser, token) => 
       </tr>
       <tr>
         <td>
-          <table class="email-footer" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation">
+          <table class='email-footer' align='center' width='570' cellpadding='0' cellspacing='0' role='presentation'>
             <tr>
-              <td class="content-cell" align="center">
-                <p class="f-fallback sub align-center">
+              <td class='content-cell' align='center'>
+                <p class='f-fallback sub align-center'>
                   Masters Fantasy Golf
                   <br><a href='${homepage}' class='f-fallback email-masthead_name'>Home Page</a>
                   <br><a href='${githubRepo}' class='f-fallback email-masthead_name'>Github Repostitory</a>

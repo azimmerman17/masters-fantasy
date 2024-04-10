@@ -1,7 +1,7 @@
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
-import ScoreColor from "../../Functions/ScoreColor";
+import ScoreColor from '../../Functions/ScoreColor';
 
 const RosterPlayerStats  = ({ newStatus, pos, topar, teetime, status }) =>{
   switch (newStatus) {

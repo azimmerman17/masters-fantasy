@@ -1,4 +1,4 @@
-import DisplayTableHeader from "../../Functions/DisplayTableHeader"
+import DisplayTableHeader from '../../Functions/DisplayTableHeader'
 
 const LeaderboardTableHeader = ({ headers }) => {
  

@@ -1,10 +1,10 @@
-import { useContext } from "react"
+import { useContext } from 'react'
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/esm/Container';
 
-import { TournamentLeaderboardContext } from "../../Contexts/TournamentLeaderboard"
-import { PlayersContext } from "../../Contexts/PlayersContext"
+import { TournamentLeaderboardContext } from '../../Contexts/TournamentLeaderboard'
+import { PlayersContext } from '../../Contexts/PlayersContext'
 import FantasyRosterSpots from '../../assets/Files/FantasyRosterSpots'
 import RosterSpot from './RosterSpot';
 

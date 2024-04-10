@@ -1,13 +1,13 @@
-import { useState } from "react"
-import { useSearchParams } from "react-router-dom";
+import { useState } from 'react'
+import { useSearchParams } from 'react-router-dom';
 
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
-import Container from "react-bootstrap/Container";
+import Container from 'react-bootstrap/Container';
 
 import EditProfileAlert from './EditProfileAlert';
-import Login from "../Login";
+import Login from '../Login';
 
 const ResetPassword = () => {
   const BASE_URL = import.meta.env.VITE_BASE_URL
@@ -45,28 +45,28 @@ const ResetPassword = () => {
       <EditProfileAlert show={showAlert} setShow={setShowAlert} message={alert} status={'danger'} />
       <h5 className='text-center'>Reset Password</h5>
       <Form onSubmit={e => handlePasswordSumbit(e)}>
-        <Form.Group as={Col} md={6} controlId="changeUserPasword" className="mb-3" onChange={(e) => SetResetPassword({...resetPassword, changePassword: e.target.value})}>
+        <Form.Group as={Col} md={6} controlId='changeUserPasword' className='mb-3' onChange={(e) => SetResetPassword({...resetPassword, changePassword: e.target.value})}>
           <Form.Label>New Password<sup>*</sup></Form.Label>
           <Form.Control 
-            type="password"
-            placeholder="New Password"
+            type='password'
+            placeholder='New Password'
             required 
             minLength={6}
             maxLength={32}/>
         </Form.Group>
-        <Form.Group as={Col} md={6} controlId="changeUserPaswordConfirm" className="mb-3" onChange={(e) => SetResetPassword({...resetPassword, confirmPassword: e.target.value})}>
+        <Form.Group as={Col} md={6} controlId='changeUserPaswordConfirm' className='mb-3' onChange={(e) => SetResetPassword({...resetPassword, confirmPassword: e.target.value})}>
           <Form.Label>Confirm New Password<sup>*</sup></Form.Label>
           <Form.Control 
-            type="password" 
-            placeholder="Confirm New Password"
+            type='password' 
+            placeholder='Confirm New Password'
             required 
             isInvalid={resetPassword.password !== resetPassword.password_confirm} />
-          <Form.Control.Feedback type="invalid">
+          <Form.Control.Feedback type='invalid'>
             Passwords do not match
           </Form.Control.Feedback>
         </Form.Group>
         <Button 
-          type="submit"
+          type='submit'
           variant='primary' 
           className='m-2 mx-auto' 
           disabled={(resetPassword.changePassword && resetPassword.changePassword.length < 6) || !resetPassword.changePassword || resetPassword.changePassword !== resetPassword.confirmPassword} 

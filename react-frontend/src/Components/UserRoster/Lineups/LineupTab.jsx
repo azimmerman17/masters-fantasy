@@ -1,11 +1,11 @@
-import { useContext } from "react"
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+import { useContext } from 'react'
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
-import { TournamentLeaderboardContext } from "../../../Contexts/TournamentLeaderboard";
-import { PlayersContext } from "../../../Contexts/PlayersContext"
-import LineupSelection from "./LinupSelection";
+import { TournamentLeaderboardContext } from '../../../Contexts/TournamentLeaderboard';
+import { PlayersContext } from '../../../Contexts/PlayersContext'
+import LineupSelection from './LinupSelection';
 
 
 const LineupTab = ({ lineup, roster, round }) => {

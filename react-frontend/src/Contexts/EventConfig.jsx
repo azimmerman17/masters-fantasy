@@ -1,5 +1,5 @@
 // context for tournament data from the Masters
-import { useEffect, createContext, useState } from "react";
+import { useEffect, createContext, useState } from 'react';
 
 
 export const EventConfig = createContext()

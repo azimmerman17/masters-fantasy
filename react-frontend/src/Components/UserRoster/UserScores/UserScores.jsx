@@ -1,11 +1,11 @@
-import { useContext } from "react"
-import Container from "react-bootstrap/Container"
-import Row from "react-bootstrap/Row"
-import Col from "react-bootstrap/Col"
+import { useContext } from 'react'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 
-import { TournamentLeaderboardContext } from "../../../Contexts/TournamentLeaderboard"
-import CalculateRoundHoles from "../../../Functions/CalculateRoundHoles"
-import ScoreColor from "../../../Functions/ScoreColor"
+import { TournamentLeaderboardContext } from '../../../Contexts/TournamentLeaderboard'
+import CalculateRoundHoles from '../../../Functions/CalculateRoundHoles'
+import ScoreColor from '../../../Functions/ScoreColor'
 
 const UserScores = ({ scoring, lineups }) => {
   const { tournamentLeaderboardContext, setTournamentLeaderboardContext } = useContext(TournamentLeaderboardContext)

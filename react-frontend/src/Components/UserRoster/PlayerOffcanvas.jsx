@@ -1,17 +1,17 @@
-import { useContext, useState } from "react"
+import { useContext, useState } from 'react'
 import Card from 'react-bootstrap/Card';
 import Image from 'react-bootstrap/Image';
 import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Container from 'react-bootstrap/Container';
-import Alert from "react-bootstrap/Alert";
+import Alert from 'react-bootstrap/Alert';
 
 
-import { CurrentUser } from "../../Contexts/CurrentUserContext"
-import { PlayersContext } from "../../Contexts/PlayersContext"
-import { EventConfig } from "../../Contexts/EventConfig"
-import HandleDBTransaction from "../../Functions/HandleDBTransaction";
-import PlayerSelectionCard from "./PlayerSelectionCard";
+import { CurrentUser } from '../../Contexts/CurrentUserContext'
+import { PlayersContext } from '../../Contexts/PlayersContext'
+import { EventConfig } from '../../Contexts/EventConfig'
+import HandleDBTransaction from '../../Functions/HandleDBTransaction';
+import PlayerSelectionCard from './PlayerSelectionCard';
 
 
 const PlayerOffcanvas = ({ show, cardName, setShow, i }) => {

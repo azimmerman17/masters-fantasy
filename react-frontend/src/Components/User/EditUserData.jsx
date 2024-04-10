@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Col from 'react-bootstrap/Col';
-import { FaUserEdit } from "react-icons/fa";
+import { FaUserEdit } from 'react-icons/fa';
 
 import EditProfileForm from './EditProfileForm';
 import EditPasswordForm from './EditPasswordForm';
@@ -17,7 +17,7 @@ const EditUserData = ({ currentUser, setCurrentUser }) => {
 
   return (
     <>
-      <Button variant="warning" onClick={handleShowClose}>
+      <Button variant='warning' onClick={handleShowClose}>
         <FaUserEdit />
       </Button>{' '}
       <Offcanvas show={show} onHide={handleShowClose} placement='start' scroll backdrop keyboard>

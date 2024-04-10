@@ -3,7 +3,7 @@ import Container from 'react-bootstrap/esm/Container';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { CurrentUser } from "../Contexts/CurrentUserContext"
+import { CurrentUser } from '../Contexts/CurrentUserContext'
 
 const Logout = () => {
   const { currentUser, setCurrentUser } = useContext(CurrentUser)
@@ -18,7 +18,7 @@ const Logout = () => {
 
   return (
     <Container fluid>
-      <Button variant="warning" className='w-100' style={{maxWidth: '200px'}} onClick={(e) => handleClick(e)}>
+      <Button variant='warning' className='w-100' style={{maxWidth: '200px'}} onClick={(e) => handleClick(e)}>
         Log out
       </Button>
     </Container>

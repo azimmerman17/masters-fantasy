@@ -1,7 +1,7 @@
-import Container from "react-bootstrap/Container"
+import Container from 'react-bootstrap/Container'
 import Accordion from 'react-bootstrap/Accordion'
-import Table from "react-bootstrap/Table"
-import { FaTrophy } from "react-icons/fa6";
+import Table from 'react-bootstrap/Table'
+import { FaTrophy } from 'react-icons/fa6';
 
 const PlayerHistoryAccordion = ({ pastMasters }) => {
   let fields = ['Year', 'Place', 'R1', 'R2', 'R3', 'R4', 'Total']
@@ -60,11 +60,11 @@ const PlayerHistoryAccordion = ({ pastMasters }) => {
 
   return (
     <Container fluid>
-      <Accordion className="m-0">
-        <Accordion.Item eventKey="0">
+      <Accordion className='m-0'>
+        <Accordion.Item eventKey='0'>
           <Accordion.Header>Previous Finishes</Accordion.Header>
           <Accordion.Body>
-            <Table hover size="sm" >
+            <Table hover size='sm' >
               <thead>
                 <tr>
                   {headers}

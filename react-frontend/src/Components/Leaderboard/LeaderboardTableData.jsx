@@ -1,9 +1,9 @@
 
-import { PiArrowUpLight } from "react-icons/pi";            // <PiArrowUpLight />
-import { PiArrowDownLight } from "react-icons/pi";          // <PiArrowDownLight />
-import { PiArrowsHorizontalLight } from "react-icons/pi";   // <PiArrowsHorizontalLight />
+import { PiArrowUpLight } from 'react-icons/pi';            // <PiArrowUpLight />
+import { PiArrowDownLight } from 'react-icons/pi';          // <PiArrowDownLight />
+import { PiArrowsHorizontalLight } from 'react-icons/pi';   // <PiArrowsHorizontalLight />
 import Image from 'react-bootstrap/Image';
-import ScoreColor from "../../Functions/ScoreColor";
+import ScoreColor from '../../Functions/ScoreColor';
 
 
 

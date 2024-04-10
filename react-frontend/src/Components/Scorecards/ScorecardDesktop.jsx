@@ -1,10 +1,10 @@
-import Table from "react-bootstrap/Table"
-import Container from "react-bootstrap/esm/Container"
+import Table from 'react-bootstrap/Table'
+import Container from 'react-bootstrap/esm/Container'
 
-import ScorecardDesktopHeaders from "../../assets/Files/ScorecardDesktopHeaders"
-import PlayerScorecardHeaders from "./PlayerScorecardHeaders"
-import PlayerScorecardData from "./PlayerScorecardData"
-import RemoveValueArray from "../../Functions/RemoveValueArray"
+import ScorecardDesktopHeaders from '../../assets/Files/ScorecardDesktopHeaders'
+import PlayerScorecardHeaders from './PlayerScorecardHeaders'
+import PlayerScorecardData from './PlayerScorecardData'
+import RemoveValueArray from '../../Functions/RemoveValueArray'
 
 const ScorecardDesktop = ({ r1, r2, r3, r4, pars, yardages }) => {
   let outYards = 0

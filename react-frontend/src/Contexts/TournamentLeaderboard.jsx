@@ -1,9 +1,9 @@
 // context for the Tournament Leaderboard
-import { useEffect, createContext, useContext, useState } from "react";
+import { useEffect, createContext, useContext, useState } from 'react';
 
 import { EventConfig } from './EventConfig'
 import HandleDBTransaction from '../Functions/HandleDBTransaction'
-import MASTERS_URL from "../assets/Files/MASTERS_URL";
+import MASTERS_URL from '../assets/Files/MASTERS_URL';
 
 export const TournamentLeaderboardContext = createContext()
 

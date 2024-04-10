@@ -1,14 +1,14 @@
-import { useContext } from "react"
-import Container from "react-bootstrap/Container"
-import Row from "react-bootstrap/Row"
+import { useContext } from 'react'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
 
-import { FantasyTournamentConfig } from "../../Contexts/FantasyTournamentConfig"
-import { PlayersContext } from "../../Contexts/PlayersContext"
-import { CurrentUser } from "../../Contexts/CurrentUserContext"
-import { TournamentLeaderboardContext } from "../../Contexts/TournamentLeaderboard"
-import UserRosterSelection from "./UserRosterSelection"
-import UserLineups from "./Lineups/UserLineups"
-import UserScores from "./UserScores/UserScores"
+import { FantasyTournamentConfig } from '../../Contexts/FantasyTournamentConfig'
+import { PlayersContext } from '../../Contexts/PlayersContext'
+import { CurrentUser } from '../../Contexts/CurrentUserContext'
+import { TournamentLeaderboardContext } from '../../Contexts/TournamentLeaderboard'
+import UserRosterSelection from './UserRosterSelection'
+import UserLineups from './Lineups/UserLineups'
+import UserScores from './UserScores/UserScores'
 
 const UserRoster = () => {
   const {playersContext, setPlayersContext} = useContext(PlayersContext)

@@ -50,35 +50,35 @@ const EditPasswordForm = ({ currentUser }) => {
     <EditProfileAlert show={showAlert} setShow={setShowAlert} message={passwordMessage} status={status} />
     <h5 className='text-center'>Change Password</h5>
     <Form onSubmit={e => handlePasswordSumbit(e)}>
-      <Form.Group as={Col} md={6} controlId="currentUserPassword" className="mb-3" onChange={(e) => SetEditPassword({...editPassword, currentPassword: e.target.value})}>
+      <Form.Group as={Col} md={6} controlId='currentUserPassword' className='mb-3' onChange={(e) => SetEditPassword({...editPassword, currentPassword: e.target.value})}>
         <Form.Label>Current Password<sup>*</sup></Form.Label>
         <Form.Control 
-          type="password"
-          placeholder="Current Password"
+          type='password'
+          placeholder='Current Password'
           required/>
       </Form.Group>
-          <Form.Group as={Col} md={6} controlId="changeUserPasword" className="mb-3" onChange={(e) => SetEditPassword({...editPassword, changePassword: e.target.value})}>
+          <Form.Group as={Col} md={6} controlId='changeUserPasword' className='mb-3' onChange={(e) => SetEditPassword({...editPassword, changePassword: e.target.value})}>
         <Form.Label>New Password<sup>*</sup></Form.Label>
         <Form.Control 
-          type="password"
-          placeholder="New Password"
+          type='password'
+          placeholder='New Password'
           required 
           minLength={6}
           maxLength={32}/>
       </Form.Group>
-      <Form.Group as={Col} md={6} controlId="changeUserPaswordConfirm" className="mb-3" onChange={(e) => SetEditPassword({...editPassword, confirmPassword: e.target.value})}>
+      <Form.Group as={Col} md={6} controlId='changeUserPaswordConfirm' className='mb-3' onChange={(e) => SetEditPassword({...editPassword, confirmPassword: e.target.value})}>
         <Form.Label>Confirm New Password<sup>*</sup></Form.Label>
         <Form.Control 
-          type="password" 
-          placeholder="Confirm New Password"
+          type='password' 
+          placeholder='Confirm New Password'
           required 
           isInvalid={editPassword.password !== editPassword.password_confirm} />
-        <Form.Control.Feedback type="invalid">
+        <Form.Control.Feedback type='invalid'>
           Passwords do not match
         </Form.Control.Feedback>
       </Form.Group>
       <Button 
-        type="submit"
+        type='submit'
         variant='primary' 
         className='m-2 mx-auto' 
         disabled={(editPassword.changePassword && editPassword.changePassword.length < 6) || !editPassword.changePassword || !editPassword.currentPassword || editPassword.changePassword !== editPassword.confirmPassword} 

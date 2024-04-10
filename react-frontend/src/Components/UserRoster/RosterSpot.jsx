@@ -1,12 +1,12 @@
-import { useContext, useState } from "react"
+import { useContext, useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Image from 'react-bootstrap/Image';
-import { IoGolf } from "react-icons/io5"
+import { IoGolf } from 'react-icons/io5'
 
-import { EventConfig } from "../../Contexts/EventConfig"
-import PlayerOffcanvas from "./PlayerOffcanvas";
-import RosterPlayerStats from "./RosterPlayerStats";
+import { EventConfig } from '../../Contexts/EventConfig'
+import PlayerOffcanvas from './PlayerOffcanvas';
+import RosterPlayerStats from './RosterPlayerStats';
 
 const RosterSpot = ({ player, cardName, lock, i }) => {
   const { eventConfig, setEventConfig } = useContext(EventConfig)
@@ -27,13 +27,13 @@ const RosterSpot = ({ player, cardName, lock, i }) => {
       if (player) {
         return (
           <>
-            {lock ? <RosterPlayerStats newStatus={player.newStatus} pos={player.pos} topar={player.topar} teetime={player.teetime} status={player.status} /> : <Button variant="primary" onClick={handleClick}>Select Player</Button>}
+            {lock ? <RosterPlayerStats newStatus={player.newStatus} pos={player.pos} topar={player.topar} teetime={player.teetime} status={player.status} /> : <Button variant='primary' onClick={handleClick}>Select Player</Button>}
           </>
         )
       } else {
         return (
           <>
-            {lock ? null : <Button variant="primary" onClick={handleClick}>Select Player</Button>}
+            {lock ? null : <Button variant='primary' onClick={handleClick}>Select Player</Button>}
           </>
         )
       }
