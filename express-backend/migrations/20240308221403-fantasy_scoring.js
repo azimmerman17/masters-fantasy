@@ -10,7 +10,6 @@ module.exports = {
       queryInterface.renameColumn('Fantasy_Scoring', 'round2_no_bb', 'round2_aggr'),
       queryInterface.renameColumn('Fantasy_Scoring', 'round3_no_bb', 'round3_aggr'),
       queryInterface.renameColumn('Fantasy_Scoring', 'round4_no_bb', 'round4_aggr'),
-
     ]);
   },
 

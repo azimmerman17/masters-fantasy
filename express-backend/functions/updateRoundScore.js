@@ -4,6 +4,7 @@ const updateScoresFile = require('../middleware/updateScoresFile')
 const filterPlayerLeaderboard = require('./filterPlayerLeaderboard')
 const calcPlayerScore = require('./calcPlayerScore')
 const calcHoleScore = require('./clacHoleScore')
+const calcPlayerHoles = require('./calcPlayerHoles')
 
 async function updateRoundScore(user_id, year, round, leaderboard) {
   // Fetch the Lineup from public."User_Lineups"
@@ -50,14 +51,25 @@ async function updateRoundScore(user_id, year, round, leaderboard) {
     });
 
     // Sum the aggregate score for the round
-    let player1Score = calcPlayerScore(player1, round) 
-    let player2Score = calcPlayerScore(player2, round)
-    let player3Score = calcPlayerScore(player3, round)
+    let player1Score = calcPlayerScore(player1) 
+    let player2Score = calcPlayerScore(player2)
+    let player3Score = calcPlayerScore(player3)
     
     let aggregateScore = player1Score + player2Score + player3Score
 
     // Calculate the holes_completed 
     let totalHolesCompleted = ((round -1) * 18) + holesCompleted
+
+    // Calculate holes_completed display for leaderboard
+    let holesDisplay
+    let player1Holes = calcPlayerHoles(player1) 
+    let player2Holes = calcPlayerHoles(player2) 
+    let player3Holes = calcPlayerHoles(player3) 
+
+    if (player1Holes === 18 && player2Holes ===18 && player3Holes === 18) holesDisplay = 'F'
+    else holesDisplay = Math.max(player1Holes, player2Holes, player3Holes)
+
+    if (!holesDisplay) holesDisplay = 0
 
     // UPDATE STATEMENT FOR public."Fanstay_Scoring"
     let updateQuery = `UPDATE public."Fantasy_Scoring" 
@@ -65,6 +77,8 @@ async function updateRoundScore(user_id, year, round, leaderboard) {
         round${round} = ${score},
         round${round}_aggr = ${aggregateScore},
         holes_completed = ${totalHolesCompleted}
+      --  holes_display = '${holesDisplay}',
+      --  display_round = ${round}
       WHERE year = ${year}
         AND user_id = ${user_id}`
 
