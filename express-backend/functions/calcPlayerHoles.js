@@ -1,9 +1,10 @@
 const calcPlayerHoles = (player) => {
-  const { score, newStatus } = player
+  const { score, newStatus, status } = player
   hole_count = 0
 
   // status of F means all 18 played
-  if (newStatus[0] == 'F') return 18
+  if (newStatus[0] === 'F') return 18
+  if (status === 'DQ' && status === 'W' && status === 'C') return 18
 
   // count the number of holes with a score
   score.forEach(hole => {

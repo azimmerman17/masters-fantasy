@@ -76,12 +76,11 @@ async function updateRoundScore(user_id, year, round, leaderboard) {
       SET updated_at = NOW(),
         round${round} = ${score},
         round${round}_aggr = ${aggregateScore},
-        holes_completed = ${totalHolesCompleted}
-      --  holes_display = '${holesDisplay}',
-      --  display_round = ${round}
+        holes_completed = ${totalHolesCompleted},
+        holes_display = '${holesDisplay}',
+        display_round = ${round}
       WHERE year = ${year}
         AND user_id = ${user_id}`
-
 
     const updateResponse = await pool.query(updateQuery)
     if (updateResponse.error) return 'Error - scoring update Failed'

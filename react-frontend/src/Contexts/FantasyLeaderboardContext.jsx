@@ -12,6 +12,7 @@ const FantasyLeaderboardProvider = ({ children }) => {
 
   useEffect(() => {
     const fetchData = async () => {
+      console.log('fetch')
       try {
         // fetch the data
         const response = await fetch(BASE_URL + 'scoring')
@@ -21,6 +22,7 @@ const FantasyLeaderboardProvider = ({ children }) => {
         // set the context
         if (rowCount < 1) setFantasyLeaderboard(null)
         else setFantasyLeaderboard(rows)
+        
       } catch (error) {
         console.log('Error fetching leaderboard')
 
@@ -41,7 +43,7 @@ const FantasyLeaderboardProvider = ({ children }) => {
 
     return () => clearInterval(interval)
   }, [currentUser, fantasyLeaderboard])
-
+  console.log(fantasyLeaderboard)
   return (
     <FantasyLeaderboard.Provider value={{fantasyLeaderboard, setFantasyLeaderboard}}>
       {children}
