@@ -62,7 +62,7 @@ router.get('/:id', async (req, res) => {
     WHERE A.user_id = B.user_id
       AND year = ${year}
       AND A.user_id = ${id}
-    ORDER BY 3, 2 desc, 7, 6, 5, 4, (B.round1_aggr + B.round2_aggr + B.round3_aggr + B.round4_aggr) desc, B.round1_aggr desc,  B.round2_aggr desc, B.round3_aggr desc, B.round4_aggr desc ;`
+    ORDER BY 3, 2 desc, 7, 6, 5, 4, (B.round1_aggr + B.round2_aggr + B.round3_aggr + B.round4_aggr) asc, B.round4_aggr asc, B.round3_aggr asc, B.round2_aggr asc, B.round1_aggr asc;`
 
   try {
     const response = await pool.query(getScores)
@@ -83,27 +83,20 @@ router.get('/:id', async (req, res) => {
 router.post('/sendscores', async (req, res) => {
   const { data } = req.body
   try {
-    const { currentRound, player, pars, wallClockTime } = data
+    const { currentRound, statusRound, player, pars } = data
     const { round1, round2, round3, round4 } = pars
-    
-    // check wallClock time - to see if tournament is active\
-
-    let mastersTime = new Date(wallClockTime)
-    
+        
     // get 10 minutes proir to now - interval for updating the leaderboard
     let timeMinus10 = new Date()
     timeMinus10.setMinutes(timeMinus10.getMinutes() - 10)
-    
-    // get 1 hour proir to now - interval for determining the tournament is inactive
-    let timeMinusHour = new Date()
-    timeMinusHour.setMinutes(timeMinusHour.getHours() - 1)
 
-    if (mastersTime < timeMinusHour) res.status(202).send('Tournament not active')
+    if (statusRound[statusRound.length - 1] === 'X' || statusRound[statusRound.length - 1] === 'F' || statusRound[0] === 'N' ) {
+      console.log('Tournament not active - No update')
+      res.status(202).send('Tournament not active')
+    }
     else if (timeMinus10 < updateScoresFile.lastUpdate) {
-      //get interval remaining until update
-      let interval = ((updateScoresFile.lastUpdate - timeMinus10) / 1000).toFixed(0) //total seconds remaing
-      interval = `${Math.floor(interval / 60)}:${interval % 60}`
-      res.status(202).send(`${interval} remaining until next update`)
+      console.log('<10 minutes since last update')
+      res.status(202).send('<10 minutes since last update')
     } else {
       let round 
       // check for active round
@@ -122,6 +115,7 @@ router.post('/sendscores', async (req, res) => {
       else if (round === 4) updateScoresFile.pars = round4
 
       updateScoresFile.process_active = 1
+      console.log('update scores')
       res.redirect(307, '/scoring/updatescores') 
     }
   } catch (error) {
@@ -131,10 +125,11 @@ router.post('/sendscores', async (req, res) => {
 })
 
 router.post('/updatescores', async (req, res) => {
-  updateScoresFile.lastUpdate = new Date()
   try {
-      await updateScores()
-      res.status(200).send('Done')
+    await updateScores()
+    console.log('Scores Updated')
+    updateScoresFile.lastUpdate = new Date()
+    res.status(200).send('Done')
   } catch (error) {
     console.error(error)
     res.status(500).send('Error')

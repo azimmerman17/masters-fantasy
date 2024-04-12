@@ -22,7 +22,7 @@ const FantasyTournamentConfigProvider = ({ children }) => {
 
   useEffect (() => {
     if (eventConfig && tournamentLeaderboardContext) {
-      console.log(eventConfig, tournamentLeaderboardContext)
+      // console.log(eventConfig, tournamentLeaderboardContext)
       if (!tournamentLeaderboardContext.pairings|| !tournamentLeaderboardContext.leaderboard) {
         setFantasyTournamentConfig({
           rosterLock: false,
