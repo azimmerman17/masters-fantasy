@@ -44,7 +44,8 @@ const FantasyTournamentConfigProvider = ({ children }) => {
           if (currentRound > day) return true   // past round LOCKED
           else if (currentRound === day) {      // current round
             let roundIndex = Number(currentRound) - 1
-            if (statusRound[roundIndex] === 'F') return true  // if current round in status Final LOCKED
+            console.log(statusRound[roundIndex])
+            if (statusRound[roundIndex] === 'F' || statusRound[roundIndex] === 'P') return true  // if current round in status Final LOCKED
             else if (statusRound[roundIndex] === 'N') return false  // if current round is not started UNLOCKED
             else {
               // if status is not in Final - check for last tee time off 1  is after that time LOCKED
@@ -57,7 +58,7 @@ const FantasyTournamentConfigProvider = ({ children }) => {
 
         const checkRosterLock = (curRnd, rndstatus, pairings) => {
           // locked if round is > 1, or round 1 status is live or final -- unsure of status codes just a guess
-          if (curRnd > '1' || rndstatus[0] === 'F' || rndstatus[0] === 'L') return true  
+          if (curRnd > '1' || rndstatus[0] === 'F' || rndstatus[0] === 'P') return true  
           if (curRnd >= '1' && rndstatus[0] !== 'N') {
             // lock roster after first tee time of round 1
             const { group } = pairings
