@@ -98,7 +98,7 @@ MASTERS FANTASY GOLF does not intend to be a replacement for the coverage provid
 The branches Main and dev are designed to be kept in sync as much as possible.  The difference in the branches are:
 
   - Main is setup for deployment and end user usage online
-  - Dev is setup for local usage and test
+  - Dev_{year} is setup for local usage and testing new features for the next tournament year
 
   When developing in dev, be mindful of you database connection, it is a good practice to have a separate database, for your test environment.
 
@@ -292,12 +292,17 @@ API documentation to come
 ## Roadmap
 
 - [ ] Use the 2024 Master's Tournament for beta testing
+### Plan for 2025
 - [ ] Link Players in the Roster Tools back to their Profiles
-- [ ] Build Administrative Pages
+- [ ] Build Administrative Pages 
 - [ ] Add Stats to the Lineup Components
 - [ ] Rework the Fantasy Leaderboard
+  - [ ] Show golfers and scorecards for each round
+  - [ ] Show holes played as F if all golfers completed their round
+  - [ ] Second Leaderboard for Stableford scoring and/or Aggragate Scoring
 - [ ] Add Stats to the Fantasy Lineups
 - [ ] Utilize Suspense Hook for loading screen
+- [ ] Allow players to see golfers and lineups of other competitors
 - [ ] Build endpoint(s) to close out the year
   - [ ] Functionality to update the User Data
   - [ ] Functionality to allow Admin role to remove data from past years

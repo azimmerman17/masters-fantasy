@@ -26,7 +26,7 @@ router.get('/', async (req, res) => {
     FROM public."Users" A, public."Fantasy_Scoring" B
     WHERE A.user_id = B.user_id
       AND year = ${year}
-    ORDER BY 3, 2 desc, 7, 6, 5, 4, (B.round1_aggr + B.round2_aggr + B.round3_aggr + B.round4_aggr) desc, B.round1_aggr desc,  B.round2_aggr desc, B.round3_aggr desc, B.round4_aggr desc ;`
+    ORDER BY 3, 2 desc, 7, 6, 5, 4, (B.round1_aggr + B.round2_aggr + B.round3_aggr + B.round4_aggr) asc, B.round4_aggr asc, B.round3_aggr asc,  B.round2_aggr asc, B.round1_aggr asc;`
 
   try {
     const response = await pool.query(getScores)

@@ -44,7 +44,7 @@ const FantasyTournamentConfigProvider = ({ children }) => {
           if (currentRound > day) return true   // past round LOCKED
           else if (currentRound === day) {      // current round
             let roundIndex = Number(currentRound) - 1
-            console.log(statusRound[roundIndex])
+
             if (statusRound[roundIndex] === 'F' || statusRound[roundIndex] === 'P') return true  // if current round in status Final LOCKED
             else if (statusRound[roundIndex] === 'N') return false  // if current round is not started UNLOCKED
             else {
