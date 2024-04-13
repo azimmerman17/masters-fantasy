@@ -58,7 +58,8 @@ router.get('/player/:year/:id', async (req, res) => {
           A.player3
         FROM public."User_Lineups" A
         WHERE A.year = ${year}
-          AND A.user_id = ${id};`
+          AND A.user_id = ${id}
+        ORDER BY A.round;`
   
       try {
         const response = await pool.query(getLineups)
@@ -158,6 +159,7 @@ router.post('/new', async (req, res) => {
 // Update lineup - cascades to update future rounds
 router.put('/:id/:round', async (req, res) => {
   const { id, round } = req.params
+  console.log(round)
   const { player1, player2, player3 } = req.body
   const year = (new Date()).getFullYear()
 
@@ -172,6 +174,7 @@ router.put('/:id/:round', async (req, res) => {
     AND year = ${year}
     AND round >= ${round};`  
 
+    console.log(updateLineups)
   try {
     const response = await pool.query(updateLineups)
     if (response.error) res.status(500).send({msg: 'Error - Lineup update Failed'})

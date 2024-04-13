@@ -137,7 +137,8 @@ router.get('/profile', async (req, res) => {
         A.year
       FROM public."User_Lineups" A
       WHERE year = ${year} 
-        AND user_id = ${req.currentUser}`
+        AND user_id = ${req.currentUser}
+      ORDER BY A.round;`
 
         // WHERE year = ${(new Date()).getFullYear()} CHANGE FOR PROD
     try {
