@@ -1,4 +1,4 @@
-const calcPlayerScore = (player, round) => {
+const calcPlayerScore = (player) => {
   const { total, roundStatus, status } = player
 
   // checks the status code for golfer with no scores

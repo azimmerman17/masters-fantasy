@@ -5,11 +5,7 @@ import { PiArrowsHorizontalLight } from 'react-icons/pi';   // <PiArrowsHorizont
 import Image from 'react-bootstrap/Image';
 import ScoreColor from '../../Functions/ScoreColor';
 
-
-
-
-
-const LeaderboardTableData = ({ player, header, view }) => {
+const LeaderboardTableData = ({ player, header, view, round }) => {
   if (view === 'tournament') {
     const { id, amateur, countryCode, display_name, movement, newStatus, pos, round1, round2, round3, round4, teetime, thru, today, topar, total } = player
 
@@ -62,23 +58,21 @@ const LeaderboardTableData = ({ player, header, view }) => {
     }
   }
   if (view === 'fantasy') {
-    const { user_name, round1, round2, round3, round4, holes_completed, total, round1_aggr, round2_aggr, round3_aggr,round4_aggr, total_aggr } = player
+    const { user_name, seq_num, holes_display, display_round, round1, round2, round3, round4, holes_completed, total, round1_aggr, round2_aggr, round3_aggr,round4_aggr, total_aggr } = player
     switch (header) {
       case 'POS':
         // need function to determine POS
-        return <td className='text-center' style={{fontSize: '14px'}}>XXX</td>
+        return <td className='text-center' style={{fontSize: '14px'}}>{seq_num}</td>
       case 'PLAYER':
         return <td style={{fontSize: '14px'}}>{user_name}</td>
       case 'TOTAL':
         return <td className={`text-center fw-bold ${ScoreColor(total)}`} style={{fontSize: '14px'}}>{total}</td>
       case 'THRU':
-      // NEED TO BUILD A WAY TO COUNT HOLES FOR THE ROUND
-        // let holes = 0
-        // if (holes_completed === 0)  holes = 0
-        // else if (holes_completed % 18 === 0) holes = 18
-        // else holes = holes_completed % 18
+        let thru
+        if (round > display_round) thru = 0
+        else if (round == display_round) thru = holes_display
 
-        return <td className='text-center' style={{fontSize: '14px'}}>{holes_completed}</td>
+        return <td className='text-center' style={{fontSize: '14px'}}>{thru}</td>
       case 'TODAY':
         let today
         if (holes_completed <= 18) today = round1

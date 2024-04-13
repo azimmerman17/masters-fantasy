@@ -68,6 +68,20 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       defaultValue: 0
     },
+    holes_display: {
+      allowNull: false,
+      type: DataTypes.STRING,
+      defaultValue: '0'
+    },
+    display_round: {
+      allowNull: false,
+      type: DataTypes.INTEGER,
+      defaultValue: 1
+    },
+    seq_num: {
+      allowNull: true,
+      type: DataTypes.STRING,
+    },
     created_at: {
       type: DataTypes.DATE,
       allowNull: false,

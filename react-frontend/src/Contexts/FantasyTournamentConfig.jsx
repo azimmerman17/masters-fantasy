@@ -69,13 +69,23 @@ const FantasyTournamentConfigProvider = ({ children }) => {
           return false
         }
 
+        const getCurrentRound = (roundStatus) => {
+          let currentRound = 0
+
+          for (let i = 0; i < 4; i++) {
+            if (roundStatus[i] !== 'N') currentRound += 1
+          }
+
+          return currentRound
+        }
+
         setFantasyTournamentConfig({
           rosterLock: checkRosterLock(currentRound, statusRound, round1),
           round1Lock: getRoundLock(currentRound, round1),
           round2Lock: getRoundLock(currentRound, round2),
           round3Lock: getRoundLock(currentRound, round3),
           round4Lock: getRoundLock(currentRound, round4),    
-          currentRound: Number(currentRound)
+          currentRound: getCurrentRound(statusRound)
         })
       }
     }
