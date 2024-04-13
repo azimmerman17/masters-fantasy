@@ -36,7 +36,6 @@ const FantasyTournamentConfigProvider = ({ children }) => {
       } else {
         const { pairings, leaderboard } = tournamentLeaderboardContext
         const { currentRound, round1, round2, round3, round4 } = pairings
-        console.log(leaderboard)
         const { statusRound } = leaderboard
 
         const getRoundLock = (currentRound, pairing) => {

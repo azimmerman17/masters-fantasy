@@ -28,18 +28,17 @@ const FantasyLeaderboardView = ({}) => {
 
   //validation if the leaderboard should be shown
   const display = () => {
-    if (fantasyLeaderboard === 'Pending') return null
-    else if (!currentUser) return  <Login />
+    if (!currentUser) return  <Login />
+    else if (fantasyLeaderboard === 'Pending') return null
 
     else {
       //Leaderboard Table
-      console.log(fantasyLeaderboard)
-      console.log(fantasyTournamentConfig)
+      const { currentRound } = fantasyTournamentConfig
       const playerList = fantasyLeaderboard.map(player => {
         const { user_name } = player
 
         const rowData = FantasyLeaderboardHeaders.map(header => {
-          return <LeaderboardTableData player={player} header={header} view={'fantasy'} key={`leaderboard-${user_name}-row-${header}`} />
+          return <LeaderboardTableData player={player} header={header} view={'fantasy'} round={currentRound} key={`leaderboard-${user_name}-row-${header}`} />
         })
 
         return (
@@ -51,8 +50,9 @@ const FantasyLeaderboardView = ({}) => {
 
       return (
         <>
+          <h6 className='px-1 mx-1 mt-2'>Round {currentRound}</h6>
           <Table
-            className='mx-0 mt-2 mb-0 my-auto'
+            className='mx-0 mb-0 my-auto'
             size='sm'
             hover
             responsive
