@@ -7,7 +7,7 @@ const connectionString = process.env.DB_URI
 const pool = new Pool({
   connectionString,
   max: 4,
-  idleTimeoutMillis: 100,
+  idleTimeoutMillis: 500,
   connectionTimeoutMillis: 10000
 })
 

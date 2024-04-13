@@ -1,5 +1,6 @@
 const router = require('express').Router()
 require('dotenv').config()
+const updateSeqNum = require('../functions/updateSeqNum')
 const updateScores = require('../middleware/updateScores')
 const updateScoresFile = require('../middleware/updateScoresFile')
 const pool = require('../models/db')
@@ -13,6 +14,9 @@ router.get('/', async (req, res) => {
 
   const getScores = `SELECT A.user_name,
       B.holes_completed,
+      B.seq_num,
+      B.holes_display,
+      B.display_round,
       (B.round1 + B.round2 + B.round3 + B.round4) as "total",
       B.round1,
       B.round2,
@@ -26,7 +30,7 @@ router.get('/', async (req, res) => {
     FROM public."Users" A, public."Fantasy_Scoring" B
     WHERE A.user_id = B.user_id
       AND year = ${year}
-    ORDER BY 3, 2 desc, 7, 6, 5, 4, (B.round1_aggr + B.round2_aggr + B.round3_aggr + B.round4_aggr) asc, B.round4_aggr asc, B.round3_aggr asc,  B.round2_aggr asc, B.round1_aggr asc;`
+    ORDER BY 6, 2 desc, 10, 9, 8, 7, 11 asc, 15 asc, 14 asc, 13 asc, 12 asc;`
 
   try {
     const response = await pool.query(getScores)
@@ -48,12 +52,15 @@ router.get('/:id', async (req, res) => {
 
   const getScores = `SELECT A.user_name,
       B.holes_completed,
+      B.seq_num,
+      B.holes_display,
+      B.display_round,
       (B.round1 + B.round2 + B.round3 + B.round4) as "total",
       B.round1,
       B.round2,
       B.round3,
-      B.round4,
-      (B.round1_aggr + B.round2_aggr + B.round3_aggr + B.round4_aggr), as "total_aggr"
+      B.round4,      
+      (B.round1_aggr + B.round2_aggr + B.round3_aggr + B.round4_aggr) as "total_aggr",
       B.round1_aggr,
       B.round2_aggr, 
       B.round3_aggr,
@@ -62,7 +69,7 @@ router.get('/:id', async (req, res) => {
     WHERE A.user_id = B.user_id
       AND year = ${year}
       AND A.user_id = ${id}
-    ORDER BY 3, 2 desc, 7, 6, 5, 4, (B.round1_aggr + B.round2_aggr + B.round3_aggr + B.round4_aggr) asc, B.round4_aggr asc, B.round3_aggr asc, B.round2_aggr asc, B.round1_aggr asc;`
+    ORDER BY 6, 2 desc, 10, 9, 8, 7, 11 asc, 15 asc, 14 asc, 13 asc, 12 asc;`
 
   try {
     const response = await pool.query(getScores)
@@ -129,6 +136,8 @@ router.post('/updatescores', async (req, res) => {
     await updateScores()
     console.log('Scores Updated')
     updateScoresFile.lastUpdate = new Date()
+    await updateSeqNum()
+    console.log('SeqNum updated')
     res.status(200).send('Done')
   } catch (error) {
     console.error(error)
