@@ -70,43 +70,57 @@ const LeaderboardTableData = ({ player, header, view, round }) => {
       case 'THRU':
         let thru
         if (round > display_round) thru = 0
-        else if (round == display_round) thru = holes_display
+        else thru = holes_display
 
         return <td className='text-center' style={{fontSize: '14px'}}>{thru}</td>
       case 'TODAY':
         let today
-        if (holes_completed <= 18) today = round1
-        else if (holes_completed <= 36) today = round2
-        else if (holes_completed <= 54) today = round3
+        let round_indicator
+        // set round to display
+        if (round > display_round)  round_indicator = round
+        else round_indicator = display_round
+        // set score to display
+        if (round_indicator === 1) today = round1
+        else if (round_indicator === 2) today = round2
+        else if (round_indicator === 3) today = round3
         else today = round4
 
-        return <td className={`text-center fw-bold ${ScoreColor(today)}`} style={{fontSize: '14px'}}>{today}</td>
+        return <td className={`text-center fw-bold ${ScoreColor(today)}`} style={{fontSize: '14px'}}>{today === 0 ? 'E' : today}</td>
       case 'R1':
         if (window.innerWidth < 768) return null
-        else return <td className={`text-center ${ScoreColor(round1)}`} style={{fontSize: '14px'}}>{round1}</td>
+        else if (round < 1) return <td></td>
+        else return <td className={`text-center ${ScoreColor(round1)}`} style={{fontSize: '14px'}}>{round1 === 0 ? 'E' : round1}</td>
       case 'R2':
         if (window.innerWidth < 768) return null
-        else return <td className={`text-center ${ScoreColor(round2)}`} style={{fontSize: '14px'}}>{round2}</td>
+        else if (round < 2) return <td></td>
+        else return <td className={`text-center ${ScoreColor(round2)}`} style={{fontSize: '14px'}}>{round2 === 0 ? 'E' : round2}</td>
       case 'R3':
         if (window.innerWidth < 768) return null
-        else return <td className={`text-center ${ScoreColor(round3)}`} style={{fontSize: '14px'}}>{round3}</td>
+        else if (round < 3) return <td></td>
+        else return <td className={`text-center ${ScoreColor(round3)}`} style={{fontSize: '14px'}}>{round3 === 0 ? 'E' : round3}</td>
       case 'R4':
         if (window.innerWidth < 768) return null
-        else return <td className={`text-center ${ScoreColor(round4)}`} style={{fontSize: '14px'}}>{round4}</td>
+        else if (round < 4) return <td></td>
+        else return <td className={`text-center ${ScoreColor(round4)}`} style={{fontSize: '14px'}}>{round4 === 0 ? 'E' : round4}</td>
       case 'TOTAL AGGR':
         if (window.innerWidth < 1200) return null
+        else if (total_aggr === 0) return <td></td>
         else return <td className={`text-center ${ScoreColor(total_aggr - (12 * 72))}`} style={{fontSize: '14px'}}>{total_aggr}</td>
       case 'R1 AGGR':
         if (window.innerWidth < 1200) return null
+        else if (round1_aggr === 0) return <td></td>
         else return <td className={`text-center ${ScoreColor(round1_aggr - (3 * 72))}`} style={{fontSize: '14px'}}>{round1_aggr}</td>
       case 'R2 AGGR':
         if (window.innerWidth < 1200) return null
+        else if (round2_aggr === 0) return <td></td>
         else return <td className={`text-center ${ScoreColor(round2_aggr - (3 * 72))}`} style={{fontSize: '14px'}}>{round2_aggr}</td>
       case 'R3 AGGR':
         if (window.innerWidth < 1200) return null
+        else if (round3_aggr === 0) return <td></td>
         else return <td className={`text-center ${ScoreColor(round3_aggr - (3 * 72))}`} style={{fontSize: '14px'}}>{round3_aggr}</td>
       case 'R4 AGGR':
         if (window.innerWidth < 1200) return null
+        else if (round4_aggr === 0) return <td></td>
         else return <td className={`text-center ${ScoreColor(round4_aggr - (3 * 72))}`} style={{fontSize: '14px'}}>{round4_aggr}</td>
     }
   }
