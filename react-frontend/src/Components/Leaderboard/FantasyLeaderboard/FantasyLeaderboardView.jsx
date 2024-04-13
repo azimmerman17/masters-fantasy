@@ -50,7 +50,7 @@ const FantasyLeaderboardView = ({}) => {
 
       return (
         <>
-          <h6 className='px-1 mx-1 mt-2'>Round {currentRound}</h6>
+          {/* <h6 className='px-1 mx-1 mt-2'>Round {currentRound}</h6> */}
           <Table
             className='mx-0 mb-0 my-auto'
             size='sm'
