@@ -30,7 +30,7 @@ const FantasyLeaderboardProvider = ({ children }) => {
     }
 
     if (!currentUser && !fantasyLeaderboard)  setFantasyLeaderboard('Pending')
-    if (!currentUser) setFantasyLeaderboard('Login Required')
+    if (!currentUser) setFantasyLeaderboard('Pending')
     else if (currentUser && (!fantasyLeaderboard  || fantasyLeaderboard === 'Login Required' || fantasyLeaderboard === 'Pending')) fetchData()
 
     //set on refresh interval - 5 or 10 minutes
@@ -43,7 +43,7 @@ const FantasyLeaderboardProvider = ({ children }) => {
 
     return () => clearInterval(interval)
   }, [currentUser, fantasyLeaderboard])
-  console.log(fantasyLeaderboard)
+
   return (
     <FantasyLeaderboard.Provider value={{fantasyLeaderboard, setFantasyLeaderboard}}>
       {children}
