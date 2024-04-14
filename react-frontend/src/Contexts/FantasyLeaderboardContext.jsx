@@ -17,15 +17,13 @@ const FantasyLeaderboardProvider = ({ children }) => {
         // fetch the data
         const response = await fetch(BASE_URL + 'scoring')
         const data = await response.json()
-        // clean the data
-        const { rows, rowCount } = data
-        // set the context
-        if (rowCount < 1) setFantasyLeaderboard(null)
-        else setFantasyLeaderboard(rows)
+
+        if (data === 'error') setFantasyLeaderboard(null)
+        else setFantasyLeaderboard(data)
         
       } catch (error) {
+        console.error(error)
         console.log('Error fetching leaderboard')
-
       }
     }
 

@@ -2,7 +2,10 @@
 import { PiArrowUpLight } from 'react-icons/pi';            // <PiArrowUpLight />
 import { PiArrowDownLight } from 'react-icons/pi';          // <PiArrowDownLight />
 import { PiArrowsHorizontalLight } from 'react-icons/pi';   // <PiArrowsHorizontalLight />
+import { HiMiniChevronUpDown } from 'react-icons/hi2'       // <HiMiniChevronUpDown />
 import Image from 'react-bootstrap/Image';
+import Button from 'react-bootstrap/Button'
+
 import ScoreColor from '../../Functions/ScoreColor';
 
 const LeaderboardTableData = ({ player, header, view, round }) => {
@@ -60,6 +63,8 @@ const LeaderboardTableData = ({ player, header, view, round }) => {
   if (view === 'fantasy') {
     const { user_name, seq_num, holes_display, display_round, round1, round2, round3, round4, holes_completed, total, round1_aggr, round2_aggr, round3_aggr,round4_aggr, total_aggr } = player
     switch (header) {
+      case '':
+        return <td><HiMiniChevronUpDown /></td>
       case 'POS':
         // need function to determine POS
         return <td className='text-center' style={{fontSize: '14px'}}>{seq_num}</td>

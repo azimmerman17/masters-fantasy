@@ -1,6 +1,7 @@
 import {  useContext } from 'react'
 import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table'
+import Accordion from 'react-bootstrap/Accordion';
 
 import { CurrentUser } from '../../../Contexts/CurrentUserContext';
 import { FantasyLeaderboard } from '../../../Contexts/FantasyLeaderboardContext'
@@ -9,7 +10,7 @@ import { FantasyTournamentConfig } from '../../../Contexts/FantasyTournamentConf
 import Login from '../../Login'
 import LeaderboardTableHeader from '../LeaderboardTableHeaders';
 import FantasyLeaderboardHeaders from '../../../assets/Files/FantasyLeaderboardHeaders'
-import LeaderboardTableData from '../LeaderboardTableData';
+import FantasyLeaderboardBody from './FantasyLeaderboardBody';
 
 const FantasyLeaderboardView = ({}) => {
   const { currentUser, setCurrentUser} = useContext(CurrentUser)
@@ -34,18 +35,15 @@ const FantasyLeaderboardView = ({}) => {
     else {
       //Leaderboard Table
       const { currentRound } = fantasyTournamentConfig
-      const playerList = fantasyLeaderboard.map(player => {
+      const { leaderboard, lineups } = fantasyLeaderboard
+      console.log(leaderboard, lineups)
+      const playerList = leaderboard.map(player => {
         const { user_name } = player
+        const lineup = lineups.filter(lineup => lineup.user_name === user_name)[0]
+        return <FantasyLeaderboardBody player={player} round={currentRound} lineup={lineup} key={`leaderboard-${user_name}-row`}/>
 
-        const rowData = FantasyLeaderboardHeaders.map(header => {
-          return <LeaderboardTableData player={player} header={header} view={'fantasy'} round={currentRound} key={`leaderboard-${user_name}-row-${header}`} />
-        })
 
-        return (
-          <tr key={`leaderboard-${user_name}-row`}>
-            {rowData}
-          </tr>
-        )
+        
       })
 
       return (
@@ -60,10 +58,7 @@ const FantasyLeaderboardView = ({}) => {
             <thead>
               <LeaderboardTableHeader headers={FantasyLeaderboardHeaders} />
             </thead>
-            <tbody>
-              {playerList}
-
-            </tbody>
+                {playerList}
           </Table>
           <p className='mt-3 text-center'>
             <small>

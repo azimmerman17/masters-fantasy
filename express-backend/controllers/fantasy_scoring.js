@@ -49,12 +49,15 @@ router.get('/', async (req, res) => {
     const response = await pool.query(getScores)
     const lineupRespone = await pool.query(getLineups)
   
-    if (response.error || lineupRespone.error) res.status(500).send({response, lineupRespone})
+    if (response.error || lineupRespone.error) res.status(500).send('error')
     else {
       // clean the data
       let leaderboard = response.rows
-      let lineups = organizeLineups(lineupRespone.rows)
-      // console.log(lineups.get(37))
+      let lineupsMap = organizeLineups(lineupRespone.rows)
+      let lineups = []
+      // console.log({leaderboard, lineups})
+      lineupsMap.forEach(user => lineups.push(user))
+      
 
       // console.log(leaderboard, lineups)
       res.status(200).send({leaderboard, lineups})

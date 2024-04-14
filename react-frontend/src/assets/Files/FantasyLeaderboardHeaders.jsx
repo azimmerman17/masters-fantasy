@@ -13,6 +13,7 @@ const FantasyLeaderboardHeaders = [
   'R2 AGGR',
   'R3 AGGR',
   'R4 AGGR',
+  '',
 ]
 
 export default FantasyLeaderboardHeaders
