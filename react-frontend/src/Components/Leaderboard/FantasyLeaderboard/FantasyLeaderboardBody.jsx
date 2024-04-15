@@ -2,12 +2,11 @@ import { useState } from 'react';
 
 import FantasyLeaderboardHeaders from '../../../assets/Files/FantasyLeaderboardHeaders'
 import LeaderboardTableData from '../LeaderboardTableData';
+import FantasyLeaderboardAccordionBody from './FantasyLeaderboardAccordionBody';
 
 
 const FantasyLeaderboardBody = ({ player, round, lineup }) => {
   const [expand, setExpand] = useState(false)
-
-  console.log(player, round, lineup, expand)
   const { user_name } = player
 
   const rowData = FantasyLeaderboardHeaders.map(header => {
@@ -22,7 +21,7 @@ const FantasyLeaderboardBody = ({ player, round, lineup }) => {
       <tr>
         <td colSpan={FantasyLeaderboardHeaders.length} className={`hiddenRow${expand ? '': ' p-0'}`}>
           <div className={`accordian-body ${expand ? 'expand': 'collapse p-0'}`} id={`${user_name}-accordian`}>
-            Hello There
+            <FantasyLeaderboardAccordionBody player={player} round={round} lineup={lineup}/>
           </div>
         </td>
       </tr>

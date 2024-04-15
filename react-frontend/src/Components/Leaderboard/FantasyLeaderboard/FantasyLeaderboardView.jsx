@@ -36,7 +36,7 @@ const FantasyLeaderboardView = ({}) => {
       //Leaderboard Table
       const { currentRound } = fantasyTournamentConfig
       const { leaderboard, lineups } = fantasyLeaderboard
-      console.log(leaderboard, lineups)
+
       const playerList = leaderboard.map(player => {
         const { user_name } = player
         const lineup = lineups.filter(lineup => lineup.user_name === user_name)[0]
