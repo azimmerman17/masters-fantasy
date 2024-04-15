@@ -90,14 +90,27 @@ router.get('/:id', async (req, res) => {
 router.post('/sendscores', async (req, res) => {
   const { data } = req.body
   try {
-    const { currentRound, statusRound, player, pars } = data
+    console.log(data)
+    const { currentRound, statusRound, player, pars, wallClockTime } = data
     const { round1, round2, round3, round4 } = pars
-        
-    // get 10 minutes proir to now - interval for updating the leaderboard
-    let timeMinus10 = new Date()
-    timeMinus10.setMinutes(timeMinus10.getMinutes() - 10)
+    
+    // get 10 and 60 minutes proir to now - interval for updating the leaderboard
+    let time = new Date()
+    let timeMinus10 = time.setMinutes(time.getMinutes() - 10)
+    let timeMinus60 = time.setMinutes(time.getMinutes() - 60)
 
-    if (statusRound[statusRound.length - 1] === 'X' || statusRound[statusRound.length - 1] === 'F' || statusRound[0] === 'N' ) {
+    let round 
+    // check for active round
+    for (let i = 0; i < currentRound.length; i++) {
+      if (currentRound[i] === '1') {
+        updateScoresFile.round = i + 1
+        round = i + 1
+        break
+      }
+    }
+    console.log(round)
+    // Do not uudate if Tournament is inative
+    if (((statusRound[round - 1] === 'X' || statusRound[round - 1] === 'F') && new Date(wallClockTime) < timeMinus60 )  || statusRound[0] === 'N' ) {
       console.log('Tournament not active - No update')
       res.status(202).send('Tournament not active')
     }
@@ -105,15 +118,8 @@ router.post('/sendscores', async (req, res) => {
       console.log('<10 minutes since last update')
       res.status(202).send('<10 minutes since last update')
     } else {
-      let round 
-      // check for active round
-      for (let i = 0; i < currentRound.length; i++) {
-        if (currentRound[i] === '1') {
-          updateScoresFile.round = i + 1
-          round = i + 1
-          break
-        }
-      }
+
+
       // update the player and par list file
       updateScoresFile.scores = player
       if (round === 1) updateScoresFile.pars = round1
