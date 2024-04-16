@@ -4,7 +4,6 @@ import { PiArrowDownLight } from 'react-icons/pi';          // <PiArrowDownLight
 import { PiArrowsHorizontalLight } from 'react-icons/pi';   // <PiArrowsHorizontalLight />
 import { HiMiniChevronUpDown } from 'react-icons/hi2'       // <HiMiniChevronUpDown />
 import Image from 'react-bootstrap/Image';
-import Button from 'react-bootstrap/Button'
 
 import ScoreColor from '../../Functions/ScoreColor';
 

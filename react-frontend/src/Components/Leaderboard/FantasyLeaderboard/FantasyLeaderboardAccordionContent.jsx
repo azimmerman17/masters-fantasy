@@ -7,6 +7,7 @@ const FantasyLeaderboardAccordionContent = ({ lineup, player }) => {
   const {fantasyTournamentConfig, setFantasyTournamentConfig} = useContext(FantasyTournamentConfig)
   
   if (!fantasyTournamentConfig) return null
+  if (!lineup || !player) return <p>pending...</p>
   else {
     const { player1, player2, player3, round } = lineup
     const { round1, round2, round3, round4, user_name } = player
