@@ -66,8 +66,6 @@ async function updateRoundScore(user_id, year, round, leaderboard) {
     let player2Holes = calcPlayerHoles(player2) 
     let player3Holes = calcPlayerHoles(player3) 
 
-    console.log(player1Score, player2Score, player3Score)
-
     if ((player1Holes === 18  || player1Holes === -1 ) && (player2Holes === 18  || player2Holes === -1 ) && (player3Holes === 18  || player3Holes === -1 ) ) holesDisplay = 'F'
     else holesDisplay = Math.max(player1Holes, player2Holes, player3Holes)
 

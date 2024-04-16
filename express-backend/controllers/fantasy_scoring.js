@@ -1,5 +1,7 @@
 const router = require('express').Router()
 require('dotenv').config()
+
+const organizeLineups = require('../functions/organizeLineups')
 const updateSeqNum = require('../functions/updateSeqNum')
 const updateScores = require('../middleware/updateScores')
 const updateScoresFile = require('../middleware/updateScoresFile')
@@ -32,13 +34,33 @@ router.get('/', async (req, res) => {
       AND year = ${year}
     ORDER BY 6, 2 desc, 10, 9, 8, 7, 11 asc, 15 asc, 14 asc, 13 asc, 12 asc;`
 
+    const getLineups = `SELECT 
+        A.user_id, 
+        A.user_name, 
+        B.round,B.player1, 
+        B.player2, 
+        B.player3
+      FROM  "Users" A, "User_Lineups" B
+      WHERE A.user_id = B.user_id
+        And B.year =${year}
+      ORDER BY B.user_id, B.round`
+
   try {
     const response = await pool.query(getScores)
-    // console.log(response)
-    if (response.error) res.status(500).send({response})
+    const lineupRespone = await pool.query(getLineups)
+  
+    if (response.error || lineupRespone.error) res.status(500).send('error')
     else {
       // clean the data
-      res.status(200).send(response)
+      let leaderboard = response.rows
+      let lineupsMap = organizeLineups(lineupRespone.rows)
+      let lineups = []
+      // console.log({leaderboard, lineups})
+      lineupsMap.forEach(user => lineups.push(user))
+      
+
+      // console.log(leaderboard, lineups)
+      res.status(200).send({leaderboard, lineups})
     }
   } catch (error) {
     console.error(error)
@@ -129,7 +151,8 @@ router.post('/sendscores', async (req, res) => {
 
       updateScoresFile.process_active = 1
       console.log('update scores')
-      res.redirect(307, '/scoring/updatescores') 
+      res.status(202).send('No data sent')
+      // res.redirect(307, '/scoring/updatescores') 
     }
   } catch (error) {
       console.error(error)
@@ -139,10 +162,10 @@ router.post('/sendscores', async (req, res) => {
 
 router.post('/updatescores', async (req, res) => {
   try {
-    await updateScores()
+    // await updateScores()
     console.log('Scores Updated')
     updateScoresFile.lastUpdate = new Date()
-    await updateSeqNum()
+    // await updateSeqNum()
     console.log('SeqNum updated')
     res.status(200).send('Done')
   } catch (error) {
