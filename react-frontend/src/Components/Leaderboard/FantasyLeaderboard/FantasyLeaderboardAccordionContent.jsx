@@ -4,13 +4,12 @@ import { FantasyTournamentConfig } from '../../../Contexts/FantasyTournamentConf
 import LeaderboardScoreCard from './LeaderboardScorecard'
 
 const FantasyLeaderboardAccordionContent = ({ lineup, player }) => {
-  const { player1, player2, player3, round } = lineup
-  const { round1, round2, round3, round4, user_name } = player
-
   const {fantasyTournamentConfig, setFantasyTournamentConfig} = useContext(FantasyTournamentConfig)
-
+  
   if (!fantasyTournamentConfig) return null
   else {
+    const { player1, player2, player3, round } = lineup
+    const { round1, round2, round3, round4, user_name } = player
     const { round1Lock, round2Lock, round3Lock, round4Lock, } = fantasyTournamentConfig
     let roundlocked
     let score

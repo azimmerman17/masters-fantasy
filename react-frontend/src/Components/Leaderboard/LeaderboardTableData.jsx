@@ -75,19 +75,16 @@ const LeaderboardTableData = ({ player, header, view, round }) => {
       case 'THRU':
         let thru
         if (round > display_round) thru = 0
+        if (round < display_round) thru = 'F'
         else thru = holes_display
 
         return <td className='text-center' style={{fontSize: '14px'}}>{thru}</td>
       case 'TODAY':
         let today
-        let round_indicator
-        // set round to display
-        if (round > display_round)  round_indicator = round
-        else round_indicator = display_round
-        // set score to display
-        if (round_indicator === 1) today = round1
-        else if (round_indicator === 2) today = round2
-        else if (round_indicator === 3) today = round3
+
+        if (round === 1) today = round1
+        else if (round === 2) today = round2
+        else if (round === 3) today = round3
         else today = round4
 
         return <td className={`text-center fw-bold ${ScoreColor(today)}`} style={{fontSize: '14px'}}>{today === 0 ? 'E' : today}</td>

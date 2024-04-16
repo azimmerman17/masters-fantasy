@@ -7,7 +7,6 @@ import GetUserScores from '../../Functions/GetUserScores'
 import CreateLeaderboardScoreArr from '../../Functions/CreateLeaderboardScoreArr'
 
 const LeaderboardScorecardDesktop = ({ player1Data, player2Data, player3Data, user_name, roundKey, pars }) => {
-  console.log(player1Data, player2Data, player3Data, user_name, roundKey, pars)
   // calculate user scores
   const userScores =  GetUserScores(player1Data[roundKey]['scores'], player2Data[roundKey]['scores'], player3Data[roundKey]['scores'])
 

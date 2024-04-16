@@ -30,7 +30,7 @@ const FantasyLeaderboardView = ({}) => {
   //validation if the leaderboard should be shown
   const display = () => {
     if (!currentUser) return  <Login />
-    else if (fantasyLeaderboard === 'Pending') return null
+    else if (fantasyLeaderboard === 'Pending') return null // suspense
 
     else {
       //Leaderboard Table
@@ -41,14 +41,11 @@ const FantasyLeaderboardView = ({}) => {
         const { user_name } = player
         const lineup = lineups.filter(lineup => lineup.user_name === user_name)[0]
         return <FantasyLeaderboardBody player={player} round={currentRound} lineup={lineup} key={`leaderboard-${user_name}-row`}/>
-
-
-        
       })
 
       return (
         <>
-          {/* <h6 className='px-1 mx-1 mt-2'>Round {currentRound}</h6> */}
+          <h6 className='px-1 mx-1 mt-2'>Round {currentRound}</h6>
           <Table
             className='mx-0 mb-0 my-auto'
             size='sm'
@@ -70,11 +67,10 @@ const FantasyLeaderboardView = ({}) => {
     }
   }
 
-  if (!fantasyTournamentConfig) return null
   return (
     <Container fluid>
       <h4 className=' my-3 text-center'>{displayYear} Fantasy Leaderboard</h4>
-      {fantasyLeaderboard ? display() : ( 
+      {fantasyLeaderboard && fantasyTournamentConfig  ? display() : ( 
         <p className='my-3 text-center'>
           The leaderboard is not avaible at this time please check back later.
         </p>

@@ -9,8 +9,8 @@ import ScoreColor from '../../../Functions/ScoreColor'
 import FantasyLeaderboardAccordionContent from './FantasyLeaderboardAccordionContent';
 
 const FantasyLeaderboardAccordionBody = ({ player, round, lineup }) => {
-  const { round1, round2 ,round3, round4 } = player
   let [roundDisplay, setRoundDisplay] = useState(round)
+  const { round1, round2 ,round3, round4 } = player
   const { rounds } = lineup
 
   let scoreDisplay
