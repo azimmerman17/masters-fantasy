@@ -2,7 +2,7 @@ import { useContext } from 'react'
 
 import { TournamentLeaderboardContext } from '../../../Contexts/TournamentLeaderboard'
 import GetPlayerData from '../../../Functions/GetPlayerData'
-import LeaderboardScorecardMobile from '../../scorecards/LeaderBoardScorecardMoblie'
+import LeaderboardScorecardMobile from '../../scorecards/LeaderboardScorecardMoblie'
 import LeaderboardScorecardDesktop from '../../scorecards/LeaderboardScorecardDesktop'
 
 const LeaderboardScoreCard = ({ player1, player2, player3, user_name, round }) => {

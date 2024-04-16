@@ -1,7 +1,6 @@
 import {  useContext } from 'react'
 import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table'
-import Accordion from 'react-bootstrap/Accordion';
 
 import { CurrentUser } from '../../../Contexts/CurrentUserContext';
 import { FantasyLeaderboard } from '../../../Contexts/FantasyLeaderboardContext'
