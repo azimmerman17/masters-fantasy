@@ -15,7 +15,7 @@ const FantasyLeaderboardBody = ({ player, round, lineup }) => {
 
   return (
     <tbody key={`leaderboard-${user_name}-row`}>
-      <tr data-toggle={expand ? 'expand': 'collapse'} data-target={`#${user_name}-accordian`} className="accordion-toggle" onClick={e => setExpand(!expand)}>
+      <tr data-toggle={expand ? 'expand': 'collapse'} data-target={`#${user_name}-accordian`} className='accordion-toggle' onClick={e => setExpand(!expand)}>
         {rowData}
       </tr>
       <tr>

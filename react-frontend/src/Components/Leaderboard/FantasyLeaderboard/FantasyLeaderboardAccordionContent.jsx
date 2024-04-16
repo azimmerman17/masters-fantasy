@@ -1,11 +1,11 @@
-import { useContext } from "react"
+import { useContext } from 'react'
 
-import { FantasyTournamentConfig } from "../../../Contexts/FantasyTournamentConfig"
+import { FantasyTournamentConfig } from '../../../Contexts/FantasyTournamentConfig'
+import LeaderboardScoreCard from './LeaderboardScorecard'
 
 const FantasyLeaderboardAccordionContent = ({ lineup, player }) => {
   const { player1, player2, player3, round } = lineup
-  const { round1, round2, round3, round4 } = player
-  console.log(round, lineup, player)
+  const { round1, round2, round3, round4, user_name } = player
 
   const {fantasyTournamentConfig, setFantasyTournamentConfig} = useContext(FantasyTournamentConfig)
 
@@ -36,17 +36,7 @@ const FantasyLeaderboardAccordionContent = ({ lineup, player }) => {
     }
 
     if (roundlocked) return <h6 className='m-1 text-center'>No Scores to Display</h6>
-    console.log(score)
-    return (
-      <div>
-        Display the Scores {score}
-        {/* User Score */}
-        {/* Payer 1 Score */}
-        {/* Payer 2 Score */}
-        {/* Payer 3 Score */}
-      </div>
-    )
-
+    return  <LeaderboardScoreCard player1={player1} player2={player2} player3={player3} user_name={user_name} round={round} />
   }
 }
 

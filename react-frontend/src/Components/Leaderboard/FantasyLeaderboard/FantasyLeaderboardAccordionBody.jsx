@@ -7,7 +7,7 @@ import FantasyLeaderboardAccordionContent from './FantasyLeaderboardAccordionCon
 const FantasyLeaderboardAccordionBody = ({ player, round, lineup }) => {
   let [roundDisplay, setRoundDisplay] = useState(round)
   const { rounds } = lineup
-  console.log(player)
+
   return (
     <Container className='p-0' fluid>
       <div className='p-0 d-flex align-items-end'>
@@ -15,7 +15,7 @@ const FantasyLeaderboardAccordionBody = ({ player, round, lineup }) => {
         key='end'
         id={`dropdown-button-drop-start`}
         drop='end'
-        variant="success"
+        variant='success'
         title={`Round ${roundDisplay}`}
         size='sm'
       >
