@@ -10,7 +10,6 @@ import FantasyLeaderboardAccordionContent from './FantasyLeaderboardAccordionCon
 
 const FantasyLeaderboardAccordionBody = ({ player, round, lineup }) => {
   const { round1, round2 ,round3, round4 } = player
-  console.log(player, round, lineup)
   let [roundDisplay, setRoundDisplay] = useState(round)
   const { rounds } = lineup
 
@@ -40,10 +39,11 @@ const FantasyLeaderboardAccordionBody = ({ player, round, lineup }) => {
           </DropdownButton>   
         </Col>
         <Col>
-          <h6 className={`text-end fw-bolder m-1 ${ScoreColor(scoreDisplay)}`}>{scoreDisplay}</h6>
+          <h6 className='text-end fw-bolder m-1'>
+            <span>Rd {roundDisplay}: </span>
+            <span className={`${ScoreColor(scoreDisplay)}`}>{scoreDisplay}</span> 
+          </h6>
         </Col>
-
-
       </Row>
       <FantasyLeaderboardAccordionContent lineup={rounds.filter(round => round.round === roundDisplay)[0]} player={player}/>
 

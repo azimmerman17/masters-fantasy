@@ -11,8 +11,8 @@ const LeaderboardScorecardMobile = ({ player1Data, player2Data, player3Data, use
   const userScores =  GetUserScores(player1Data[roundKey]['scores'], player2Data[roundKey]['scores'], player3Data[roundKey]['scores'])
   
  //create arrays to headle the scorecard headers
-  const outPars = ['Par']
-  const inPars = ['Par']
+  let outPars = ['Par']
+  let inPars = ['Par']
   let outPar = 0
   let inPar = 0
 
@@ -20,8 +20,7 @@ const LeaderboardScorecardMobile = ({ player1Data, player2Data, player3Data, use
     if (i < 9) {
       outPars.push(pars[i])
       outPar += pars[i]
-    }
-    else {
+    } else {
       inPars.push(pars[i])
       inPar += pars[i]
     }
@@ -34,7 +33,7 @@ const LeaderboardScorecardMobile = ({ player1Data, player2Data, player3Data, use
   let userInScores = CreateLeaderboardScoreArr(user_name, userScores, 'in')
   let userOutScores = CreateLeaderboardScoreArr(user_name, userScores, 'out')
 
-  //Arrats for player's Scors
+  //Arrays for player's Scors
   let player1InScores = CreateLeaderboardScoreArr(player1Data['display_name'], player1Data[roundKey]['scores'], 'in')
   let player1OutScores = CreateLeaderboardScoreArr(player1Data['display_name'], player1Data[roundKey]['scores'], 'out')
 

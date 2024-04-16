@@ -10,6 +10,8 @@ const CreateLeaderboardScoreArr = (rowName, scores, side) => {
   for (let i = start; i < end; i++) {
    arr.push(scores[i])
    total += scores[i]
+   if (side === 'full' && i === 8) arr.push(total)
+   if (side == 'full' && i === 17) arr.push(total - arr[10])
   }
   arr.push(total)
 
