@@ -83,7 +83,7 @@ MASTERS FANTASY GOLF does not intend to be a replacement for the coverage provid
 [![Bootstrap][Bootstrap.com]][Bootstrap-url]
 [![ChartJS][ChartJs.com]][ChartJS-url]
 [![Express][Express.js]][Express-url]
-[![PostgreSQL][PostgreSQL]][Postgres-url]
+[![PostgreSQL][PostgreSQL]][Postgres-url] (Unsupported after 2024 Tournament - DB migrated to mySQL)
 [![Sequelize][Sequelize]][Sequelize-url]
 [![Vercel][Vercel]][Vercel-url]
 <!-- [![Postman][Postman]][Postman-url] -->
@@ -190,6 +190,8 @@ The navbar is divided into 3 setions:
 <!-- _For more examples, please refer to the [Documentation](https://example.com)_ -->
 
 ## Backend
+
+This application was originally built using PostgrSQL, but mirgrated to mySQL, due to issues withan inadiquite connection limit for the small test user group.  The code used to utilize a PostgreSQL server has been commented out with the note 'POSTGRES UNSUPPORTED'.  If you choose to use PostgreSQL as your SQL server, please be aware, additional backend development will be required to utilize features added after April 14, 2024.
 
 ### Tables
 
