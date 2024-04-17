@@ -112,7 +112,7 @@ router.get('/:id', async (req, res) => {
 router.post('/sendscores', async (req, res) => {
   const { data } = req.body
   try {
-    console.log(data)
+
     const { currentRound, statusRound, player, pars, wallClockTime } = data
     const { round1, round2, round3, round4 } = pars
     
@@ -130,7 +130,7 @@ router.post('/sendscores', async (req, res) => {
         break
       }
     }
-    console.log(round)
+
     // Do not uudate if Tournament is inative
     if (((statusRound[round - 1] === 'X' || statusRound[round - 1] === 'F') && new Date(wallClockTime) < timeMinus60 )  || statusRound[0] === 'N' ) {
       console.log('Tournament not active - No update')

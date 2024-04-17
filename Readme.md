@@ -291,21 +291,26 @@ API documentation to come
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Use the 2024 Master's Tournament for beta testing
+- [x] Use the 2024 Master's Tournament for beta testing
 ### Plan for 2025
-- [ ] Link Players in the Roster Tools back to their Profiles
-- [ ] Build Administrative Pages 
-- [ ] Add Stats to the Lineup Components
 - [ ] Rework the Fantasy Leaderboard
-  - [ ] Show golfers and scorecards for each round
-  - [ ] Show holes played as F if all golfers completed their round
-  - [ ] Second Leaderboard for Stableford scoring and/or Aggragate Scoring
-- [ ] Add Stats to the Fantasy Lineups
+  - [x] Show golfers and scorecards for each round
+  - [x] Show holes played as F if all golfers completed their round
+  - [ ] Second Leaderboard for Stableford scoring and/or Aggragate Scoring (Potentailly Pushed to 2026)
+- [ ] Migrate DB from postgreSQL to mySQL
 - [ ] Utilize Suspense Hook for loading screen
-- [ ] Allow players to see golfers and lineups of other competitors
+- [ ] Build Administrative Pages 
 - [ ] Build endpoint(s) to close out the year
   - [ ] Functionality to update the User Data
   - [ ] Functionality to allow Admin role to remove data from past years
+- [ ] Welcome email for users
+- [ ] Build Stableford Scoring as tiebreaker and future development
+- Additional development for 2025 - as time allows
+  - [ ] Add Stats to the Lineup Components
+  - [ ] Link Players in the Roster Tools back to their Profiles
+
+### Plan for 2025
+- [ ] Add additional events
 
 See the [open issues](https://github.com/azimmerman17/masters-fantasy/issues) for a full list of proposed features (and known issues).
 
