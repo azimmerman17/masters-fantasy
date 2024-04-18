@@ -20,43 +20,43 @@ module.exports = (sequelize, DataTypes) => {
     user_id: {
       allowNull: false,
       unique: true,
-      type: DataTypes.INTEGER
+      type: DataTypes.INT
     },
     year: {
       allowNull: false,
-      type: DataTypes.INTEGER,
+      type: DataTypes.INT,
     },
     past_champ: {
       allowNull: true,
-      type: DataTypes.INTEGER
+      type: DataTypes.INT
     },
     usa: {
       allowNull: true,
-      type: DataTypes.INTEGER,
+      type: DataTypes.INT,
     },
     intl: {
       allowNull: true,
-      type: DataTypes.INTEGER,
+      type: DataTypes.INT,
     },
     wild_card1: {
       allowNull: true,
-      type: DataTypes.INTEGER,
+      type: DataTypes.INT,
     },
     wild_card2: {
       allowNull: true,
-      type: DataTypes.INTEGER,
+      type: DataTypes.INT,
     },
     wild_card3: {
       allowNull: true,
-      type: DataTypes.INTEGER,
+      type: DataTypes.INT,
     },
     created_at: {
-      type: DataTypes.DATE,
+      type: DataTypes.TIMESTAMP,
       allowNull: false,
       defaultValue: DataTypes.NOW
     },
     updated_at: {
-      type: DataTypes.DATE,
+      type: DataTypes.TIMESTAMP,
       allowNull: false,
       defaultValue: DataTypes.NOW
     }

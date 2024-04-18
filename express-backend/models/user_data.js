@@ -18,31 +18,31 @@ module.exports = (sequelize, DataTypes) => {
     user_id: {
       allowNull: false,
       unique: true,
-      type: DataTypes.INTEGER
+      type: DataTypes.INT
     },
     appearances: {
       allowNull: false,
-      type: DataTypes.INTEGER,
+      type: DataTypes.INT,
       default: 0
     },
     wins: {
       allowNull: false,
-      type: DataTypes.INTEGER,
+      type: DataTypes.INT,
       default: 0
     }, 
     best_finish: {
-      type: DataTypes.STRING
+      type: DataTypes.CHAR
     },
     low_score: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.INT,
     },
     created_at: {
-      type: DataTypes.DATE,
+      type: DataTypes.TIMESTAMP,
       allowNull: false,
       defaultValue: DataTypes.NOW
     },
     updated_at: {
-      type: DataTypes.DATE,
+      type: DataTypes.TIMESTAMP,
       allowNull: false,
       defaultValue: DataTypes.NOW
     }
