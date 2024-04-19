@@ -4,7 +4,7 @@ const jwt = require('json-web-token')
 
 const decryptValue = require('../functions/decryptValue')
 const hashValue = require('../functions/hashValue')
-const { pgPool, mysqlPool } = require('../models/db')
+const { mysqlPool } = require('../models/db')
 
 const year = (new Date()).getFullYear()
 
@@ -22,8 +22,8 @@ router.post('/', async (req, res) => {
       res.status(500).send({user})
     } else if(user.length === 0) {
       console.log('You have entered an invalid username or password, 0 rows returned')
-      res.status(404).json({message: 'You have entered an invalid username or password'})}
-    else {
+      res.status(404).json({message: 'You have entered an invalid username or password'})
+    } else {
       // User exists - Validate password matches 
       const encryptedSalt = user[0]["salt"]
       const password_hash = user[0]["password_hash"]
