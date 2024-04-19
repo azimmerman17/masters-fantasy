@@ -4,7 +4,7 @@ const jwt = require('json-web-token')
 
 const decryptValue = require('../functions/decryptValue')
 const hashValue = require('../functions/hashValue')
-const pool = require('../models/db')
+const pgPool = require('../models/db')
 
 const year = (new Date()).getFullYear()
 
