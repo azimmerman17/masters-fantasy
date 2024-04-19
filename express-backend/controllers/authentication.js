@@ -85,19 +85,19 @@ router.get('/profile', async (req, res) => {
         CASE 
           WHEN D.holes_completed = 0 THEN 0
           ELSE D.round1
-        END,
+        END as "round1",
         CASE 
           WHEN D.holes_completed <= 18 THEN 0
           ELSE D.round2
-        END,
+        END as "round2",
         CASE 
           WHEN D.holes_completed <= 36 THEN 0
           ELSE D.round3
-        END,
+        END as "round3",
         CASE 
           WHEN D.holes_completed <= 54 THEN 0
           ELSE D.round4 
-        END,
+        END as "round4",
         CASE 
           WHEN D.holes_completed = 0 THEN 0 
           ELSE (D.round1_aggr + D.round2_aggr + D.round3_aggr + D.round4_aggr) 
@@ -105,19 +105,19 @@ router.get('/profile', async (req, res) => {
         CASE 
           WHEN D.holes_completed = 0 THEN 0 
           ELSE D.round1_aggr
-        END,
+        END as "round1_aggr",
         CASE 
           WHEN D.holes_completed <= 18 THEN 0 
           ELSE D.round2_aggr
-        END,
+        END as "round2_aggr",
         CASE 
           WHEN D.holes_completed <= 36 THEN 0 
           ELSE D.round3_aggr
-        END,
+        END as "round3_aggr",
         CASE 
           WHEN D.holes_completed <= 55 THEN 0 
           ELSE D.round4_aggr 
-        END
+        END as "round4_aggr"
       FROM \`major-fantasy-golf\`.Users A, \`major-fantasy-golf\`.User_Data B 
       LEFT JOIN \`major-fantasy-golf\`.User_Rosters C
         ON C.user_id = B.user_id
@@ -142,7 +142,7 @@ router.get('/profile', async (req, res) => {
       let [userRes, userMetadata] = await mysqlPool.query(userExistQuery)
       let [linupRes, lineupMetadata] = await mysqlPool.query(userlineupQuery)
       // User exists - data to be attached to the user
-console.log(userRes, linupRes)
+
       let lineups = []
     
       for (let i = 0; i < 4; i++) {
@@ -219,6 +219,7 @@ console.log(userRes, linupRes)
           ]
         }
       }
+
       res.status(200).send(user)
     } catch (error) {
     console.error(error)

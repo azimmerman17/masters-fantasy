@@ -5,7 +5,7 @@ const organizeLineups = require('../functions/organizeLineups')
 const updateSeqNum = require('../functions/updateSeqNum')
 const updateScores = require('../middleware/updateScores')
 const updateScoresFile = require('../middleware/updateScoresFile')
-const pool = require('../models/db')
+const { mysqlPool, pgPool } = require('../models/db')
 
 //  Derive the date
 const year = (new Date().getFullYear())
@@ -29,7 +29,7 @@ router.get('/', async (req, res) => {
       B.round2_aggr, 
       B.round3_aggr,
       B.round4_aggr 
-    FROM public."Users" A, public."Fantasy_Scoring" B
+    FROM \`major-fantasy-golf\`.Users A, \`major-fantasy-golf\`.Fantasy_Scoring B
     WHERE A.user_id = B.user_id
       AND year = ${year}
     ORDER BY 6, 2 desc, 10, 9, 8, 7, 11 asc, 15 asc, 14 asc, 13 asc, 12 asc;`
@@ -40,20 +40,20 @@ router.get('/', async (req, res) => {
         B.round,B.player1, 
         B.player2, 
         B.player3
-      FROM  "Users" A, "User_Lineups" B
+      FROM  \`major-fantasy-golf\`.Users A, \`major-fantasy-golf\`.User_Lineups B
       WHERE A.user_id = B.user_id
         And B.year =${year}
       ORDER BY B.user_id, B.round`
 
   try {
-    const response = await pool.query(getScores)
-    const lineupRespone = await pool.query(getLineups)
+    const [response, resMetadata] = await mysqlPool.query(getScores)
+    const [lineupRespone, lineupMetadata] = await mysqlPool.query(getLineups)
   
     if (response.error || lineupRespone.error) res.status(500).send('error')
     else {
       // clean the data
-      let leaderboard = response.rows
-      let lineupsMap = organizeLineups(lineupRespone.rows)
+      let leaderboard = response
+      let lineupsMap = organizeLineups(lineupRespone)
       let lineups = []
       // console.log({leaderboard, lineups})
       lineupsMap.forEach(user => lineups.push(user))
@@ -87,15 +87,15 @@ router.get('/:id', async (req, res) => {
       B.round2_aggr, 
       B.round3_aggr,
       B.round4_aggr 
-    FROM public."Users" A, public."Fantasy_Scoring" B
+    FROM \`major-fantasy-golf\`.Users A, \`major-fantasy-golf\`.Fantasy_Scoring B
     WHERE A.user_id = B.user_id
       AND year = ${year}
       AND A.user_id = ${id}
     ORDER BY 6, 2 desc, 10, 9, 8, 7, 11 asc, 15 asc, 14 asc, 13 asc, 12 asc;`
 
   try {
-    const response = await pool.query(getScores)
-    console.log(response)
+    const [response, metadata] = await mysqlPool.query(getScores)
+
     if (response.error) res.status(500).send({response})
     else {
       // clean the data
@@ -151,8 +151,8 @@ router.post('/sendscores', async (req, res) => {
 
       updateScoresFile.process_active = 1
       console.log('update scores')
-      res.status(202).send('No data sent')
-      // res.redirect(307, '/scoring/updatescores') 
+      // res.status(202).send('No data sent')
+      res.redirect(307, '/scoring/updatescores') 
     }
   } catch (error) {
       console.error(error)
@@ -162,10 +162,10 @@ router.post('/sendscores', async (req, res) => {
 
 router.post('/updatescores', async (req, res) => {
   try {
-    // await updateScores()
+    await updateScores()
     console.log('Scores Updated')
     updateScoresFile.lastUpdate = new Date()
-    // await updateSeqNum()
+    await updateSeqNum()
     console.log('SeqNum updated')
     res.status(200).send('Done')
   } catch (error) {
@@ -184,20 +184,20 @@ router.post('/new', async (req, res) => {
   if (!user_id) res.status(400).send({msg: 'Unable to add scoring record, missing user_id'})
   else {
     // check if record exists
-    let validateNew = `Select 'X' FROM public."Fantasy_Scoring" A
-      WHERE A.year = ${year} 
-        AND A.user_id = ${user_id}};`
+    let validateNew = `Select 'X' FROM \`major-fantasy-golf\`.Fantasy_Scoring
+      WHERE year = ${year} 
+        AND user_id = ${user_id}};`
   
     try {
-      const validateResponse = await pool.query(validateNew) 
+      const [validateResponse, metadata] = await mysqlPool.query(validateNew) 
       if (validateResponse.error) res.status(500).send({msg: 'scoring record addition failled'})
-      else if (validateResponse.rowCount > 0) res.status(400).send({msg: 'scoring record already exists'})
+      else if (validateResponse.length > 0) res.status(400).send({msg: 'scoring record already exists'})
       else {
         // create scoring record
-        let insertScoringQuery = `INSERT INTO public."Fantasy_Scoring" (user_id, year, created_at, updated_at)
+        let insertScoringQuery = `INSERT INTO \`major-fantasy-golf\`.Fantasy_Scoring (user_id, year, created_at, updated_at)
           VALUES (${user_id}, ${year}, NOW(), NOW());`
 
-        const response = await pool.query(insertScoringQuery)
+        const [response, insertMetadata] = await mysqlPool.query(insertScoringQuery)
         if (response.error) res.status(500).send({msg: 'scoring record addition failled'})
         else res.status(201).send({msg: 'Sucess'})
       }
@@ -216,7 +216,7 @@ router.put('/:id', async (req, res) => {
   const { holes_completed, round1, round2, round3, round4, round1_aggr, round2_aggr, round3_aggr, round4_aggr } = req.body
 
   // build the query 
-  let updateScoring = `UPDATE public."Fantasy_Scoring" SET updated_at = NOW()`
+  let updateScoring = `UPDATE \`major-fantasy-golf\`.Fantasy_Scoring SET updated_at = NOW()`
   if (holes_completed) updateScoring = updateScoring + `, holes_completed = ${holes_completed}`
   if (round1) updateScoring = updateScoring + `, round1 = ${round1}`
   if (round2) updateScoring = updateScoring + `, round2 = ${round2}`
@@ -232,7 +232,7 @@ router.put('/:id', async (req, res) => {
     AND year = ${year};`  
 
   try {
-    const response = await pool.query(updateScoring)
+    const response = await mysqlPool.query(updateScoring)
     if (response.error) res.status(500).send({msg: 'Error - scoring update Failed'})
     else res.status(201).send({msg: 'Scores Updated'})
   } catch (error) {
@@ -241,7 +241,7 @@ router.put('/:id', async (req, res) => {
   }
 })
 
-// Update user scores for specific round
+// Update user scores for specific round  >> Not completed for admin use
 router.put('/:id/:round', async (req, res) => {
   const { id, round } = req.params
   const { score, score_aggr } = req.body
@@ -252,7 +252,7 @@ router.put('/:id/:round', async (req, res) => {
     let score_aggrKey = `round${round}_aggr`
 
     // build the query 
-    let updateScoring = `UPDATE public."Fantasy_Scoring" SET updated_at = NOW()`
+    let updateScoring = `UPDATE \`major-fantasy-golf\`.Fantasy_Scoring SET updated_at = NOW()`
     if (score) updateScoring = `, ${scoreKey} = ${score}`
     if (score_aggrKey) updateScoring = `, ${score_aggrKey} = ${score_aggr}`
     

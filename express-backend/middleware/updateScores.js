@@ -1,7 +1,7 @@
 require('dotenv').config()
 const updateRoundScore = require('../functions/updateRoundScore')
 const updateScoresFile = require('../middleware/updateScoresFile')
-const pool = require('../models/db')
+const { mysqlPool } = require('../models/db')
 
 const year = (new Date().getFullYear())
  
@@ -14,24 +14,23 @@ async function updateScores() {
   const current_round = updateScoresFile.round
 
   // Fetch scoring data from public."Fanstay_Scoring"
-  let fetchScores = `SELECT A.user_id
-  FROM public."Fantasy_Scoring" A
+  let fetchIDs = `SELECT user_id
+  FROM \`major-fantasy-golf\`.Fantasy_Scoring
   WHERE year = ${year}`
 
   try {
-    const response = await pool.query(fetchScores)
-    
+    const [response, metadata] = await mysqlPool.query(fetchIDs)
+
     if (response.error) {
       updateScoresFile.process_active = 0
       return response.error
-    } else if (response.rows > 1) {
+    } else if (response.length < 1) {
       updateScoresFile.process_active = 0
       console.log('no players - quit')
       return 'no players - quit'
-    } else {
-      const { rows } = response  
+    } else { 
       // For each record on public."Fanstay_Scoring" - update scorings for the round.
-      rows.forEach(async (row) => {
+      response.forEach(async (row) => {
         // Update the score for the round
         await updateRoundScore(row['user_id'], year, current_round, leaderboard)
       })

@@ -16,8 +16,6 @@ const UserRoster = () => {
   const {tournamentLeaderboardContext, setTournamentLeaderboardContext} = useContext(TournamentLeaderboardContext)
   const {currentUser, setCurrentUser} = useContext(CurrentUser)
 
-console.log(fantasyTournamentConfig)
-
   if (fantasyTournamentConfig && playersContext  && currentUser && tournamentLeaderboardContext) {
     const { players } = playersContext
     const { leaderboard } = tournamentLeaderboardContext
@@ -28,6 +26,7 @@ console.log(fantasyTournamentConfig)
     }
 
     const { roster, lineups, scoring } = currentUser
+
     const { intl, past_champ, usa, wild_card1, wild_card2, wild_card3 } = roster
     const { rosterLock } = fantasyTournamentConfig
 

@@ -4,7 +4,6 @@ import Col from 'react-bootstrap/Col';
 import ScoreColor from '../../Functions/ScoreColor';
 
 const RosterPlayerStats  = ({ newStatus, pos, topar, teetime, status, thru }) =>{
-  console.log(newStatus, pos, topar, teetime, status)
   switch (newStatus) {
     case 'C':
       return <h6 className='m-0 text-center'>MISSED CUT</h6>

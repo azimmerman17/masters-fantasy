@@ -1,5 +1,4 @@
-const pool = require('../models/db')
-
+const { mysqlPool } = require('../models/db')
 const updateScoresFile = require('../middleware/updateScoresFile')
 const filterPlayerLeaderboard = require('./filterPlayerLeaderboard')
 const calcPlayerScore = require('./calcPlayerScore')
@@ -8,24 +7,24 @@ const calcPlayerHoles = require('./calcPlayerHoles')
 
 async function updateRoundScore(user_id, year, round, leaderboard) {
   // Fetch the Lineup from public."User_Lineups"
-  const getLineups = `SELECT A.player1,
-      A.player2,
-      A.player3
-    FROM public."User_Lineups" A
-    WHERE A.year = ${year}
-      AND A.user_id = ${user_id}
-      AND A.round = ${round};`
+  const getLineups = `SELECT player1,
+      player2,
+      player3
+    FROM \`major-fantasy-golf\`.User_Lineups
+    WHERE year = ${year}
+      AND user_id = ${user_id}
+      AND round = ${round};`
 
   try {
-    const response = await pool.query(getLineups)
-    const { rows, rowCount } = response
+    const [response, metadata] = await mysqlPool.query(getLineups)
+
     if (response.error) return response
-    if (rowCount < 1) return 'No Lineups'
+    if (response.length < 1) return 'No Lineups'
 
     // Get the player ids - translate to the correct player on leaderboard - returns the round scores
-    let player1 = filterPlayerLeaderboard(rows[0]['player1'], leaderboard, round)
-    let player2 = filterPlayerLeaderboard(rows[0]['player2'], leaderboard, round)
-    let player3 = filterPlayerLeaderboard(rows[0]['player3'], leaderboard, round)
+    let player1 = filterPlayerLeaderboard(response[0]['player1'], leaderboard, round)
+    let player2 = filterPlayerLeaderboard(response[0]['player2'], leaderboard, round)
+    let player3 = filterPlayerLeaderboard(response[0]['player3'], leaderboard, round)
 
     // For each hole, get the lowest score - translate to vsPar - caluclated holes completed for the round
     let score = 0
@@ -72,7 +71,7 @@ async function updateRoundScore(user_id, year, round, leaderboard) {
     if (!holesDisplay) holesDisplay = 0
 
     // UPDATE STATEMENT FOR public."Fanstay_Scoring"
-    let updateQuery = `UPDATE public."Fantasy_Scoring" 
+    let updateQuery = `UPDATE \`major-fantasy-golf\`.Fantasy_Scoring
       SET updated_at = NOW(),
         round${round} = ${score},
         round${round}_aggr = ${aggregateScore},
@@ -82,7 +81,7 @@ async function updateRoundScore(user_id, year, round, leaderboard) {
       WHERE year = ${year}
         AND user_id = ${user_id}`
 
-    const updateResponse = await pool.query(updateQuery)
+    const [updateResponse, updateMetadata] = await mysqlPool.query(updateQuery)
     if (updateResponse.error) return 'Error - scoring update Failed'
    return 'Done'
 
