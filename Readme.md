@@ -191,7 +191,7 @@ The navbar is divided into 3 setions:
 
 ## Backend
 
-This application was originally built using PostgrSQL, but mirgrated to mySQL, due to issues withan inadiquite connection limit for the small test user group.  The code used to utilize a PostgreSQL server has been commented out with the note 'POSTGRES UNSUPPORTED'.  If you choose to use PostgreSQL as your SQL server, please be aware, additional backend development will be required to utilize features added after April 14, 2024.
+This application was originally built using PostgrSQL, but mirgrated to mySQL, due to issues withan inadiquite connection limit for the small test user group.  Has been removed and replaced with mySQL logic.  If you choose to use PostgreSQL as your SQL server, you can refer to commit 'ab8c55c' to the lastest update prior to the migrate to mySQL. NOTE: Additional backend development will be required to utilize features added after this commit.
 
 ### Tables
 

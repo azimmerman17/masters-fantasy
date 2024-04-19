@@ -4,41 +4,38 @@ const jwt = require('json-web-token')
 
 const decryptValue = require('../functions/decryptValue')
 const hashValue = require('../functions/hashValue')
-const pgPool = require('../models/db')
+const { pgPool, mysqlPool } = require('../models/db')
 
 const year = (new Date()).getFullYear()
 
 router.post('/', async (req, res) => {
   const { user_name, password } = req.body
 
-  // Check if username or email exists
-  const userExistQuery = `Select A.* FROM public."Users" A
+  const userExistQuery = `Select A.* FROM \`major-fantasy-golf\`.Users A
     WHERE A.user_name = '${user_name.toLowerCase()}'
       OR A.email = '${user_name.toLowerCase()}';`
     
   try {
-    const user = await pool.query(userExistQuery)
+    const [user, metadata] = await mysqlPool.query(userExistQuery)
     if (user.error) {
       console.error(user.error)
       res.status(500).send({user})
-    }
-    else if(user.rowCount === 0) {
+    } else if(user.length === 0) {
       console.log('You have entered an invalid username or password, 0 rows returned')
       res.status(404).json({message: 'You have entered an invalid username or password'})}
     else {
       // User exists - Validate password matches 
-      const { rows } = user
-      const encryptedSalt = rows[0]["salt"]
-      const password_hash = rows[0]["password_hash"]
+      const encryptedSalt = user[0]["salt"]
+      const password_hash = user[0]["password_hash"]
 
       // data to be attached to the user
       let returnedUser = {
-        user_id: rows[0]["user_id"],
-        user_name: rows[0]["user_name"],
-        first_name: rows[0]["first_name"],
-        last_name: rows[0]["last_name"],
-        email: rows[0]["email"],
-        role: rows[0]["role"], 
+        user_id: user[0]["user_id"],
+        user_name: user[0]["user_name"],
+        first_name: user[0]["first_name"],
+        last_name: user[0]["last_name"],
+        email: user[0]["email"],
+        role: user[0]["role"], 
       }
 
       //decrypt the salt
@@ -121,11 +118,11 @@ router.get('/profile', async (req, res) => {
           WHEN D.holes_completed <= 55 THEN 0 
           ELSE D.round4_aggr 
         END
-      FROM public."Users" A, public."User_Data" B 
-      LEFT JOIN public."User_Rosters" C
+      FROM \`major-fantasy-golf\`.Users A, \`major-fantasy-golf\`.User_Data B 
+      LEFT JOIN \`major-fantasy-golf\`.User_Rosters C
         ON C.user_id = B.user_id
           AND C.year = ${year}
-      LEFT JOIN public."Fantasy_Scoring" D
+      LEFT JOIN \`major-fantasy-golf\`.Fantasy_Scoring D
         ON D.user_id = B.user_id
           AND D.year = ${year}
       WHERE A.user_id = B.user_id
@@ -135,28 +132,27 @@ router.get('/profile', async (req, res) => {
         A.player2,
         A.player3,
         A.year
-      FROM public."User_Lineups" A
+      FROM \`major-fantasy-golf\`.User_Lineups A
       WHERE year = ${year} 
         AND user_id = ${req.currentUser}
       ORDER BY A.round;`
 
         // WHERE year = ${(new Date()).getFullYear()} CHANGE FOR PROD
     try {
-      let userRes = await pool.query(userExistQuery)
-      let linupRes = await pool.query(userlineupQuery)
+      let [userRes, userMetadata] = await mysqlPool.query(userExistQuery)
+      let [linupRes, lineupMetadata] = await mysqlPool.query(userlineupQuery)
       // User exists - data to be attached to the user
-      let userRows = userRes.rows
-      let lineupRows = linupRes.rows
+console.log(userRes, linupRes)
       let lineups = []
     
       for (let i = 0; i < 4; i++) {
-        if (lineupRows[i]) {
+        if (linupRes[i]) {
           lineups.push({
-            year: lineupRows[i]["year"],
+            year: linupRes[i]["year"],
             round: i + 1,
-            player1: lineupRows[i]["player1"],
-            player2: lineupRows[i]["player2"],
-            player3: lineupRows[i]["player3"],
+            player1: linupRes[i]["player1"],
+            player2: linupRes[i]["player2"],
+            player3: linupRes[i]["player3"],
           })
         } else {
           lineups.push({
@@ -170,54 +166,54 @@ router.get('/profile', async (req, res) => {
       }
 
       let user = {
-        user_id: userRows[0]["user_id"],
-        user_name: userRows[0]["user_name"],
-        first_name: userRows[0]["first_name"],
-        last_name: userRows[0]["last_name"],
-        email: userRows[0]["email"],
-        role: userRows[0]["role"],
-        appearances: userRows[0]["appearances"],
-        wins: userRows[0]["wins"],
-        best_finish: userRows[0]["best_finish"],
-        low_score: userRows[0]["low_score"],
+        user_id: userRes[0]["user_id"],
+        user_name: userRes[0]["user_name"],
+        first_name: userRes[0]["first_name"],
+        last_name: userRes[0]["last_name"],
+        email: userRes[0]["email"],
+        role: userRes[0]["role"],
+        appearances: userRes[0]["appearances"],
+        wins: userRes[0]["wins"],
+        best_finish: userRes[0]["best_finish"],
+        low_score: userRes[0]["low_score"],
         roster: {
-          year: userRows[0]["year"],
-          past_champ: userRows[0]["past_champ"],
-          usa: userRows[0]["usa"],
-          intl: userRows[0]["intl"],
-          wild_card1: userRows[0]["wild_card1"],
-          wild_card2: userRows[0]["wild_card2"],
-          wild_card3: userRows[0]["wild_card3"],
+          year: userRes[0]["year"],
+          past_champ: userRes[0]["past_champ"],
+          usa: userRes[0]["usa"],
+          intl: userRes[0]["intl"],
+          wild_card1: userRes[0]["wild_card1"],
+          wild_card2: userRes[0]["wild_card2"],
+          wild_card3: userRes[0]["wild_card3"],
         },
         lineups: lineups,
         scoring: {
-          holes_completed:  userRows[0]["holes_completed"],
-          year: userRows[0]["year"],
+          holes_completed:  userRes[0]["holes_completed"],
+          year: userRes[0]["year"],
           total: {
-            score: userRows[0]["total"],
-            aggr: userRows[0]["total_aggr"] 
+            score: userRes[0]["total"],
+            aggr: userRes[0]["total_aggr"] 
 
           },
           rounds: [
             {
               round: 1,
-              score: userRows[0]["round1"],
-              aggr: userRows[0]["round1_aggr"]
+              score: userRes[0]["round1"],
+              aggr: userRes[0]["round1_aggr"]
             },
             {
               round: 2,
-              score: userRows[0]["round2"],
-              aggr: userRows[0]["round2_aggr"]
+              score: userRes[0]["round2"],
+              aggr: userRes[0]["round2_aggr"]
             },
             {              
               round: 3,
-              score: userRows[0]["round3"],
-              aggr: userRows[0]["round3_aggr"]
+              score: userRes[0]["round3"],
+              aggr: userRes[0]["round3_aggr"]
             },
             {
               round: 4,
-              score: userRows[0]["round4"],
-              aggr: userRows[0]["round4_aggr"]
+              score: userRes[0]["round4"],
+              aggr: userRes[0]["round4_aggr"]
             }
 
           ]
