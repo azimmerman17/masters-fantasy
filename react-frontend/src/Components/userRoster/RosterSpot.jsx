@@ -25,7 +25,6 @@ const RosterSpot = ({ player, cardName, lock, i }) => {
 
     const lockSelectInfo = () => {
       if (player) {
-        console.log(player)
         return (
           <>
             {lock ? <RosterPlayerStats newStatus={player.newStatus} pos={player.pos} topar={player.topar} teetime={player.teetime} status={player.status} thru={player.thru} /> : <Button variant='primary' onClick={handleClick}>Select Player</Button>}

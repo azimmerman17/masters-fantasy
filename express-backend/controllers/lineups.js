@@ -1,6 +1,6 @@
 const router = require('express').Router()
 require('dotenv').config()
-const pool = require('../models/db')
+const { mysqlPool } = require('../models/db')
 
 // GET
 // GET- All lineups for specific round
@@ -14,19 +14,19 @@ router.get('/round/:year/:round', async (req, res) => {
   // send the errors if exists
   if (errorMsg["roundError"] || errorMsg["yearError"]) res.status(400).send(errorMsg)
   else {
-    const getLineups = `SELECT A.user_id,
-        A.roster_id,
-        A.year,
-        A.round,
-        A.player1,
-        A.player2,
-        A.player3
-      FROM public."User_Lineups" A
-      WHERE A.year = ${year}
-        AND A.round = ${round};`
+    const getLineups = `SELECT user_id,
+        roster_id,
+        year,
+        round,
+        player1,
+        player2,
+        player3
+      FROM \`major-fantasy-golf\`.User_Lineups
+      WHERE year = ${year}
+        AND round = ${round};`
 
     try {
-      const response = await pool.query(getLineups)
+      const [response, metadata] = await mysqlPool.query(getLineups)
       if (response.error) res.status(500).send({response})
       else {
         // clean the data
@@ -49,20 +49,20 @@ router.get('/player/:year/:id', async (req, res) => {
     // send the errors if exists
     if (errorMsg["yearError"]) res.status(400).send(errorMsg)
     else {
-      const getLineups = `SELECT A.user_id,
-          A.roster_id,
-          A.year,
-          A.round,
-          A.player1,
-          A.player2,
-          A.player3
-        FROM public."User_Lineups" A
-        WHERE A.year = ${year}
-          AND A.user_id = ${id}
-        ORDER BY A.round;`
+      const getLineups = `SELECT user_id,
+          roster_id,
+          year,
+          round,
+          player1,
+          player2,
+          player3
+        FROM \`major-fantasy-golf\`.User_Lineups
+          WHERE year = ${year}
+          AND user_id = ${id}
+        ORDER BY round;`
   
       try {
-        const response = await pool.query(getLineups)
+        const [response, metadata] = await mysqlPool.query(getLineups)
         if (response.error) res.status(500).send({response})
         else {
           // clean the data
@@ -86,19 +86,19 @@ router.get('/player/:year/:id/round/:round', async (req, res) => {
 
   if (errorMsg["roundError"] || errorMsg["yearError"]) res.status(400).send(errorMsg)
   else {
-    const getLineups = `SELECT A.user_id,
-        A.roster_id,
-        A.year,
-        A.round,
-        A.player1,
-        A.player2,
-        A.player3
-      FROM public."User_Lineups" A
-      WHERE A.year = ${year}
-        AND A.user_id = ${id};`
+    const getLineups = `SELECT user_id,
+        roster_id,
+        year,
+        round,
+        player1,
+        player2,
+        player3
+      FROM \`major-fantasy-golf\`.User_Lineups
+      WHERE year = ${year}
+        AND user_id = ${id};`
 
     try {
-      const response = await pool.query(getLineups)
+      const [response, metadata] = await mysqlPool.query(getLineups)
       if (response.error) res.status(500).send({response})
       else {
         // clean the data
@@ -124,24 +124,24 @@ router.post('/new', async (req, res) => {
     // Create all lineups for the week using the default
     for (let i = 1; i < 5; i++) {
       // validate lineup does not exist
-      let validateNew = `Select 'X' FROM public."User_Lineups" A
-      WHERE A.year = ${year} 
-        AND A.user_id = ${user_id}
-        AND A.round = ${i};`
+      let validateNew = `Select 'X' FROM \`major-fantasy-golf\`.User_Lineups
+      WHERE year = ${year} 
+        AND user_id = ${user_id}
+        AND round = ${i};`
 
         try {
-          const validateResponse = await pool.query(validateNew) 
+          const [validateResponse, validateMetadata] = await mysqlPool.query(validateNew) 
           if (validateResponse.error) roundInsertmsg.push(`Round ${i}} 500 Error - Could not valitate if lineup exists`)
-          else if (validateResponse.rowCount > 0) {
+          else if (validateResponse.length > 0) {
             roundInsertmsg.push(`Round ${i} 400 Error - Lineups already existed`)
             continue
           }
           else {
             // Create lineup if not exists
-            let insertRoundQuery = `INSERT INTO public."User_Lineups" (user_id, roster_id, year, round, player1, player2, player3, created_at, updated_at)
+            let insertRoundQuery = `INSERT INTO \`major-fantasy-golf\`.User_Lineups (user_id, roster_id, year, round, player1, player2, player3, created_at, updated_at)
               VALUES (${user_id}, ${roster_id}, ${year}, ${i}, ${past_champ}, ${usa}, ${intl}, NOW(), NOW());`
             
-              const response = await pool.query(insertRoundQuery)
+              const [response, metadata] = await pool.query(insertRoundQuery)
               if (response.error) roundInsertmsg.push(`Round ${i} 500 Error - Lineups not saved`)
               else roundInsertmsg.push(`Round ${i} - Successfully inserted`)
           }
@@ -164,7 +164,7 @@ router.put('/:id/:round', async (req, res) => {
   const year = (new Date()).getFullYear()
 
   //   // build the query 
-  let updateLineups = `UPDATE public."User_Lineups" SET updated_at = NOW()`
+  let updateLineups = `UPDATE \`major-fantasy-golf\`.User_Lineups SET updated_at = NOW()`
   if (player1) updateLineups = updateLineups + `, player1 = ${player1}` 
   if (player2) updateLineups = updateLineups + `, player2 = ${player2}`
   if (player3) updateLineups = updateLineups + `, player3 = ${player3}`
@@ -176,7 +176,7 @@ router.put('/:id/:round', async (req, res) => {
 
     console.log(updateLineups)
   try {
-    const response = await pool.query(updateLineups)
+    const [response, metadata] = await pool.query(updateLineups)
     if (response.error) res.status(500).send({msg: 'Error - Lineup update Failed'})
     else res.status(201).send({msg: 'Lineup Updated'})
   } catch (error) {

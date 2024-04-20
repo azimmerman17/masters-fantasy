@@ -23,50 +23,50 @@ module.exports = (sequelize, DataTypes) => {
   }
   Users.init({
     user_name: {
-      type: DataTypes.STRING,
+      type: DataTypes.CHAR,
       unique: true,
       allowNull: false,
     },
     first_name: {
-      type: DataTypes.STRING,
+      type: DataTypes.CHAR,
       
     },
     last_name: {
-      type: DataTypes.STRING,
+      type: DataTypes.CHAR,
     },
     email: {
-      type: DataTypes.STRING,
+      type: DataTypes.CHAR,
       allowNull: false,
       unique: true,
     },
     salt: {
-      type: DataTypes.STRING,
+      type: DataTypes.CHAR,
       allowNull: false, 
     },
     password_hash: {
-      type: DataTypes.STRING,
+      type: DataTypes.CHAR,
       allowNull: false, 
     },
     role: {
-      type: DataTypes.ENUM('basic', 'vip', 'admin'),
+      type: DataTypes.CHAR,
       allowNull: false,
       defaultValue: 'basic' 
     },
     guid_token: {
-      type: DataTypes.STRING,
+      type: DataTypes.CHAR,
       allowNull: true, 
     },
     guid_expire: {
-      type: DataTypes.DATE,
+      type: DataTypes.TIMESTAMP,
       allowNull: true, 
     },
     created_at: {
-      type: DataTypes.DATE,
+      type: DataTypes.TIMESTAMP,
       allowNull: false,
       defaultValue: DataTypes.NOW
     },
     updated_at: {
-      type: DataTypes.DATE,
+      type: DataTypes.TIMESTAMP,
       allowNull: false,
       defaultValue: DataTypes.NOW
     }
