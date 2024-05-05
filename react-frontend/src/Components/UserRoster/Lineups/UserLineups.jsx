@@ -1,4 +1,5 @@
 import { useContext } from 'react'
+import Accordion from 'react-bootstrap/Accordion';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 
@@ -23,9 +24,22 @@ const UserLineups = ({ lineups, roster }) => {
     })
 
     return (
-      <Tabs defaultActiveKey={currentRound || 1} justify>
-        {roundTabs}
-      </Tabs>
+      <>
+      <Accordion flush>
+        <Accordion.Item eventKey="0">
+          <Accordion.Header>
+            <h4 className='text-center'>Lineups</h4>
+          </Accordion.Header>
+          <Accordion.Body>
+            <Tabs defaultActiveKey={currentRound || 1} justify>
+              {roundTabs}
+            </Tabs>
+          </Accordion.Body>
+        </Accordion.Item>
+      </Accordion>
+
+
+      </>
     )
   }
 }

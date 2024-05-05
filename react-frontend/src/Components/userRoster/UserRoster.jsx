@@ -41,11 +41,9 @@ const UserRoster = () => {
           <UserScores scoring={scoring} lineups={lineups}/>
         </Row>
         <Row>
-          <h4 className='text-center'>Roster</h4>
           <UserRosterSelection roster={roster} locked={rosterLock} />
         </Row>
         <Row>
-          <h4 className='text-center'>Lineups</h4>
           {showLineups()}
         </Row>
       </Container>

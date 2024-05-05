@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import Container from 'react-bootstrap/esm/Container';
+import Accordion from 'react-bootstrap/Accordion';
 
 import { TournamentLeaderboardContext } from '../../Contexts/TournamentLeaderboard'
 import { PlayersContext } from '../../Contexts/PlayersContext'
@@ -75,11 +75,18 @@ const UserRosterSelection = ({ roster, locked }) => {
     })
   
     return (
-      <Container fluid>
-        <Row>
-          {rosterCards}
-        </Row>
-      </Container>
+      <Accordion flush>
+        <Accordion.Item eventKey="0">
+          <Accordion.Header>
+            <h4 className='text-center'>Roster</h4>
+          </Accordion.Header>
+          <Accordion.Body>
+            <Row>
+            {rosterCards}
+            </Row>
+          </Accordion.Body>
+        </Accordion.Item>
+      </Accordion>
     )
   }
 }

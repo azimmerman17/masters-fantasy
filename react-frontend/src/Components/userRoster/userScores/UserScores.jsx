@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import Container from 'react-bootstrap/Container'
+import Accordion from 'react-bootstrap/Accordion';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
@@ -59,16 +59,21 @@ const UserScores = ({ scoring, lineups }) => {
     })
     
     return (
-      <Container className='text-center' fluid>
-        <h4>Fantasy Comptetion Score</h4>
-        <Row>
-          <Col xs={12} className='my-1'>
-            {holes_completed > 0 ? displayScore(total, 'Total', lineups[3]) : null}
-          </Col>
-            {roundScores}
-        </Row>
-      </Container>
-    
+      <Accordion flush>
+        <Accordion.Item eventKey="0">
+          <Accordion.Header>
+            <h4>Fantasy Comptetion Score</h4>
+          </Accordion.Header>
+          <Accordion.Body>
+            <Row>
+              <Col xs={12} className='my-1'>
+                {holes_completed > 0 ? displayScore(total, 'Total', lineups[3]) : null}
+              </Col>
+                {roundScores}
+            </Row>
+          </Accordion.Body>
+        </Accordion.Item>
+      </Accordion>
     )
   } else return null
 }
