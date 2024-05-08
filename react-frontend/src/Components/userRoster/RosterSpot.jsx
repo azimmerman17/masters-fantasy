@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Image from 'react-bootstrap/Image';
 import { IoGolf } from 'react-icons/io5'
+import Col from 'react-bootstrap/Col'
 
 import { EventConfig } from '../../Contexts/EventConfig'
 import PlayerOffcanvas from './PlayerOffcanvas';
@@ -40,6 +41,8 @@ const RosterSpot = ({ player, cardName, lock, i }) => {
     }
 
     return (
+      <Button variant={player && (player.newStatus === 'C' || player.newStatus === 'W') ? 'danger' : 'success'} className={`w-100 m-1 p-1 text-center${player ? player.newStatus === 'C' || player.newStatus === 'W' ? ' border-danger' : ' border-success shadow-lg' : ''}`} disabled={player.newStatus === 'C' || player.newStatus === 'W' ? true : false}>
+
       <Card className={`m-1 p-1 text-center${player ? player.newStatus === 'C' || player.newStatus === 'W' ? ' border-danger' : ' border-success shadow-lg' : ''}`}>
         {player ? <Image src={picture} className=' mx-auto border rounded-circle roster-img' /> : null}
         <Card.Body className='text-center'>
@@ -51,6 +54,7 @@ const RosterSpot = ({ player, cardName, lock, i }) => {
         </Card.Body>
         <PlayerOffcanvas show={show} cardName={cardName} setShow={setShow} i={i}/>
       </Card>
+      </Button>
     )
   }
 }
