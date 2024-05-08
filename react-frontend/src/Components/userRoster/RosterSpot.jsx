@@ -3,13 +3,13 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Image from 'react-bootstrap/Image';
 import { IoGolf } from 'react-icons/io5'
-import Col from 'react-bootstrap/Col'
 
 import { EventConfig } from '../../Contexts/EventConfig'
 import PlayerOffcanvas from './PlayerOffcanvas';
 import RosterPlayerStats from './RosterPlayerStats';
 
-const RosterSpot = ({ player, cardName, lock, i }) => {
+const RosterSpot = ({ player, cardName, lock, i, round, lineups }) => {
+  console.log(round)
   const { eventConfig, setEventConfig } = useContext(EventConfig)
   const [show, setShow] = useState(false)
   
@@ -17,8 +17,8 @@ const RosterSpot = ({ player, cardName, lock, i }) => {
     const { dataSettings } = eventConfig
     const { tournamentYear } = dataSettings
 
-    const handleClick = () => {
-      setShow(true)
+    const handleClick = (locked) => {
+      if (locked) setShow(true) // change to !locked for production
     }
     
     let picture
@@ -28,32 +28,49 @@ const RosterSpot = ({ player, cardName, lock, i }) => {
       if (player) {
         return (
           <>
-            {lock ? <RosterPlayerStats newStatus={player.newStatus} pos={player.pos} topar={player.topar} teetime={player.teetime} status={player.status} thru={player.thru} /> : <Button variant='primary' onClick={handleClick}>Select Player</Button>}
+            {!lock ? <RosterPlayerStats newStatus={player.newStatus} pos={player.pos} topar={player.topar} teetime={player.teetime} status={player.status} thru={player.thru} /> : <p className='text-center m-0 p-1 '> Click to Select New Player</p>}
           </>
         )
       } else {
         return (
           <>
-            {lock ? null : <Button variant='primary' onClick={handleClick}>Select Player</Button>}
+            {!lock ? null : <p className='text-center m-0 p-1 '>Click to Select Player</p>}
           </>
         )
       }
     }
 
-    return (
-      <Button variant={player && (player.newStatus === 'C' || player.newStatus === 'W') ? 'danger' : 'success'} className={`w-100 m-1 p-1 text-center${player ? player.newStatus === 'C' || player.newStatus === 'W' ? ' border-danger' : ' border-success shadow-lg' : ''}`} disabled={player.newStatus === 'C' || player.newStatus === 'W' ? true : false}>
+    const setBorderColor = (player, newStatus) => {
+      const checkLineup = (player) => {
+        let currentLineup = lineups.filter(lineup => lineup.round === round)[0]
+        const lineup = [currentLineup.player1, currentLineup.player2, currentLineup.player3]
 
-      <Card className={`m-1 p-1 text-center${player ? player.newStatus === 'C' || player.newStatus === 'W' ? ' border-danger' : ' border-success shadow-lg' : ''}`}>
-        {player ? <Image src={picture} className=' mx-auto border rounded-circle roster-img' /> : null}
-        <Card.Body className='text-center'>
-          {player ? <Card.Title>{player.first_name} {player.last_name} {player.amateur ? '(A)' : null}</Card.Title> : <IoGolf className='bg-success text-white border border-success rounded-circle' style={{height:'75px', width:'75px'}}/>}
-          <Card.Text>
-            <small>{cardName}</small>
-          </Card.Text>
-          {lockSelectInfo()}
-        </Card.Body>
-        <PlayerOffcanvas show={show} cardName={cardName} setShow={setShow} i={i}/>
-      </Card>
+        if (lineup.includes(Number(player))) {
+          return 'primary'
+        }
+        else return 'success'
+      }
+
+      if (player) {
+        if (newStatus === 'C' || newStatus === 'W') return 'danger'  // player no longer in event
+        else if (round) return checkLineup(player)
+        else return 'success'
+      } else return 'secondary'
+    }
+
+    return (
+      <Button onClick={e => handleClick(lock)} variant={setBorderColor(player.id, player.newStatus)} className={`w-100 m-1 p-1 text-center${player && (player.newStatus !== 'C' || player.newStatus !== 'W') ? ' shadow-lg' : ''}`} disabled={player.newStatus === 'C' || player.newStatus === 'W' ? true : false}>
+        <Card className='m-1 p-1 text-center'>
+          {player ? <Image src={picture} className=' mx-auto border rounded-circle roster-img' /> : null}
+          <Card.Body className='text-center'>
+            {player ? <Card.Title>{player.first_name} {player.last_name} {player.amateur ? '(A)' : null}</Card.Title> : <IoGolf className='bg-success text-white border border-success rounded-circle' style={{height:'75px', width:'75px'}}/>}
+            <Card.Text>
+              <small className='fw-bold'>{cardName}</small>
+            </Card.Text>
+            {lockSelectInfo()}
+          </Card.Body>
+          <PlayerOffcanvas show={show} cardName={cardName} setShow={setShow} i={i}/>
+        </Card>
       </Button>
     )
   }

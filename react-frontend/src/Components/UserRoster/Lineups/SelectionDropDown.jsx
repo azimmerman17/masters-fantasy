@@ -38,11 +38,9 @@ const SelectionDropdown = ({ playersRoster, setRoundLineup, selectedPlayer, roun
         } catch (error) {
           console.error(error)
         }
-        console.log(currentUser)
         // location.reload()
       }
   
-      console.log(roundLineup)
       return (
         <Dropdown.Item
           key={`lineup-round-${round}-spot-${lineupSpot}-${id}`}
