@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Image from 'react-bootstrap/Image'
@@ -8,17 +8,15 @@ import { FantasyTournamentConfig } from '../../../Contexts/FantasyTournamentConf
 import SelectionDropdown from './SelectionDropDown'
 
 
-const LineupSelection =({ playersRoster, player, roundLineup, round, lineupSpot }) => {
+const LineupSelection =({ playersRoster, player, roundLineup, setRoundLineup, round, lineupSpot }) => {
   const { eventConfig, setEventConfig } = useContext(EventConfig)
   const {fantasyTournamentConfig, setFantasyTournamentConfig} = useContext(FantasyTournamentConfig)
-
+  
   if (eventConfig && fantasyTournamentConfig) {
     const { round1Lock, round2Lock, round3Lock, round4Lock } = fantasyTournamentConfig 
     const { dataSettings } = eventConfig
     const { tournamentYear } = dataSettings
-
-    let picture
-    if (player) picture = `https://images.masters.com/players/${tournamentYear}/240x240/${player}.jpg`
+    let picture = `https://images.masters.com/players/${tournamentYear}/240x240/${player}.jpg`
 
     let locked = true
     switch (round) {
@@ -45,7 +43,7 @@ const LineupSelection =({ playersRoster, player, roundLineup, round, lineupSpot 
           {player ? <Image src={picture} className=' mx-auto border rounded-circle lineup-img' /> : null}
         </Col>
         <Col xs={9} md={6} className='my-auto'>
-          {locked ? <h6 className='fs-5'>{first_name} {last_name}{amateur || Amateur ? ' (A)' : '' }</h6> : <SelectionDropdown playersRoster={playersRoster} selectedPlayer={selectedPlayer} roundLineup={roundLineup} round={round} lineupSpot={lineupSpot} />}
+          {!locked ? <h6 className='fs-5'>{first_name} {last_name}{amateur || Amateur ? ' (A)' : '' }</h6> : <SelectionDropdown playersRoster={playersRoster} setRoundLineup={setRoundLineup} selectedPlayer={selectedPlayer} roundLineup={roundLineup} round={round} lineupSpot={lineupSpot} />}
         </Col >
       </Row>
     )

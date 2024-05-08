@@ -80,7 +80,7 @@ const UserRosterSelection = ({ roster, locked }) => {
           <Accordion.Header>
             <h4 className='text-center'>Roster</h4>
           </Accordion.Header>
-          <Accordion.Body>
+          <Accordion.Body className='p-1'>
             <Row>
             {rosterCards}
             </Row>

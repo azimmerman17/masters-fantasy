@@ -62,9 +62,9 @@ const UserScores = ({ scoring, lineups }) => {
       <Accordion flush>
         <Accordion.Item eventKey="0">
           <Accordion.Header>
-            <h4>Fantasy Comptetion Score</h4>
+            <h4>Fantasy Scoring</h4>
           </Accordion.Header>
-          <Accordion.Body>
+          <Accordion.Body className='p-1'>
             <Row>
               <Col xs={12} className='my-1'>
                 {holes_completed > 0 ? displayScore(total, 'Total', lineups[3]) : null}
