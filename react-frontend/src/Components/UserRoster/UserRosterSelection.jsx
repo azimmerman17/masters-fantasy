@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Accordion from 'react-bootstrap/Accordion';
@@ -9,10 +9,11 @@ import FantasyRosterSpots from '../../assets/Files/FantasyRosterSpots'
 import RosterSpot from './RosterSpot';
 
 const UserRosterSelection = ({ roster, locked, lineups, round }) => {
-  console.log(round)
+  let [userRoster, setUserRoster] = useState(roster) 
+  console.log(userRoster)
   const {playersContext, setPlayersContext} = useContext(PlayersContext)
   const { tournamentLeaderboardContext, setTournamentLeaderboardContext} = useContext(TournamentLeaderboardContext)
-  const { past_champ, usa, intl, wild_card1, wild_card2, wild_card3 } = roster
+  const { past_champ, usa, intl, wild_card1, wild_card2, wild_card3 } = userRoster
 
   if (tournamentLeaderboardContext && playersContext) {
     let playerList
@@ -70,7 +71,7 @@ const UserRosterSelection = ({ roster, locked, lineups, round }) => {
 
       return (
         <Col key={`roster-spot-${spot}-${golfer ? golfer.id : 'default'}`} xs={12} sm={12} md={6} xl={4} xxl={2}>
-          <RosterSpot player={golfer} cardName={cardName} lock={locked} i={i} round={round} lineups={lineups} />
+          <RosterSpot player={golfer} cardName={cardName} lock={locked} i={i} round={round} lineups={lineups} userRoster={userRoster} setUserRoster={setUserRoster} />
         </Col>
       )
     })

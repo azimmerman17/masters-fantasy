@@ -14,7 +14,7 @@ import HandleDBTransaction from '../../Functions/HandleDBTransaction';
 import PlayerSelectionCard from './PlayerSelectionCard';
 
 
-const PlayerOffcanvas = ({ show, cardName, setShow, i }) => {
+const PlayerOffcanvas = ({ show, cardName, setShow, i, userRoster, setUserRoster }) => {
   const BASE_URL = import.meta.env.VITE_BASE_URL
   const { playersContext, setPlayersContext } = useContext(PlayersContext)
   const { currentUser, setCurrentUser } = useContext(CurrentUser)
@@ -24,8 +24,8 @@ const PlayerOffcanvas = ({ show, cardName, setShow, i }) => {
     const { dataSettings } = eventConfig
     const { tournamentYear } = dataSettings
     const { players } = playersContext
-    const { user_id, roster } = currentUser
-    const { past_champ, usa, intl, wild_card1, wild_card2, wild_card3 } = roster
+    const { user_id } = currentUser
+    const { past_champ, usa, intl, wild_card1, wild_card2, wild_card3 } = userRoster
 
     let playerList = []
     let playerRoster = [past_champ, usa, intl, wild_card1, wild_card2, wild_card3]
@@ -58,14 +58,14 @@ const PlayerOffcanvas = ({ show, cardName, setShow, i }) => {
       const picture = `https://images.masters.com/players/${tournamentYear}/240x240/${id}.jpg`
 
       return (
-        <PlayerSelectionCard player={player}picture={picture} disable={playerRoster.includes(Number(id))} current={id == roster[key]} currentUser={currentUser} tournamentYear={tournamentYear} column={key} key={`selection-card-${i}-${id}`}/>
+        <PlayerSelectionCard player={player} picture={picture} disable={playerRoster.includes(Number(id))} user_id={user_id} tournamentYear={tournamentYear} column={key} key={`selection-card-${i}-${id}`} userRoster={userRoster} setUserRoster={setUserRoster}/>
       )
       
     })
 
     return (
-      <Offcanvas show={show} onHide={handleClose} scroll backdrop keyboard>
-        <Offcanvas.Header closeButton >
+      <Offcanvas show={show} onHide={handleClose} scroll backdrop keyboard closeButton>
+        <Offcanvas.Header closeButton>
           <Offcanvas.Title>{cardName}</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>

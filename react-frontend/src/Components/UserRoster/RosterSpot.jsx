@@ -8,8 +8,7 @@ import { EventConfig } from '../../Contexts/EventConfig'
 import PlayerOffcanvas from './PlayerOffcanvas';
 import RosterPlayerStats from './RosterPlayerStats';
 
-const RosterSpot = ({ player, cardName, lock, i, round, lineups }) => {
-  console.log(round)
+const RosterSpot = ({ player, cardName, lock, i, round, lineups, userRoster, setUserRoster }) => {
   const { eventConfig, setEventConfig } = useContext(EventConfig)
   const [show, setShow] = useState(false)
   
@@ -63,13 +62,13 @@ const RosterSpot = ({ player, cardName, lock, i, round, lineups }) => {
         <Card className='m-1 p-1 text-center'>
           {player ? <Image src={picture} className=' mx-auto border rounded-circle roster-img' /> : null}
           <Card.Body className='text-center'>
-            {player ? <Card.Title>{player.first_name} {player.last_name} {player.amateur ? '(A)' : null}</Card.Title> : <IoGolf className='bg-success text-white border border-success rounded-circle' style={{height:'75px', width:'75px'}}/>}
+            {player ? <Card.Title className='fw-bold'>{player.first_name} {player.last_name} {player.amateur ? '(A)' : null}</Card.Title> : <IoGolf className='bg-success text-white border border-success rounded-circle' style={{height:'75px', width:'75px'}}/>}
             <Card.Text>
               <small className='fw-bold'>{cardName}</small>
             </Card.Text>
             {lockSelectInfo()}
           </Card.Body>
-          <PlayerOffcanvas show={show} cardName={cardName} setShow={setShow} i={i}/>
+          <PlayerOffcanvas show={show} cardName={cardName} setShow={setShow} i={i} userRoster={userRoster} setUserRoster={setUserRoster}/>
         </Card>
       </Button>
     )

@@ -20,7 +20,7 @@ const UserRoster = () => {
     const { players } = playersContext
     const { leaderboard } = tournamentLeaderboardContext
     const { currentRound } = fantasyTournamentConfig
-    console.log(currentRound)
+
     if (!leaderboard && !players) {
       return (
         <p className='my-3 text-center'>Roster Tools are unavablile please check back later</p>
@@ -51,7 +51,6 @@ const UserRoster = () => {
       </Container>
     )
   }
-  
 }
 
 export default UserRoster
