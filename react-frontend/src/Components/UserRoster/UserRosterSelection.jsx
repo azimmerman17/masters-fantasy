@@ -5,17 +5,19 @@ import Accordion from 'react-bootstrap/Accordion';
 
 import { TournamentLeaderboardContext } from '../../Contexts/TournamentLeaderboard'
 import { PlayersContext } from '../../Contexts/PlayersContext'
+import { UserRoster } from '../../Contexts/UserRosterContext'
 import FantasyRosterSpots from '../../assets/Files/FantasyRosterSpots'
 import RosterSpot from './RosterSpot';
 
-const UserRosterSelection = ({ roster, locked, lineups, round }) => {
-  let [userRoster, setUserRoster] = useState(roster) 
-  console.log(userRoster)
+const UserRosterSelection = ({ locked, lineups, round }) => {
   const {playersContext, setPlayersContext} = useContext(PlayersContext)
-  const { tournamentLeaderboardContext, setTournamentLeaderboardContext} = useContext(TournamentLeaderboardContext)
-  const { past_champ, usa, intl, wild_card1, wild_card2, wild_card3 } = userRoster
-
-  if (tournamentLeaderboardContext && playersContext) {
+  const {tournamentLeaderboardContext, setTournamentLeaderboardContext} = useContext(TournamentLeaderboardContext)
+  const {userRoster, setUserRoster}= useContext(UserRoster)
+  
+  if (tournamentLeaderboardContext && playersContext && userRoster) {
+    const{ roster } = userRoster
+    const { past_champ, usa, intl, wild_card1, wild_card2, wild_card3 } = roster
+    console.log(past_champ, usa, intl, wild_card1, wild_card2, wild_card3)
     let playerList
     if (tournamentLeaderboardContext.leaderboard) {
       const { leaderboard } = tournamentLeaderboardContext
@@ -71,7 +73,7 @@ const UserRosterSelection = ({ roster, locked, lineups, round }) => {
 
       return (
         <Col key={`roster-spot-${spot}-${golfer ? golfer.id : 'default'}`} xs={12} sm={12} md={6} xl={4} xxl={2}>
-          <RosterSpot player={golfer} cardName={cardName} lock={locked} i={i} round={round} lineups={lineups} userRoster={userRoster} setUserRoster={setUserRoster} />
+          <RosterSpot player={golfer} cardName={cardName} lock={locked} i={i} round={round} lineups={lineups} />
         </Col>
       )
     })

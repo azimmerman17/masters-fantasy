@@ -43,7 +43,7 @@ const UserRoster = () => {
           <UserScores scoring={scoring} lineups={lineups}/>
         </Row>
         <Row>
-          <UserRosterSelection roster={roster} locked={rosterLock} lineups={lineups} round={currentRound}/>
+          <UserRosterSelection locked={rosterLock} lineups={lineups} round={currentRound}/>
         </Row>
         <Row>
           {showLineups()}

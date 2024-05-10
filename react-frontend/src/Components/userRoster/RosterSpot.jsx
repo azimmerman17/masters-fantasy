@@ -8,7 +8,7 @@ import { EventConfig } from '../../Contexts/EventConfig'
 import PlayerOffcanvas from './PlayerOffcanvas';
 import RosterPlayerStats from './RosterPlayerStats';
 
-const RosterSpot = ({ player, cardName, lock, i, round, lineups, userRoster, setUserRoster }) => {
+const RosterSpot = ({ player, cardName, lock, i, round, lineups }) => {
   const { eventConfig, setEventConfig } = useContext(EventConfig)
   const [show, setShow] = useState(false)
   
@@ -68,7 +68,7 @@ const RosterSpot = ({ player, cardName, lock, i, round, lineups, userRoster, set
             </Card.Text>
             {lockSelectInfo()}
           </Card.Body>
-          <PlayerOffcanvas show={show} cardName={cardName} setShow={setShow} i={i} userRoster={userRoster} setUserRoster={setUserRoster}/>
+          <PlayerOffcanvas show={show} cardName={cardName} setShow={setShow} i={i} />
         </Card>
       </Button>
     )

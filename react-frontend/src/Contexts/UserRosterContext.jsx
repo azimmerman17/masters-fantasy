@@ -11,11 +11,14 @@ const UserRosterProvider = ({ children }) => {
 
   useEffect(() => {
     if (currentUser) {
-      console.log(currentUser)
+      const { roster, user_id } = currentUser
+      setUserRoster({
+        roster,
+        user_id
+      })
     }
     
   }, [currentUser])
-  console.log(currentUser)
 
   return (
     <UserRoster.Provider value={{ userRoster, setUserRoster }}>
