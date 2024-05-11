@@ -75,7 +75,7 @@ const PlayerSelectionCard = ({ player, picture, disable, tournamentYear, column,
           <Image src={picture} className=' mx-auto border rounded-circle roster-img' />
           <Card.Body>
             <Card.Title className='fw-bold fs-5'>{first_name} {last_name} {amateur ? '(A)' : null}</Card.Title>
-            <a href=''>View Player Profile</a>
+            {/* <a href=''>View Player Profile</a> */}
             <Alert variant='danger' show={alert}>{message} </Alert>
           </Card.Body>
         </Card>
