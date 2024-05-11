@@ -17,7 +17,7 @@ const RosterSpot = ({ player, cardName, lock, i, round, lineups }) => {
     const { tournamentYear } = dataSettings
 
     const handleClick = (locked) => {
-      if (locked) setShow(true) // change to !locked for production
+      if (!locked) setShow(true) // change to !locked for production
     }
     
     let picture

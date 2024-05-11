@@ -17,7 +17,7 @@ const UserRosterSelection = ({ locked, lineups, round }) => {
   if (tournamentLeaderboardContext && playersContext && userRoster) {
     const{ roster } = userRoster
     const { past_champ, usa, intl, wild_card1, wild_card2, wild_card3 } = roster
-    console.log(past_champ, usa, intl, wild_card1, wild_card2, wild_card3)
+
     let playerList
     if (tournamentLeaderboardContext.leaderboard) {
       const { leaderboard } = tournamentLeaderboardContext

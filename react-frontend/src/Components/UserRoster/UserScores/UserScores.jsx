@@ -30,7 +30,7 @@ const UserScores = ({ scoring, lineups }) => {
       ]
   
       return (
-        <Row className={`m-0 p-1 border rounded${label === 'Total' ? ' shadow-sm border-primary' : ''}`}>
+        <Row className={`m-0 p-1 border text-center rounded${label === 'Total' ? ' shadow-sm border-primary' : ''}`}>
           <h5>{label}</h5>
           <Col>
             <h6 className={`m-auto ${ScoreColor(score)}`}>{score}</h6>
@@ -51,7 +51,7 @@ const UserScores = ({ scoring, lineups }) => {
     const roundScores = rounds.map((round, i) => {
       if (holes_completed > i * 18) {
         return (
-          <Col className='my-1' key={`score-round-${i + 1}`} xs={12} sm={6} lg={3}>
+          <Col className='my-1 text-center' key={`score-round-${i + 1}`} xs={12} sm={6} lg={3}>
             {displayScore(round, `Round ${i + 1}`, lineups[i])}
           </Col>
         )
