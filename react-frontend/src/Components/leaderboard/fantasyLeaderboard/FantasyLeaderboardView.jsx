@@ -1,8 +1,7 @@
-import {  useContext } from 'react'
+import { useContext } from 'react'
 import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table'
 
-import { CurrentUser } from '../../../Contexts/CurrentUserContext';
 import { FantasyLeaderboard } from '../../../Contexts/FantasyLeaderboardContext'
 import { EventConfig } from '../../../Contexts/EventConfig';
 import { FantasyTournamentConfig } from '../../../Contexts/FantasyTournamentConfig'
@@ -12,7 +11,6 @@ import FantasyLeaderboardHeaders from '../../../assets/Files/FantasyLeaderboardH
 import FantasyLeaderboardBody from './FantasyLeaderboardBody';
 
 const FantasyLeaderboardView = ({}) => {
-  const { currentUser, setCurrentUser} = useContext(CurrentUser)
   const { fantasyLeaderboard, setFantasyLeaderboard } = useContext(FantasyLeaderboard)
   const { eventConfig, setEventConfig } = useContext(EventConfig)
   const { fantasyTournamentConfig, setFantasyTournamentConfig }  = useContext(FantasyTournamentConfig)
@@ -28,7 +26,8 @@ const FantasyLeaderboardView = ({}) => {
 
   //validation if the leaderboard should be shown
   const display = () => {
-    if (!currentUser) return  <Login />
+    // console.log(localStorage)
+    if (!localStorage.token) return  <Login />
     else if (fantasyLeaderboard === 'Pending') return null // suspense
 
     else {

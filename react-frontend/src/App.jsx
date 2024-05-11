@@ -38,38 +38,38 @@ function App() {
         <CurrentUserProvider>
           <UserRosterProvider>
             <EventConfigProvider>
-                <TournamentLeaderboardContextProvider>
-                  <PlayersContextProvider>
-                    <FantasyTournamentConfigProvider>
-                      <FantasyLeaderboardProvider>
-                        <header>
-                          <NavBar />
-                        </header>
-                        <main  role='main' style={{marginTop: '50px', marginBottom: '100px', minHeight: window.innerHeight}} className='mx-0 p-0'>
-                          <Routes>
-                            <Route exact path='/' element={<HomePage />} />
-                            <Route path='/tournament/leaderboard' element={<TournamentLeaderboard />} />
-                            <Route path='/tournament/players' element={<TournamentPlayers />} />
-                            <Route path='/tournament/players/:playerId' element={<PlayerPage />} />  
-                            <Route path='/newuser' element={<SignUp />} />       
-                            <Route path='/profile' element={<UserProfile />} />
-                            <Route path='/profile/:username' element={<UserProfile />} />
-                            <Route path='/roster' element={<UserRoster />} />
-                            <Route path='/roster/:username' element={<UserRoster />} />
-                            <Route path='/leaderboard' element={<FantasyLeaderboardView />} />
-                            <Route path='/rules' element={<RulesSheet />} />
-                            <Route path='/forgot-password' element={<ResetPasswordForm />} />
-                            <Route path='/resetpassword' element={<ResetPassword />} />
-                            <Route path='/*' element={<NotFound />} />
-                          </Routes>
-                        </main>
-                        <footer className='footer'>
-                          <Footer />
-                        </footer>
-                      </FantasyLeaderboardProvider>
-                    </FantasyTournamentConfigProvider>
-                  </PlayersContextProvider>
-                </TournamentLeaderboardContextProvider>
+              <TournamentLeaderboardContextProvider>
+                <PlayersContextProvider>
+                  <FantasyTournamentConfigProvider>
+                    <FantasyLeaderboardProvider>
+                      <header>
+                        <NavBar />
+                      </header>
+                      <main  role='main' style={{marginTop: '50px', marginBottom: '100px', minHeight: window.innerHeight}} className='mx-0 p-0'>
+                        <Routes>
+                          <Route exact path='/' element={<HomePage />} />
+                          <Route path='/tournament/leaderboard' element={<TournamentLeaderboard />} />
+                          <Route path='/tournament/players' element={<TournamentPlayers />} />
+                          <Route path='/tournament/players/:playerId' element={<PlayerPage />} />  
+                          <Route path='/newuser' element={<SignUp />} />       
+                          <Route path='/profile' element={<UserProfile />} />
+                          <Route path='/profile/:username' element={<UserProfile />} />
+                          <Route path='/roster' element={<UserRoster />} />
+                          <Route path='/roster/:username' element={<UserRoster />} />
+                          <Route path='/leaderboard' element={<FantasyLeaderboardView />} />
+                          <Route path='/rules' element={<RulesSheet />} />
+                          <Route path='/forgot-password' element={<ResetPasswordForm />} />
+                          <Route path='/resetpassword' element={<ResetPassword />} />
+                          <Route path='/*' element={<NotFound />} />
+                        </Routes>
+                      </main>
+                      <footer className='footer'>
+                        <Footer />
+                      </footer>
+                    </FantasyLeaderboardProvider>
+                  </FantasyTournamentConfigProvider>
+                </PlayersContextProvider>
+              </TournamentLeaderboardContextProvider>
             </EventConfigProvider>
           </UserRosterProvider>
         </CurrentUserProvider>
