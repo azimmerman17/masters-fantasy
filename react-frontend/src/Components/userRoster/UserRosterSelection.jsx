@@ -1,19 +1,23 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import Container from 'react-bootstrap/esm/Container';
+import Accordion from 'react-bootstrap/Accordion';
 
 import { TournamentLeaderboardContext } from '../../Contexts/TournamentLeaderboard'
 import { PlayersContext } from '../../Contexts/PlayersContext'
+import { UserRoster } from '../../Contexts/UserRosterContext'
 import FantasyRosterSpots from '../../assets/Files/FantasyRosterSpots'
 import RosterSpot from './RosterSpot';
 
-const UserRosterSelection = ({ roster, locked }) => {
+const UserRosterSelection = ({ locked, lineups, round }) => {
   const {playersContext, setPlayersContext} = useContext(PlayersContext)
-  const { tournamentLeaderboardContext, setTournamentLeaderboardContext} = useContext(TournamentLeaderboardContext)
-  const { past_champ, usa, intl, wild_card1, wild_card2, wild_card3 } = roster
+  const {tournamentLeaderboardContext, setTournamentLeaderboardContext} = useContext(TournamentLeaderboardContext)
+  const {userRoster, setUserRoster}= useContext(UserRoster)
+  
+  if (tournamentLeaderboardContext && playersContext && userRoster) {
+    const{ roster } = userRoster
+    const { past_champ, usa, intl, wild_card1, wild_card2, wild_card3 } = roster
 
-  if (tournamentLeaderboardContext && playersContext) {
     let playerList
     if (tournamentLeaderboardContext.leaderboard) {
       const { leaderboard } = tournamentLeaderboardContext
@@ -69,17 +73,24 @@ const UserRosterSelection = ({ roster, locked }) => {
 
       return (
         <Col key={`roster-spot-${spot}-${golfer ? golfer.id : 'default'}`} xs={12} sm={12} md={6} xl={4} xxl={2}>
-          <RosterSpot player={golfer} cardName={cardName} lock={locked} i={i}/>
+          <RosterSpot player={golfer} cardName={cardName} lock={locked} i={i} round={round} lineups={lineups} />
         </Col>
       )
     })
   
     return (
-      <Container fluid>
-        <Row>
-          {rosterCards}
-        </Row>
-      </Container>
+      <Accordion flush>
+        <Accordion.Item eventKey="0">
+          <Accordion.Header>
+            <h4 className='text-center'>Roster</h4>
+          </Accordion.Header>
+          <Accordion.Body className='p-1'>
+            <Row>
+            {rosterCards}
+            </Row>
+          </Accordion.Body>
+        </Accordion.Item>
+      </Accordion>
     )
   }
 }

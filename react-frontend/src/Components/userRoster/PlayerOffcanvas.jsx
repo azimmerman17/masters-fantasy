@@ -1,30 +1,22 @@
-import { useContext, useState } from 'react'
-import Card from 'react-bootstrap/Card';
-import Image from 'react-bootstrap/Image';
-import Button from 'react-bootstrap/Button';
+import { useContext } from 'react'
 import Offcanvas from 'react-bootstrap/Offcanvas';
-import Container from 'react-bootstrap/Container';
-import Alert from 'react-bootstrap/Alert';
 
-
-import { CurrentUser } from '../../Contexts/CurrentUserContext'
 import { PlayersContext } from '../../Contexts/PlayersContext'
+import { UserRoster } from '../../Contexts/UserRosterContext';
 import { EventConfig } from '../../Contexts/EventConfig'
-import HandleDBTransaction from '../../Functions/HandleDBTransaction';
 import PlayerSelectionCard from './PlayerSelectionCard';
 
 
 const PlayerOffcanvas = ({ show, cardName, setShow, i }) => {
-  const BASE_URL = import.meta.env.VITE_BASE_URL
   const { playersContext, setPlayersContext } = useContext(PlayersContext)
-  const { currentUser, setCurrentUser } = useContext(CurrentUser)
   const { eventConfig, setEventConfig } = useContext(EventConfig)
+  const { userRoster, setUserRoster } = useContext(UserRoster)
 
-  if (playersContext &&  currentUser && eventConfig) {
+  if (playersContext &&  userRoster && eventConfig) {
     const { dataSettings } = eventConfig
     const { tournamentYear } = dataSettings
     const { players } = playersContext
-    const { user_id, roster } = currentUser
+    const { roster } = userRoster
     const { past_champ, usa, intl, wild_card1, wild_card2, wild_card3 } = roster
 
     let playerList = []
@@ -58,14 +50,14 @@ const PlayerOffcanvas = ({ show, cardName, setShow, i }) => {
       const picture = `https://images.masters.com/players/${tournamentYear}/240x240/${id}.jpg`
 
       return (
-        <PlayerSelectionCard player={player}picture={picture} disable={playerRoster.includes(Number(id))} current={id == roster[key]} currentUser={currentUser} tournamentYear={tournamentYear} column={key} key={`selection-card-${i}-${id}`}/>
+        <PlayerSelectionCard player={player} picture={picture} disable={playerRoster.includes(Number(id))} tournamentYear={tournamentYear} column={key} key={`selection-card-${i}-${id}`} userRoster={userRoster} setUserRoster={setUserRoster}/>
       )
       
     })
 
     return (
-      <Offcanvas show={show} onHide={handleClose} scroll backdrop keyboard>
-        <Offcanvas.Header closeButton >
+      <Offcanvas show={show} onHide={handleClose} scroll backdrop keyboard closeButton>
+        <Offcanvas.Header closeButton>
           <Offcanvas.Title>{cardName}</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>

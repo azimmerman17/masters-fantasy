@@ -141,7 +141,7 @@ router.post('/new', async (req, res) => {
             let insertRoundQuery = `INSERT INTO \`major-fantasy-golf\`.User_Lineups (user_id, roster_id, year, round, player1, player2, player3, created_at, updated_at)
               VALUES (${user_id}, ${roster_id}, ${year}, ${i}, ${past_champ}, ${usa}, ${intl}, NOW(), NOW());`
             
-              const [response, metadata] = await pool.query(insertRoundQuery)
+              const [response, metadata] = await mysqlPool.query(insertRoundQuery)
               if (response.error) roundInsertmsg.push(`Round ${i} 500 Error - Lineups not saved`)
               else roundInsertmsg.push(`Round ${i} - Successfully inserted`)
           }
@@ -176,7 +176,7 @@ router.put('/:id/:round', async (req, res) => {
 
     console.log(updateLineups)
   try {
-    const [response, metadata] = await pool.query(updateLineups)
+    const [response, metadata] = await mysqlPool.query(updateLineups)
     if (response.error) res.status(500).send({msg: 'Error - Lineup update Failed'})
     else res.status(201).send({msg: 'Lineup Updated'})
   } catch (error) {

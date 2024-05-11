@@ -19,6 +19,8 @@ const UserRoster = () => {
   if (fantasyTournamentConfig && playersContext  && currentUser && tournamentLeaderboardContext) {
     const { players } = playersContext
     const { leaderboard } = tournamentLeaderboardContext
+    const { currentRound } = fantasyTournamentConfig
+
     if (!leaderboard && !players) {
       return (
         <p className='my-3 text-center'>Roster Tools are unavablile please check back later</p>
@@ -41,17 +43,14 @@ const UserRoster = () => {
           <UserScores scoring={scoring} lineups={lineups}/>
         </Row>
         <Row>
-          <h4 className='text-center'>Roster</h4>
-          <UserRosterSelection roster={roster} locked={rosterLock} />
+          <UserRosterSelection locked={rosterLock} lineups={lineups} round={currentRound}/>
         </Row>
         <Row>
-          <h4 className='text-center'>Lineups</h4>
           {showLineups()}
         </Row>
       </Container>
     )
   }
-  
 }
 
 export default UserRoster

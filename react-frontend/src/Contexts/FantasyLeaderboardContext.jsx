@@ -12,7 +12,6 @@ const FantasyLeaderboardProvider = ({ children }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log('fetch')
       try {
         // fetch the data
         const response = await fetch(BASE_URL + 'scoring')

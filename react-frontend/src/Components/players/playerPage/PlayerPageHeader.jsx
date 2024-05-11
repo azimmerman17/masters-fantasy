@@ -6,7 +6,6 @@ import Container from 'react-bootstrap/esm/Container';
 
 // const PlayerPageHeader = ({ first_name, last_name, amateur, countryCode, position, total, today, playing, teeTime }) => {
 const PlayerPageHeader = ({ bio, scores }) => {
-  console.log(bio, scores)
   const { player } = bio
   const { first_name, last_name, amateur, countryCode } = player
 

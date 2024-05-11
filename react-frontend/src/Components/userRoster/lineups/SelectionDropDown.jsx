@@ -5,7 +5,7 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import { CurrentUser } from '../../../Contexts/CurrentUserContext';
 import HandleDBTransaction from '../../../Functions/HandleDBTransaction';
 
-const SelectionDropdown = ({ playersRoster, selectedPlayer, roundLineup, round, lineupSpot }) => {
+const SelectionDropdown = ({ playersRoster, setRoundLineup, selectedPlayer, roundLineup, round, lineupSpot }) => {
   const BASE_URL = import.meta.env.VITE_BASE_URL
   const {currentUser, setCurrentUser} = useContext(CurrentUser)
   const {  Amateur, first_name, last_name, amateur  } = selectedPlayer
@@ -13,20 +13,32 @@ const SelectionDropdown = ({ playersRoster, selectedPlayer, roundLineup, round, 
   if (currentUser) {
     const dropdownItems = playersRoster.map(player => {
       const { Amateur, first_name, last_name, amateur, id , status } = player
-      const { user_id } = currentUser
+      const { user_id, roster } = currentUser
+      const { year } = roster
 
       const handleClick = async (e, id) => {
         let path = BASE_URL + 'lineups/' + user_id + '/' + round
         let payload = {
           [lineupSpot]: id      
         }
+
+      const handleUpdate = (id, lineupSpot) => {
+        const newLineup = roundLineup.map((player, i) => {
+          if (i === Number(lineupSpot[lineupSpot.length - 1]) - 1) {
+            return Number(id)
+          } else return player
+        }) 
+
+        setRoundLineup(newLineup)
+      }
   
         try {
           await HandleDBTransaction(path, 'PUT', payload)
+          handleUpdate(id, lineupSpot)
         } catch (error) {
           console.error(error)
         }
-        location.reload()
+        // location.reload()
       }
   
       return (
