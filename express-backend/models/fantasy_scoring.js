@@ -48,6 +48,26 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INT,
       defaultValue: 0
     },
+    round1_sf: {
+      allowNull: false,
+      type: DataTypes.INT,
+      defaultValue: 0
+    },
+    round2_sf: {
+      allowNull: false,
+      type: DataTypes.INT,
+      defaultValue: 0
+    },
+    round3_sf: {
+      allowNull: false,
+      type: DataTypes.INT,
+      defaultValue: 0
+    },
+    round4_sf: {
+      allowNull: false,
+      type: DataTypes.INT,
+      defaultValue: 0
+    },
     round1_aggr: {
       allowNull: false,
       type: DataTypes.INT,
