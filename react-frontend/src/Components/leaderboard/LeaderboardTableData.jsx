@@ -60,7 +60,7 @@ const LeaderboardTableData = ({ player, header, view, round }) => {
     }
   }
   if (view === 'fantasy') {
-    const { user_name, seq_num, holes_display, display_round, round1, round2, round3, round4, holes_completed, total, round1_aggr, round2_aggr, round3_aggr,round4_aggr, total_aggr } = player
+    const { user_name, seq_num, holes_display, display_round, round1, round2, round3, round4, holes_completed, total, round1_sf, round2_sf, round3_sf,round4_sf, total_sf, round1_aggr, round2_aggr, round3_aggr,round4_aggr, total_aggr } = player
     switch (header) {
       case '':
         return <td><HiMiniChevronUpDown /></td>
@@ -103,30 +103,49 @@ const LeaderboardTableData = ({ player, header, view, round }) => {
         if (window.innerWidth < 768) return null
         else if (round < 4) return <td></td>
         else return <td className={`text-center ${ScoreColor(round4)}`} style={{fontSize: '14px'}}>{round4 === 0 ? 'E' : round4}</td>
-      case 'TOTAL AGGR':
+      case 'SF':
+       // if (window.innerWidth < 1200) return null
+        //else
+         if (round < 1) return <td></td>
+        else return <td className={`text-center ${ScoreColor(total_sf)}`} style={{fontSize: '14px'}}>{total_sf}</td>
+      case 'R1 SF':
         if (window.innerWidth < 1200) return null
-        else if (total_aggr === 0) return <td></td>
-        else return <td className={`text-center ${ScoreColor(total_aggr - (12 * 72))}`} style={{fontSize: '14px'}}>{total_aggr}</td>
-      case 'R1 AGGR':
+        else if (round < 1) return <td></td>
+        else return <td className={`text-center ${ScoreColor(round1_sf)}`} style={{fontSize: '14px'}}>{round1_sf}</td>
+      case 'R2 SF':
         if (window.innerWidth < 1200) return null
-        else if (round1_aggr === 0) return <td></td>
-        else return <td className={`text-center ${ScoreColor(round1_aggr - (3 * 72))}`} style={{fontSize: '14px'}}>{round1_aggr}</td>
-      case 'R2 AGGR':
+        else if (round < 2) return <td></td>
+        else return <td className={`text-center ${ScoreColor(round2_sf)}`} style={{fontSize: '14px'}}>{round2_sf}</td>
+      case 'R3 SF':
         if (window.innerWidth < 1200) return null
-        else if (round2_aggr === 0) return <td></td>
-        else return <td className={`text-center ${ScoreColor(round2_aggr - (3 * 72))}`} style={{fontSize: '14px'}}>{round2_aggr}</td>
-      case 'R3 AGGR':
+        else if (round < 3) return <td></td>
+        else return <td className={`text-center ${ScoreColor(round3_sf)}`} style={{fontSize: '14px'}}>{round3_sf}</td>
+      case 'R4 SF':
         if (window.innerWidth < 1200) return null
-        else if (round3_aggr === 0) return <td></td>
-        else return <td className={`text-center ${ScoreColor(round3_aggr - (3 * 72))}`} style={{fontSize: '14px'}}>{round3_aggr}</td>
-      case 'R4 AGGR':
-        if (window.innerWidth < 1200) return null
-        else if (round4_aggr === 0) return <td></td>
-        else return <td className={`text-center ${ScoreColor(round4_aggr - (3 * 72))}`} style={{fontSize: '14px'}}>{round4_aggr}</td>
-    }
+        else if (round < 3) return <td></td>
+        else return <td className={`text-center ${ScoreColor(round4_sf)}`} style={{fontSize: '14px'}}>{round4_sf}</td>
+        case 'TOTAL AGGR':
+          if (window.innerWidth < 1200) return null
+          else if (total_aggr === 0) return <td></td>
+          else return <td className={`text-center ${ScoreColor(total_aggr)}`} style={{fontSize: '14px'}}>{total_aggr}</td>
+        case 'R1 AGGR':
+          if (window.innerWidth < 1200) return null
+          else if (round1_aggr === 0) return <td></td>
+          else return <td className={`text-center ${ScoreColor(round1_aggr)}`} style={{fontSize: '14px'}}>{round1_aggr}</td>
+        case 'R2 AGGR':
+          if (window.innerWidth < 1200) return null
+          else if (round2_aggr === 0) return <td></td>
+          else return <td className={`text-center ${ScoreColor(round2_aggr)}`} style={{fontSize: '14px'}}>{round2_aggr}</td>
+        case 'R3 AGGR':
+          if (window.innerWidth < 1200) return null
+          else if (round3_aggr === 0) return <td></td>
+          else return <td className={`text-center ${ScoreColor(round3_aggr)}`} style={{fontSize: '14px'}}>{round3_aggr}</td>
+        case 'R4 AGGR':
+          if (window.innerWidth < 1200) return null
+          else if (round4_aggr === 0) return <td></td>
+          else return <td className={`text-center ${ScoreColor(round4_aggr)}`} style={{fontSize: '14px'}}>{round4_aggr}</td>
+      }
   }
-
-
 }
 
 export default LeaderboardTableData

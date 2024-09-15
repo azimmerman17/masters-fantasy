@@ -71,67 +71,34 @@ main {
   height: 25px;
 }
 
-.eagle-better::after {
-  box-sizing: content-box;
-  content: ' ';
-  position: absolute;
-  height: 14px;
-  width: 14px;
-  margin: 0px 0 0 -11px;
-  border: 1px solid rgb(220,53,69);
-  border-radius: 50%
-} 
-
-.eagle-better::before {
-  box-sizing: content-box;
-  content: ' ';
-  position: absolute;
+.eagle {
+  border: 3.5px double rgb(220,53,69);
   height: 20px;
   width: 20px;
-  margin: -3px 0 0 -8px;
+  border-radius: 50%;
+  padding: 0.5px 2.5px;
+}
+
+.birdie {
   border: 1px solid rgb(220,53,69);
-  border-radius: 50%
-}
-
-.birdie::after {
-  box-sizing: content-box;
-  content: ' ';
-  position: absolute;
-  height: 14px;
-  width: 14px;
-  margin: 0px 0 0 -11px;
-  border: 1px solid rgb(220,53,69);
-  border-radius: 50%
-}
-
-.bogey::after {
-  box-sizing: content-box;
-  content: ' ';
-  position: absolute;
-  height: 14px;
-  width: 14px;
-  margin: 0px 0 0 -11px;
-  border: 1px solid #000;
-}
-
-.double-bogey-worse::before {
-  box-sizing: content-box;
-  content: ' ';
-  position: absolute;
   height: 20px;
   width: 20px;
-  margin: -3px 0 0 -8px;
-  border: 1px solid #000;
+  border-radius: 50%;
+  padding: 3px 5px;
 }
 
-.double-bogey-worse::after {
-  box-sizing: content-box;
-  content: ' ';
-  position: absolute;
-  height: 14px;
-  width: 14px;
-  margin: 0px 0 0 -11px;
+.bogey {
   border: 1px solid #000;
+  height: 20px;
+  width: 20px;
+  padding: 3px 5px;
+}
+
+.double-bogey {
+  border: 3.5px double #000;
+  height: 20px;
+  width: 20px;
+  padding: 0.5px 2.5px;
 }
 
 .leaderboard-header {

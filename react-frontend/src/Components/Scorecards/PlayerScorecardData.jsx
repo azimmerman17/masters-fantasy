@@ -1,7 +1,6 @@
 const PlayerScorecardData = ({ scores, pars, data }) => {
 
   const scoreName = (par, holeScore) => {
-    
     if (holeScore + par === 0) return ''
 
     if (par > 9) {
@@ -15,7 +14,7 @@ const PlayerScorecardData = ({ scores, pars, data }) => {
 
     switch (holeScore){
       case -2:
-        return 'eagle-better text-danger'
+        return 'eagle text-danger'
       case -1:
         return 'birdie text-danger'
       case 0: 
@@ -23,7 +22,7 @@ const PlayerScorecardData = ({ scores, pars, data }) => {
       case 1:
         return 'bogey'
       case 2:
-        return 'double-bogey-worse'
+        return 'double-bogey'  
     }
   }
 
@@ -33,7 +32,7 @@ const PlayerScorecardData = ({ scores, pars, data }) => {
         scores.map((score, i) => {
           return (
             <th key={`score-${score}-${data}-${i}`} className={`m-1 fw-bold text-center label-small scorecard-cell`}>
-                <small className={`${scoreName(pars[i], score - pars[i])} text-center`}>{score}</small>
+                <small className={`${scoreName(pars[i], score - pars[i])} text-center`}>{i === 0 ? score.toUpperCase() : score}</small>
             </th>
           )
         })

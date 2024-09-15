@@ -5,7 +5,7 @@ import { IoGolf } from 'react-icons/io5'
 
 const Loading = () => {
   return (
-    <Container fluidx>
+    <Container fluid>
       {/* <h1>
         <IoGolf className='loading bg-success text-white border border-success rounded-circle' style={{height:'75px', width:'75px'}}/>
       </h1> */}

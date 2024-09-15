@@ -14,30 +14,30 @@ const year = (new Date().getFullYear())
 // Get leaderboard for entire field
 router.get('/', async (req, res) => {
 
-  const getScores = `SELECT A.user_name,
-      B.holes_completed,
-      B.seq_num,
-      B.holes_display,
-      B.display_round,
-      (B.round1 + B.round2 + B.round3 + B.round4) as "total",
-      B.round1,
-      B.round2,
-      B.round3,
-      B.round4,      
-      (B.round1_aggr + B.round2_aggr + B.round3_aggr + B.round4_aggr) as "total_aggr",
-      B.round1_aggr,
-      B.round2_aggr, 
-      B.round3_aggr,
-      B.round4_aggr,
-      (B.round1_sf + B.round2_sf + B.round3_sf + B.round4_sf) as "total_sf",
-      B.round1_sf,
-      B.round2_sf, 
-      B.round3_sf,
-      B.round4_sf  
-    FROM \`major-fantasy-golf\`.Users A, \`major-fantasy-golf\`.Fantasy_Scoring B
-    WHERE A.user_id = B.user_id
-      AND year = ${year}
-    ORDER BY 6, 2 desc, 16 asc, 10, 9, 8, 7, 11 asc, 15 asc, 14 asc, 13 asc, 12 asc;`
+  const getScores = `SELECT A.user_name,  
+  B.holes_completed,
+  B.seq_num,
+  B.holes_display,
+  B.display_round,
+  (B.round1 + B.round2 + B.round3 + B.round4) as "total", 
+  B.round1,
+  B.round2,
+  B.round3,
+  B.round4,      
+  (B.round1_aggr + B.round2_aggr + B.round3_aggr + B.round4_aggr) as "total_aggr", 
+  B.round1_aggr,
+  B.round2_aggr, 
+  B.round3_aggr,
+  B.round4_aggr,
+  (B.round1_sf + B.round2_sf + B.round3_sf + B.round4_sf) as "total_sf",
+  B.round1_sf,
+  B.round2_sf, 
+  B.round3_sf,
+  B.round4_sf  
+FROM \`major-fantasy-golf\`.Users A, \`major-fantasy-golf\`.Fantasy_Scoring B
+WHERE A.user_id = B.user_id
+  AND year = 2024
+ORDER BY 6, 2 desc, 16 desc, 9, 19 desc, 8, 18 desc, 7, 17 desc,11 asc, 15 asc, 14 asc, 13 asc, 12 asc;`
 
     const getLineups = `SELECT 
         A.user_id, 
@@ -137,14 +137,14 @@ router.post('/sendscores', async (req, res) => {
     }
 
     // Do not uudate if Tournament is inative
-    // if (((statusRound[round - 1] === 'X' || statusRound[round - 1] === 'F') && new Date(wallClockTime) < timeMinus60 )  || statusRound[0] === 'N' ) {
-    //   console.log('Tournament not active - No update')
-    //   res.status(202).send('Tournament not active')
-    // }
-    // else if (timeMinus10 < updateScoresFile.lastUpdate) {
-    //   console.log('<10 minutes since last update')
-    //   res.status(202).send('<10 minutes since last update')
-    // } else {
+    if (((statusRound[round - 1] === 'X' || statusRound[round - 1] === 'F') && new Date(wallClockTime) < timeMinus60 )  || statusRound[0] === 'N' ) {
+      console.log('Tournament not active - No update')
+      res.status(202).send('Tournament not active')
+    }
+    else if (timeMinus10 < updateScoresFile.lastUpdate) {
+      console.log('<10 minutes since last update')
+      res.status(202).send('<10 minutes since last update')
+    } else {
 
 
       // update the player and par list file
@@ -158,7 +158,7 @@ router.post('/sendscores', async (req, res) => {
       console.log('update scores')
       // res.status(202).send('No data sent')
       res.redirect(307, '/scoring/updatescores') 
-    // }
+    }
   } catch (error) {
       console.error(error)
       res.status(202).send('No data sent')

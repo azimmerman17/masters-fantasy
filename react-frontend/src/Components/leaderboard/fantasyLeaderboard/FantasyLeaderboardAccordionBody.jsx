@@ -10,14 +10,27 @@ import FantasyLeaderboardAccordionContent from './FantasyLeaderboardAccordionCon
 
 const FantasyLeaderboardAccordionBody = ({ player, round, lineup }) => {
   let [roundDisplay, setRoundDisplay] = useState(round)
-  const { round1, round2 ,round3, round4 } = player
+  const { round1, round2 ,round3, round4, round1_sf, round2_sf ,round3_sf, round4_sf } = player
   const { rounds } = lineup
 
   let scoreDisplay
-  if (roundDisplay === 1) scoreDisplay = round1
-  else if (roundDisplay === 2) scoreDisplay = round2
-  else if (roundDisplay === 3) scoreDisplay = round3
-  else if (roundDisplay === 4) scoreDisplay = round4
+  let stablefordDisplay
+  if (roundDisplay === 1) {
+    scoreDisplay = round1
+   stablefordDisplay = round1_sf
+  }
+  else if (roundDisplay === 2) {
+    scoreDisplay = round2
+   stablefordDisplay = round2_sf
+  }
+  else if (roundDisplay === 3){
+    scoreDisplay = round3
+   stablefordDisplay = round3_sf
+    }
+  else if (roundDisplay === 4) {
+    scoreDisplay = round4
+   stablefordDisplay = round4_sf
+  }
 
 
   return (
@@ -40,8 +53,9 @@ const FantasyLeaderboardAccordionBody = ({ player, round, lineup }) => {
         </Col>
         <Col>
           <h6 className='text-end fw-bolder m-1'>
-            <span>Rd {roundDisplay}: </span>
-            <span className={`${ScoreColor(scoreDisplay)}`}>{scoreDisplay}</span> 
+            <span>Rd {roundDisplay}:</span>
+            <span className={`${ScoreColor(scoreDisplay)} mx-1`}>{scoreDisplay}</span> 
+            <span className={`${ScoreColor(stablefordDisplay)} ms-2`}>({stablefordDisplay})</span>
           </h6>
         </Col>
       </Row>
