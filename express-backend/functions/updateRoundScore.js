@@ -4,6 +4,7 @@ const filterPlayerLeaderboard = require('./filterPlayerLeaderboard')
 const calcPlayerScore = require('./calcPlayerScore')
 const calcHoleScore = require('./clacHoleScore')
 const calcPlayerHoles = require('./calcPlayerHoles')
+const calcStablefordScore = require('./calcStablefordScore')
 
 async function updateRoundScore(user_id, year, round, leaderboard) {
   // Fetch the Lineup from public."User_Lineups"
@@ -28,6 +29,7 @@ async function updateRoundScore(user_id, year, round, leaderboard) {
 
     // For each hole, get the lowest score - translate to vsPar - caluclated holes completed for the round
     let score = 0
+    let scoreStableford = 0
     let holesCompleted = 0
     updateScoresFile.pars.forEach((par, i) => {
       let holeScores = []
@@ -45,15 +47,17 @@ async function updateRoundScore(user_id, year, round, leaderboard) {
       if (holeScores.length > 0) {
         holeScore = Math.min(...holeScores)
         score += (holeScore - par)
+        scoreStableford += calcStablefordScore(holeScore - par)
         holesCompleted += 1
       }
     });
 
-    // Sum the aggregate score for the round
     let player1Score = calcPlayerScore(player1) 
     let player2Score = calcPlayerScore(player2)
     let player3Score = calcPlayerScore(player3)
     
+
+    // Sum the aggregate score for the round
     let aggregateScore = player1Score + player2Score + player3Score
 
     // Calculate the holes_completed 
@@ -75,6 +79,7 @@ async function updateRoundScore(user_id, year, round, leaderboard) {
       SET updated_at = NOW(),
         round${round} = ${score},
         round${round}_aggr = ${aggregateScore},
+        round${round}_sf = ${scoreStableford},
         holes_completed = ${totalHolesCompleted},
         holes_display = '${holesDisplay}',
         display_round = ${round}

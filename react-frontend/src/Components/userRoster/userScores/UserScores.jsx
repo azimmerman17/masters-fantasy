@@ -9,16 +9,16 @@ import ScoreColor from '../../../Functions/ScoreColor'
 
 const UserScores = ({ scoring, lineups }) => {
   const { tournamentLeaderboardContext, setTournamentLeaderboardContext } = useContext(TournamentLeaderboardContext)
-  
+  console.log(scoring)
   if (tournamentLeaderboardContext.leaderboard && tournamentLeaderboardContext.pairings) {
     const { leaderboard } = tournamentLeaderboardContext
     const { player } = leaderboard
     const { holes_completed, rounds, total } = scoring
-    
     const displayScore = (scores, label, lineup) => {
       const { player1, player2, player3 } = lineup
   
-      const { aggr, score } = scores
+      const { aggr, score, stableford } = scores
+      console.log('scores',scores)
       let { round } = scores
   
       let roundHoles
@@ -30,16 +30,20 @@ const UserScores = ({ scoring, lineups }) => {
       ]
   
       return (
-        <Row className={`m-0 p-1 border text-center rounded${label === 'Total' ? ' shadow-sm border-primary' : ''}`}>
-          <h5>{label}</h5>
+        <Row className={`m-0 p-1  text-center ${label === 'Total' ? '' : 'rounded border shadow-sm border-primary'}`}>
+          <h5>{label  === 'Total' ? '' : label}</h5>
           <Col>
             <h6 className={`m-auto ${ScoreColor(score)}`}>{score}</h6>
             <p className='label-small m-auto'>Score</p>
           </Col>
-          <Col xs={5}>
-            <h6 className='m-auto'>{aggr}</h6>
-            <p className='label-small m-auto'>Aggregate Score</p>
+          <Col xs={4}>
+            <h6 className='m-auto'>{stableford}</h6>
+            <p className='label-small m-auto'>Stableford</p>
           </Col>
+          {/* <Col xs={5}>
+            <h6 className='m-auto'>{stableford}</h6>
+            <p className='label-small m-auto'>Aggregate</p>
+          </Col> */}
             <Col>
               <h6 className='m-auto'>{CalculateRoundHoles(holes_completed, round, players)}</h6>
               <p className='label-small m-auto'>Thru</p>
@@ -57,18 +61,27 @@ const UserScores = ({ scoring, lineups }) => {
         )
       }
     })
-    
+    console.log('lineups', lineups)
+    console.log('total', total)
+
     return (
       <Accordion flush>
         <Accordion.Item eventKey="0">
           <Accordion.Header>
-            <h4>Fantasy Scoring</h4>
+          <Row>
+            <Col xs={12} md={6}>
+              <h4>Fantasy Scoring</h4>
+            </Col>
+            <Col xs={12} md={6} className='my-1'>
+              {holes_completed > 0 ? displayScore(total, 'Total', lineups[3]) : null}
+            </Col>
+            </Row>
           </Accordion.Header>
           <Accordion.Body className='p-1'>
             <Row>
-              <Col xs={12} className='my-1'>
+              {/* <Col xs={12} className='my-1'>
                 {holes_completed > 0 ? displayScore(total, 'Total', lineups[3]) : null}
-              </Col>
+              </Col> */}
                 {roundScores}
             </Row>
           </Accordion.Body>

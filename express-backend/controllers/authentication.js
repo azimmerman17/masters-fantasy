@@ -117,7 +117,27 @@ router.get('/profile', async (req, res) => {
         CASE 
           WHEN D.holes_completed <= 55 THEN 0 
           ELSE D.round4_aggr 
-        END as "round4_aggr"
+        END as "round4_aggr",
+        CASE 
+        WHEN D.holes_completed = 0 THEN 0 
+        ELSE (D.round1_sf + D.round2_sf + D.round3_sf + D.round4_sf) 
+      END as "total_sf",
+      CASE 
+        WHEN D.holes_completed = 0 THEN 0 
+        ELSE D.round1_sf
+      END as "round1_sf",
+      CASE 
+        WHEN D.holes_completed <= 18 THEN 0 
+        ELSE D.round2_sf
+      END as "round2_sf",
+      CASE 
+        WHEN D.holes_completed <= 36 THEN 0 
+        ELSE D.round3_sf
+      END as "round3_sf",
+      CASE 
+        WHEN D.holes_completed <= 55 THEN 0 
+        ELSE D.round4_sf 
+      END as "round4_sf"
       FROM \`major-fantasy-golf\`.Users A, \`major-fantasy-golf\`.User_Data B 
       LEFT JOIN \`major-fantasy-golf\`.User_Rosters C
         ON C.user_id = B.user_id
@@ -191,31 +211,34 @@ router.get('/profile', async (req, res) => {
           year: userRes[0]["year"],
           total: {
             score: userRes[0]["total"],
-            aggr: userRes[0]["total_aggr"] 
-
+            aggr: userRes[0]["total_aggr"],
+            stableford: userRes[0]["total_sf"]
           },
           rounds: [
             {
               round: 1,
               score: userRes[0]["round1"],
-              aggr: userRes[0]["round1_aggr"]
+              aggr: userRes[0]["round1_aggr"],
+              stableford: userRes[0]["round1_sf"]
             },
             {
               round: 2,
               score: userRes[0]["round2"],
-              aggr: userRes[0]["round2_aggr"]
+              aggr: userRes[0]["round2_aggr"],
+              stableford: userRes[0]["round2_sf"]
             },
             {              
               round: 3,
               score: userRes[0]["round3"],
-              aggr: userRes[0]["round3_aggr"]
+              aggr: userRes[0]["round3_aggr"],
+              stableford: userRes[0]["round3_sf"]
             },
             {
               round: 4,
               score: userRes[0]["round4"],
-              aggr: userRes[0]["round4_aggr"]
+              aggr: userRes[0]["round4_aggr"],
+              stableford: userRes[0]["round4_sf"]
             }
-
           ]
         }
       }
