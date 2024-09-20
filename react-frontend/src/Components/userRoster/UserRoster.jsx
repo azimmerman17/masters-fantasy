@@ -15,7 +15,7 @@ const UserRoster = () => {
   const {fantasyTournamentConfig, setFantasyTournamentConfig} = useContext(FantasyTournamentConfig)
   const {tournamentLeaderboardContext, setTournamentLeaderboardContext} = useContext(TournamentLeaderboardContext)
   const {currentUser, setCurrentUser} = useContext(CurrentUser)
-
+ 
   if (fantasyTournamentConfig && playersContext  && currentUser && tournamentLeaderboardContext) {
     const { players } = playersContext
     const { leaderboard } = tournamentLeaderboardContext
@@ -30,7 +30,7 @@ const UserRoster = () => {
     const { roster, lineups, scoring } = currentUser
 
     const { intl, past_champ, usa, wild_card1, wild_card2, wild_card3 } = roster
-    const { rosterLock } = fantasyTournamentConfig
+    const { tourny_active } = fantasyTournamentConfig
 
     const showLineups = () => {
       if (intl && past_champ && usa && wild_card1 && wild_card2 && wild_card3) return  <UserLineups lineups={lineups} roster={roster} />
@@ -43,7 +43,7 @@ const UserRoster = () => {
           <UserScores scoring={scoring} lineups={lineups}/>
         </Row>
         <Row>
-          <UserRosterSelection locked={rosterLock} lineups={lineups} round={currentRound}/>
+          <UserRosterSelection locked={tourny_active} lineups={lineups} round={currentRound}/>
         </Row>
         <Row>
           {showLineups()}

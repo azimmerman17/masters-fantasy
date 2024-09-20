@@ -12,7 +12,7 @@ module.exports = {
       rnd: {
         allowNull: false,
         type: Sequelize.INTEGER,
-        defaultValue: 1
+        defaultValue: 0
       }, 
       rnd1_lck	: {
         allowNull: true,
@@ -32,8 +32,8 @@ module.exports = {
       }, 
       tourny_actve: {
           allowNull: false,
-          type: Sequelize.BOOLEAN,
-          defaultValue: false
+          type: Sequelize.CHAR(1),
+          defaultValue: 'P'
       },
       rnd_actve: {
         allowNull: false,
@@ -45,12 +45,12 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         defaultValue: false
       },
-      createdAt: {
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW

@@ -63,7 +63,7 @@ router.post('/new', async (req, res) => {
       const [currYearResponse, metadata] = await mysqlPool.query(currYear)
       if (currYearResponse.error) res.status(500).send({currYearResponse})
       // Don't allow new round until old round is posted
-      else if (!currYearResponse.posted)  res.status(400).send('Cannot created new event, until previous event is posted')
+      else if (currYearResponse.posted == 0)  res.status(400).send('Cannot created new event, until previous event is posted')
       // Don't allow a second event in the same calendar year
       else if (currYearResponse.year === year) res.status(400).send('Event already created for this calendar year')
       // Add New Config row
@@ -71,7 +71,7 @@ router.post('/new', async (req, res) => {
         const createConfig = `INSERT INTO \`major-fantasy-golf\`.Fantasy_Config (year, created_at, updated_at)
           VALUES (${year}, NOW(), NOW());`
         
-          let [response, metadata] = await mysqlPool.query(createUser)
+          let [response, metadata] = await mysqlPool.query(createConfig)
         if (response.error) res.status(500).send({response})
         else {
           res.status(201).send('Config row created')

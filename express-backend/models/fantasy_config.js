@@ -41,8 +41,8 @@ module.exports = (sequelize, DataTypes) => {
     }, 
     tourny_actve: {
         allowNull: false,
-        type: DataTypes.BOOLEAN,
-        defaultValue: false
+        type: DataTypes.STRING,
+        defaultValue: 'P'
     },
     rnd_actve: {
       allowNull: false,

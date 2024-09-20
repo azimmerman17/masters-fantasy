@@ -17,7 +17,7 @@ const RosterSpot = ({ player, cardName, lock, i, round, lineups }) => {
     const { tournamentYear } = dataSettings
 
     const handleClick = (locked) => {
-      if (!locked) setShow(true) // change to !locked for production
+      if (lock === 'P') setShow(true) // change to !locked for production
     }
     
     let picture
@@ -27,13 +27,13 @@ const RosterSpot = ({ player, cardName, lock, i, round, lineups }) => {
       if (player) {
         return (
           <>
-            {lock ? <RosterPlayerStats newStatus={player.newStatus} pos={player.pos} topar={player.topar} teetime={player.teetime} status={player.status} thru={player.thru} /> : <p className='text-center m-0 p-1 '> Click to Select New Player</p>}
+            {lock !== 'P' ? <RosterPlayerStats newStatus={player.newStatus} pos={player.pos} topar={player.topar} teetime={player.teetime} status={player.status} thru={player.thru} /> : <p className='text-center m-0 p-1 '> Click to Select New Player</p>}
           </>
         )
       } else {
         return (
           <>
-            {lock ? null : <p className='text-center m-0 p-1 '>Click to Select Player</p>}
+            {lock !== 'P' ? null : <p className='text-center m-0 p-1 '>Click to Select Player</p>}
           </>
         )
       }
