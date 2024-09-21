@@ -24,7 +24,7 @@ import RulesSheet from './Components/RulesSheet'
 import ResetPasswordForm from './Components/User/ResetPasswordForm'
 import ResetPassword from './Components/User/ResetPassword'
 import NotFound from './Components/NotFound'
-import Admin from './Components/Admin/admin'
+import Admin from './Components/Admin/Admin'
 
 function App() {
   const [title, setTitle] = useState('APP')

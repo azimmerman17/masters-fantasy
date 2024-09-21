@@ -35,7 +35,7 @@ const FantasyLeaderboardView = ({}) => {
   const display = () => {
     const { currentRound, tourny_active, round_active } = fantasyTournamentConfig
     const { leaderboard, lineups } = fantasyLeaderboard
-    console.log(fantasyTournamentConfig)
+
     //validation if the leaderboard should be shown
     if (!tourny_active || tourny_active ==='P') {
       return (

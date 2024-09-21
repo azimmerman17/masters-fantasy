@@ -1,13 +1,11 @@
 import { useContext } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
-import Alert from 'react-bootstrap/esm/Alert';
 
 import { CurrentUser } from '../../../Contexts/CurrentUserContext';
 import HandleDBTransaction from '../../../Functions/HandleDBTransaction';
 
 const SelectionDropdown = ({ playersRoster, setRoundLineup, selectedPlayer, roundLineup, round, lineupSpot, lock, setShowLock }) => {
-  console.log(lock)
   const BASE_URL = import.meta.env.VITE_BASE_URL
   const {currentUser, setCurrentUser} = useContext(CurrentUser)
   const {  Amateur, first_name, last_name, amateur  } = selectedPlayer

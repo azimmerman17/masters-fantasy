@@ -42,7 +42,6 @@ const FantasyLeaderboardProvider = ({ children }) => {
     return () => clearInterval(interval)
   }, [currentUser, fantasyLeaderboard])
 
-  console.log(fantasyLeaderboard)
 
   return (
     <FantasyLeaderboard.Provider value={{fantasyLeaderboard, setFantasyLeaderboard}}>

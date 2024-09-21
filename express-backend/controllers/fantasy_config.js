@@ -1,5 +1,6 @@
 const router = require('express').Router()
 require('dotenv').config()
+const formatDateTime = require('../functions/formatDateTime')
 const { mysqlPool } = require('../models/db')
 
 // Functions
@@ -84,28 +85,32 @@ router.post('/new', async (req, res) => {
 
 // PUT 
 // UPDATE EVENT CONFIG
-router.post('/:year', async (req, res) => {
+router.put('/:year', async (req, res) => {
   const { year } = req.params
   // get variables from req body
-  const {round, round1Lock, round2Lock, round3Lock, round4Lock, tournyActive, roundActive, posted } = req.body 
-  
+  const {currentRound, round1Lock, round2Lock, round3Lock, round4Lock, tourny_active, round_active, posted } = req.body 
+   console.log(req.body)
   // build query
   let updateConfig = `UPDATE \`major-fantasy-golf\`.Fantasy_Config
   SET updated_at = NOW()
-  ${round ? `, rnd = ${round}` : ''}
-  ${round1Lock ? `, rnd1_lck = ${round1Lock}` : ''}
-  ${round2Lock ? `, rnd2_lck = ${round2Lock}` : ''}
-  ${round3Lock ? `, rnd3_lck = ${round3Lock}` : ''}
-  ${round4Lock ? `, rnd4_lck = ${round4Lock}` : ''}
-  ${tournyActive ? `, tourney_actve = ${tournyActive}` : ''}
-  ${roundActive ? `, rnd_actve = ${roundActive}` : ''}
+  ${currentRound ? `, rnd = ${currentRound}` : ''}
+  ${round1Lock ? `, rnd1_lck = '${formatDateTime(round1Lock)}'` : ''}
+  ${round2Lock ? `, rnd2_lck = '${formatDateTime(round2Lock)}'` : ''}
+  ${round3Lock ? `, rnd3_lck = '${formatDateTime(round3Lock)}'` : ''}
+  ${round4Lock ? `, rnd4_lck = '${formatDateTime(round4Lock)}'` : ''}
+  ${tourny_active ? `, tourny_actve = '${tourny_active}'` : ''}
+  ${round_active ? `, rnd_actve = '${round_active}'` : ''}
   ${posted ? `, posted = ${posted}` : ''}
   WHERE year = ${year};`
+
+  console.log('updateConfig', updateConfig)
  
   try {
     const [response, metadata] = await mysqlPool.query(updateConfig)
     if (response.error) res.status(500).send({msg: 'Error - Config update Failed'})
-    else res.status(201).send({msg: 'Config Updated'})
+    else {
+  res.status(201).send({msg: 'Config Updated'})
+  console.log('work')}
   } catch (error) {
     console.error(error)
     res.status(500).send({msg: 'Error - Config update Failed'})

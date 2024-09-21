@@ -39,8 +39,9 @@ const FantasyTournamentConfigProvider = ({ children }) => {
       currentRound: 0,   
     })
     else {
-      const {rnd, rnd1_lck, rnd2_lck, rnd3_lck, rnd4_lck, tourny_actve, rnd_actve} = data[0]
+      const {year, rnd, rnd1_lck, rnd2_lck, rnd3_lck, rnd4_lck, tourny_actve, rnd_actve} = data[0]
         setFantasyTournamentConfig({
+          year: year,
           tourny_active: tourny_actve,
           round_active: rnd_actve,
           round1Lock: rnd1_lck,

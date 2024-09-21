@@ -9,7 +9,7 @@ import ScoreColor from '../../../Functions/ScoreColor'
 
 const UserScores = ({ scoring, lineups }) => {
   const { tournamentLeaderboardContext, setTournamentLeaderboardContext } = useContext(TournamentLeaderboardContext)
-  console.log(scoring)
+
   if (tournamentLeaderboardContext.leaderboard && tournamentLeaderboardContext.pairings) {
     const { leaderboard } = tournamentLeaderboardContext
     const { player } = leaderboard
@@ -18,7 +18,6 @@ const UserScores = ({ scoring, lineups }) => {
       const { player1, player2, player3 } = lineup
   
       const { aggr, score, stableford } = scores
-      console.log('scores',scores)
       let { round } = scores
   
       let roundHoles
@@ -61,8 +60,6 @@ const UserScores = ({ scoring, lineups }) => {
         )
       }
     })
-    console.log('lineups', lineups)
-    console.log('total', total)
 
     return (
       <Accordion flush>
