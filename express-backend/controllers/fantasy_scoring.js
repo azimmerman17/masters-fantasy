@@ -6,7 +6,7 @@ const organizeLineups = require('../functions/organizeLineups')
 const updateSeqNum = require('../functions/updateSeqNum')
 const updateScores = require('../middleware/updateScores')
 const updateConfig = require('../functions/updateConfig')
-const updateScoresFile = require('../middleware/updateScoresFile')
+// const updateScoresFile = require('../middleware/updateScoresFile')
 const { mysqlPool, pgPool } = require('../models/db')
 
 //  Derive the date
@@ -119,11 +119,9 @@ router.get('/:id', async (req, res) => {
 router.post('/sendscores', async (req, res) => {
   const { data } = req.body
   
-
   try {
     const { leaderboard, pairings} = data
     const { player } = leaderboard
-
 
     // Get the Fantasy_Config Data
     const ConfigQuery = `SELECT A.* FROM \`major-fantasy-golf\`.Fantasy_Config A
@@ -133,8 +131,10 @@ router.post('/sendscores', async (req, res) => {
     const [configResponse, metadata] = await mysqlPool.query(ConfigQuery)
     if (configResponse.error) res.status(500).send({response})
     else {
-      let { rnd, tourny_actve, rnd_actve, rnd1_lck, rnd2_lck,rnd3_lck, rnd4_lck, posted, year, updated_at } = configResponse[0]
+      let { rnd, tourny_actve, rnd_actve, posted, year, updated_at } = configResponse[0]
 
+      tourny_actve = 'A'
+      rnd_actve = 'A'
       // Get Tee Times - For Config Updates
       const teeTimes = checkTeeTimes(pairings)
 
@@ -154,7 +154,15 @@ router.post('/sendscores', async (req, res) => {
           }
   
         // if rnd_actve = 'A' - update scores
-        if (rnd_actve = 'A') res.redirect(307, '/scoring/updatescores') 
+        if (rnd_actve = 'A') {
+          await updateScores(req.body, configResponse[0])
+          console.log('Scores Updated')
+          await updateSeqNum(year)
+          console.log('SeqNum updated')
+          res.status(200).send('Scores Updated')
+      
+
+        }
         else res.status(202).send('Tournament not active - No scores to update')
       } 
       // if tourny_active = 'A' - check rnd_active, update scores if needed
@@ -173,7 +181,13 @@ router.post('/sendscores', async (req, res) => {
         }
 
           // if rnd_actve = 'A' - update scores
-          if (rnd_actve = 'A') res.redirect(307, '/scoring/updatescores') 
+          if (rnd_actve = 'A') {
+            await updateScores(req.body, configResponse[0])
+            console.log('Scores Updated')
+            await updateSeqNum(year)
+            console.log('SeqNum updated')
+            res.status(200).send('Scores Updated')
+          }
           else res.status(202).send('Tournament not active - No scores to update')
         // if rnd_actve = 'A' - check config upate, and update scores, if round complete set rnd_active to 'F'
         } else if (rnd_actve === 'A') {        
@@ -196,7 +210,11 @@ router.post('/sendscores', async (req, res) => {
           }
 
           // update scores
-          res.redirect(307, '/scoring/updatescores') 
+          await updateScores(req.body, configResponse[0])
+          console.log('Scores Updated')
+          await updateSeqNum(year)
+          console.log('SeqNum updated')
+          res.status(200).send('Scores Updated')
         // if rnd_actve = 'F' - check config upate - change to next round if nessicary
         } else {
           // rnd 4 completed - Means event has been complete - Check if results are posted - Should be completed already
@@ -237,21 +255,23 @@ router.post('/sendscores', async (req, res) => {
   }
 })
 
-router.post('/updatescores', async (req, res) => {
-  console.log('init', new Date())
-  try {
-    await updateScores()
-    console.log('Scores Updated')
-    updateScoresFile.lastUpdate = new Date()
-    await updateSeqNum()
-    console.log('SeqNum updated')
-    res.status(200).send('Done')
-  } catch (error) {
-    console.error(error)
-    res.status(500).send('Error')
-  }
+// NO LONGER USED - COBINED WITH /sendscores
+// router.post('/updatescores', async (req, res) => {
 
-})
+//   console.log('init', new Date())
+//   try {
+//     await updateScores(req.body)
+//     console.log('Scores Updated')
+//     updateScoresFile.lastUpdate = new Date()
+//     await updateSeqNum()
+//     console.log('SeqNum updated')
+//     res.status(200).send('Done')
+//   } catch (error) {
+//     console.error(error)
+//     res.status(500).send('Error')
+//   }
+
+// })
 
 
 // create new scoring record

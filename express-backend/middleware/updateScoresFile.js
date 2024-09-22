@@ -1,3 +1,5 @@
+// NO LONGER USED
+
 const updateScoresFile = {
   process_active: false,
   round_active: false,
