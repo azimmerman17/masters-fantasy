@@ -16,19 +16,19 @@ module.exports = {
       }, 
       rnd1_lck	: {
         allowNull: true,
-        type: Sequelize.DATE,
+        type: Sequelize.CHAR(16),
       },
       rnd2_lck	: {
         allowNull: true,
-        type: Sequelize.DATE,
+        type: Sequelize.CHAR(16),
       },
       rnd3_lck	: {
         allowNull: true,
-        type: Sequelize.DATE,
+        type: Sequelize.CHAR(16),
       },
       rnd4_lck	: {
         allowNull: true,
-        type: Sequelize.DATE,
+        type: Sequelize.CHAR(16),
       }, 
       tourny_actve: {
           allowNull: false,

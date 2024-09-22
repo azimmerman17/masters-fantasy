@@ -88,35 +88,16 @@ router.post('/new', async (req, res) => {
 router.put('/:year', async (req, res) => {
   const { year } = req.params
   // get variables from req body
-  const {currentRound, round1Lock, round2Lock, round3Lock, round4Lock, tourny_active, round_active, posted } = req.body 
-   console.log(req.body)
-  // build query
-  let updateConfig = `UPDATE \`major-fantasy-golf\`.Fantasy_Config
-  SET updated_at = NOW()
-  ${currentRound ? `, rnd = ${currentRound}` : ''}
-  ${round1Lock ? `, rnd1_lck = '${formatDateTime(round1Lock)}'` : ''}
-  ${round2Lock ? `, rnd2_lck = '${formatDateTime(round2Lock)}'` : ''}
-  ${round3Lock ? `, rnd3_lck = '${formatDateTime(round3Lock)}'` : ''}
-  ${round4Lock ? `, rnd4_lck = '${formatDateTime(round4Lock)}'` : ''}
-  ${tourny_active ? `, tourny_actve = '${tourny_active}'` : ''}
-  ${round_active ? `, rnd_actve = '${round_active}'` : ''}
-  ${posted ? `, posted = ${posted}` : ''}
-  WHERE year = ${year};`
+  let {currentRound, round1Lock, round2Lock, round3Lock, round4Lock, tourny_active, round_active, posted } = req.body 
+   
+  if (tourny_active === 'P' || tourny_active === 'F') round_active = tourny_active
 
-  console.log('updateConfig', updateConfig)
- 
-  try {
-    const [response, metadata] = await mysqlPool.query(updateConfig)
-    if (response.error) res.status(500).send({msg: 'Error - Config update Failed'})
-    else {
-  res.status(201).send({msg: 'Config Updated'})
-  console.log('work')}
-  } catch (error) {
-    console.error(error)
-    res.status(500).send({msg: 'Error - Config update Failed'})
-  }
+  // build + run query
+  const response = await updateConfig(rnd, tourny_active, round_active, round1Lock, round2Lock, round3Lock, round4Lock, posted, year)
+  
+  if (response.status === 'Success') res.status(201).send({msg: 'Config Updated'})
+  else res.status(500).send({msg: 'Error - Config update Failed'})
 })
-
 
 //DELETE
 // DELETE ALL PAST EVENTS - 

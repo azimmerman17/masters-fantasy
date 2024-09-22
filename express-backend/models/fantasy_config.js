@@ -25,19 +25,19 @@ module.exports = (sequelize, DataTypes) => {
     }, 
     rnd1_lck	: {
       allowNull: true,
-      type: DataTypes.DATETIME,
+      type: DataTypes.STRING,
     },
     rnd2_lck	: {
       allowNull: true,
-      type: DataTypes.DATETIME,
+      type: DataTypes.STRING,
     },
     rnd3_lck	: {
       allowNull: true,
-      type: DataTypes.DATETIME,
+      type: DataTypes.STRING,
     },
     rnd4_lck	: {
       allowNull: true,
-      type: DataTypes.DATETIME,
+      type: DataTypes.STRING,
     }, 
     tourny_actve: {
         allowNull: false,

@@ -19,6 +19,7 @@ const TournamentLeaderboardContextProvider = ({ children }) => {
         let payload = {
           data: data
         }
+        console.log('DATA', data)
 
         try {
           await HandleDBTransaction(path, 'POST', payload)
@@ -40,7 +41,7 @@ const TournamentLeaderboardContextProvider = ({ children }) => {
 
         const { data } = leaderboardData
         if (data) {
-          sendScores(data) 
+          sendScores({leaderboard:data, pairings: pairingsData}) 
      
           setTournamentLeaderboardContext({
             leaderboard: data,
