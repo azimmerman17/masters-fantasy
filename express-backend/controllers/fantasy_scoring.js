@@ -133,8 +133,8 @@ router.post('/sendscores', async (req, res) => {
     else {
       let { rnd, tourny_actve, rnd_actve, posted, year, updated_at } = configResponse[0]
 
-      tourny_actve = 'A'
-      rnd_actve = 'A'
+      // tourny_actve = 'A'
+      // rnd_actve = 'A'
       // Get Tee Times - For Config Updates
       const teeTimes = checkTeeTimes(pairings)
 

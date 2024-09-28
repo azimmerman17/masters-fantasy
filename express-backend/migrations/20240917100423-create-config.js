@@ -16,19 +16,19 @@ module.exports = {
       }, 
       rnd1_lck	: {
         allowNull: true,
-        type: Sequelize.CHAR(16),
+        type: Sequelize.INTEGER,
       },
       rnd2_lck	: {
         allowNull: true,
-        type: Sequelize.CHAR(16),
+        type: Sequelize.INTEGER,
       },
       rnd3_lck	: {
         allowNull: true,
-        type: Sequelize.CHAR(16),
+        type: Sequelize.INTEGER,
       },
       rnd4_lck	: {
         allowNull: true,
-        type: Sequelize.CHAR(16),
+        type: Sequelize.INTEGER,
       }, 
       tourny_actve: {
           allowNull: false,
