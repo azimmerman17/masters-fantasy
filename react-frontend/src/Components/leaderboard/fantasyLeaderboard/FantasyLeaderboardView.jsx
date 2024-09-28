@@ -56,20 +56,20 @@ const FantasyLeaderboardView = ({}) => {
       let lockDate 
       switch (round) {
         case 1:
-          lockDate = new Date(round1Lock)
+          lockDate = new Date(round1Lock * 1000)
           break
         case 2:
-          lockDate = new Date(round2Lock)
+          lockDate = new Date(round2Lock * 1000)
           break
         case 3:
-          lockDate = new Date(round3Lock)
+          lockDate = new Date(round3Lock * 1000)
           break
         case 4:
-          lockDate = new Date(round4Lock)
+          lockDate = new Date(round4Lock * 1000)
           break
       }
 
-      return( <p className='m-0'><small>Lineups Lock: {FormatTime(lockDate)} ET</small></p>)
+      return( <p className='m-0'><small>Lineups Lock: {FormatTime(lockDate)}</small></p>)
     }
 
     return (

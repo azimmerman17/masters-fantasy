@@ -26,16 +26,16 @@ const LineupSelection =({ playersRoster, player, roundLineup, setRoundLineup, ro
     let lock = true
     switch (round) {
       case 1:
-        lock = new Date(round1Lock)
+        lock = new Date(round1Lock * 1000)
         break
       case 2:
-        lock = new Date(round2Lock)
+        lock = new Date(round2Lock * 1000)
         break
       case 3:
-        lock = new Date(round3Lock)
+        lock = new Date(round3Lock * 1000)
         break
       case 4:
-        lock = new Date(round4Lock)
+        lock = new Date(round4Lock * 1000)
         break
       default:
         lock = new Date()
