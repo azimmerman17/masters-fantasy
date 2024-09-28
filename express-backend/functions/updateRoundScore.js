@@ -1,5 +1,5 @@
 const { mysqlPool } = require('../models/db')
-const updateScoresFile = require('../middleware/updateScoresFile')
+// const updateScoresFile = require('../middleware/updateScoresFile')
 const filterPlayerLeaderboard = require('./filterPlayerLeaderboard')
 const calcPlayerScore = require('./calcPlayerScore')
 const calcHoleScore = require('./clacHoleScore')
@@ -7,6 +7,8 @@ const calcPlayerHoles = require('./calcPlayerHoles')
 const calcStablefordScore = require('./calcStablefordScore')
 
 async function updateRoundScore(user_id, year, round, leaderboard) {
+  const { pars, player } = leaderboard
+
   // Fetch the Lineup from public."User_Lineups"
   const getLineups = `SELECT player1,
       player2,
@@ -23,15 +25,18 @@ async function updateRoundScore(user_id, year, round, leaderboard) {
     if (response.length < 1) return 'No Lineups'
 
     // Get the player ids - translate to the correct player on leaderboard - returns the round scores
-    let player1 = filterPlayerLeaderboard(response[0]['player1'], leaderboard, round)
-    let player2 = filterPlayerLeaderboard(response[0]['player2'], leaderboard, round)
-    let player3 = filterPlayerLeaderboard(response[0]['player3'], leaderboard, round)
+    let player1 = filterPlayerLeaderboard(response[0]['player1'], player, round)
+    let player2 = filterPlayerLeaderboard(response[0]['player2'], player, round)
+    let player3 = filterPlayerLeaderboard(response[0]['player3'], player, round)
 
     // For each hole, get the lowest score - translate to vsPar - caluclated holes completed for the round
     let score = 0
     let scoreStableford = 0
     let holesCompleted = 0
-    updateScoresFile.pars.forEach((par, i) => {
+    // get pars
+    roundPars = pars[`round${round}`]
+
+    roundPars.forEach((par, i) => {
       let holeScores = []
       let holeScore = 0
       // calculate hole scores for each player

@@ -1,6 +1,8 @@
-import { Suspense, useContext } from 'react'
+import { useContext } from 'react'
 import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table'
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 
 import { FantasyLeaderboard } from '../../../Contexts/FantasyLeaderboardContext'
 import { EventConfig } from '../../../Contexts/EventConfig';
@@ -10,6 +12,8 @@ import LeaderboardTableHeader from '../LeaderboardTableHeaders';
 import FantasyLeaderboardHeaders from '../../../assets/Files/FantasyLeaderboardHeaders'
 import FantasyLeaderboardBody from './FantasyLeaderboardBody';
 import Loading from '../../Loading';
+import FormatTime from '../../../Functions/FormatTime';
+
 
 const FantasyLeaderboardView = ({}) => {
   const { fantasyTournamentConfig, setFantasyTournamentConfig }  = useContext(FantasyTournamentConfig)
@@ -29,11 +33,11 @@ const FantasyLeaderboardView = ({}) => {
   }
 
   const display = () => {
-    const { currentRound, rosterLock } = fantasyTournamentConfig
+    const { currentRound, tourny_active, round_active } = fantasyTournamentConfig
     const { leaderboard, lineups } = fantasyLeaderboard
-    console.log(fantasyLeaderboard)
+
     //validation if the leaderboard should be shown
-    if (!rosterLock) {
+    if (!tourny_active || tourny_active ==='P') {
       return (
         <p className='my-3 text-center'>
           The leaderboard is not avaible at this time please check back later.
@@ -47,9 +51,37 @@ const FantasyLeaderboardView = ({}) => {
       return <FantasyLeaderboardBody player={player} round={currentRound} lineup={lineup} key={`leaderboard-${user_name}-row`}/>
     })
 
+    const displayLock = (round) => {
+      const  {round1Lock, round2Lock, round3Lock, round4Lock} = fantasyTournamentConfig
+      let lockDate 
+      switch (round) {
+        case 1:
+          lockDate = new Date(round1Lock * 1000)
+          break
+        case 2:
+          lockDate = new Date(round2Lock * 1000)
+          break
+        case 3:
+          lockDate = new Date(round3Lock * 1000)
+          break
+        case 4:
+          lockDate = new Date(round4Lock * 1000)
+          break
+      }
+
+      return( <p className='m-0'><small>Lineups Lock: {FormatTime(lockDate)}</small></p>)
+    }
+
     return (
       <>
-        <h6 className='px-1 mx-1 mt-2'>Round {currentRound}</h6>
+        <Row className='px-1 mx-1 mt-2'>
+          <Col xs={4}>
+            <h6>Round {currentRound}</h6>
+          </Col>
+          <Col xs={8} className='text-end'>
+            <h6>{round_active === 'P' ? displayLock(currentRound) : 'Lineups Locked'}</h6>
+          </Col>
+        </Row>
         <Table
           className='mx-0 mb-0 my-auto'
           size='sm'
@@ -61,6 +93,9 @@ const FantasyLeaderboardView = ({}) => {
           </thead>
               {playerList}
         </Table>
+        <p className='mt-3 text-center'>
+          All times displayed in Eastern Time
+        </p>
         <p className='mt-3 text-center'>
           <small>
             Only players with a full roster will appear on the leaderboard - Rosters lock at the start of the Master's Tournament

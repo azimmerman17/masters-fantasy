@@ -1,10 +1,12 @@
 const router = require('express').Router()
 require('dotenv').config()
 
+const checkTeeTimes = require('../functions/checkTeeTimes')
 const organizeLineups = require('../functions/organizeLineups')
 const updateSeqNum = require('../functions/updateSeqNum')
 const updateScores = require('../middleware/updateScores')
-const updateScoresFile = require('../middleware/updateScoresFile')
+const updateConfig = require('../functions/updateConfig')
+// const updateScoresFile = require('../middleware/updateScoresFile')
 const { mysqlPool, pgPool } = require('../models/db')
 
 //  Derive the date
@@ -116,69 +118,160 @@ router.get('/:id', async (req, res) => {
 // receive scores from Masters and Frontend
 router.post('/sendscores', async (req, res) => {
   const { data } = req.body
+  
   try {
+    const { leaderboard, pairings} = data
+    const { player } = leaderboard
 
-    const { currentRound, statusRound, player, pars, wallClockTime } = data
-    const { round1, round2, round3, round4 } = pars
-    
-    // get 10 and 60 minutes proir to now - interval for updating the leaderboard
-    let time = new Date()
-    let timeMinus10 = time.setMinutes(time.getMinutes() - 10)
-    let timeMinus60 = time.setMinutes(time.getMinutes() - 60)
+    // Get the Fantasy_Config Data
+    const ConfigQuery = `SELECT A.* FROM \`major-fantasy-golf\`.Fantasy_Config A
+      WHERE year = (SELECT MAX(A1.year) FROM  \`major-fantasy-golf\`.Fantasy_Config A1
+        WHERE A.year = A1.year);`
 
-    let round 
-    // check for active round
-    for (let i = 0; i < currentRound.length; i++) {
-      if (currentRound[i] === '1') {
-        updateScoresFile.round = i + 1
-        round = i + 1
-        break
+    const [configResponse, metadata] = await mysqlPool.query(ConfigQuery)
+    if (configResponse.error) res.status(500).send({response})
+    else {
+      let { rnd, tourny_actve, rnd_actve, posted, year, updated_at } = configResponse[0]
+
+      // tourny_actve = 'A'
+      // rnd_actve = 'A'
+      // Get Tee Times - For Config Updates
+      const teeTimes = checkTeeTimes(pairings)
+
+      // if tourny_active = 'P' - check config upate, first, update scores, if tourny_active updates to 'A'
+      if (tourny_actve === 'P') {
+        // check to see if round should change to 1 -  If there are R1 Tee Times, change round to 1
+        if (rnd === 0 && teeTimes[0]) rnd = 1
+        
+        // check if rnd and tourney need to be activated - R1 Tee Time <= Current Time
+        if (new Date(teeTimes[0] *1000) <= new Date()) {
+          tourny_actve = 'A'
+          rnd_actve = 'A'
+        }
+        // send update to config - if no update in past 5 mins
+        if (new Date(updated_at + 5 *60 *1000) < new Date()) {
+          await updateConfig(rnd, tourny_actve, rnd_actve, teeTimes[0], teeTimes[1],teeTimes[2], teeTimes[3], posted, year)
+          }
+  
+        // if rnd_actve = 'A' - update scores
+        if (rnd_actve = 'A') {
+          await updateScores(req.body, configResponse[0])
+          console.log('Scores Updated')
+          await updateSeqNum(year)
+          console.log('SeqNum updated')
+          res.status(200).send('Scores Updated')
+      
+
+        }
+        else res.status(202).send('Tournament not active - No scores to update')
+      } 
+      // if tourny_active = 'A' - check rnd_active, update scores if needed
+      else if (tourny_actve === 'A') {
+        console.log('Update Scores + Check config for updates')
+        // if rnd_actve = 'P' - check config upate, first, update scores, if rnd_actve updates to 'A'
+        if (rnd_actve === 'P') {        
+          // check if rnd activated - Round Tee Time <= Current Time
+          if (new Date(teeTimes[rnd - 1] *1000) <= new Date()) {
+            rnd_actve = 'A'
+          }
+          
+        // send update to config - if no update in past 5 mins
+        if (new Date(updated_at + 5 *60 *1000) < new Date()) {
+          await updateConfig(rnd, tourny_actve, rnd_actve, teeTimes[0], teeTimes[1],teeTimes[2], teeTimes[3], posted, year)
+        }
+
+          // if rnd_actve = 'A' - update scores
+          if (rnd_actve = 'A') {
+            await updateScores(req.body, configResponse[0])
+            console.log('Scores Updated')
+            await updateSeqNum(year)
+            console.log('SeqNum updated')
+            res.status(200).send('Scores Updated')
+          }
+          else res.status(202).send('Tournament not active - No scores to update')
+        // if rnd_actve = 'A' - check config upate, and update scores, if round complete set rnd_active to 'F'
+        } else if (rnd_actve === 'A') {        
+          // check if round complete - set rnd_active and tourny_actve to 'F' if needed 
+          let roundComplete = true
+          player.forEach(golfer => {
+            if (golfer.newStatus !== 'C' || golfer.newStatus !== 'W') {
+              if (golfer[`round${rnd}`].roundStatus !== 'Finished') !roundComplete 
+            }
+          })
+          if (roundComplete) rnd_actve = 'F'
+          if (rnd === 4)  tourny_actve = 'F'
+          
+          // if tournament concludes -- post results -- NOT BUILT
+          if (tourny_actve === 'F') console.log('POST RESULTS -- NOT BULIT')
+          
+          // send update to config - if no update in past 5 mins
+          if (new Date(updated_at + 5 *60 *1000) < new Date()) {
+            await updateConfig(rnd, tourny_actve, rnd_actve, teeTimes[0], teeTimes[1],teeTimes[2], teeTimes[3], posted, year)
+          }
+
+          // update scores
+          await updateScores(req.body, configResponse[0])
+          console.log('Scores Updated')
+          await updateSeqNum(year)
+          console.log('SeqNum updated')
+          res.status(200).send('Scores Updated')
+        // if rnd_actve = 'F' - check config upate - change to next round if nessicary
+        } else {
+          // rnd 4 completed - Means event has been complete - Check if results are posted - Should be completed already
+          if (rnd === 4) {
+            tourny_actve === 'F'
+            if (!posted)console.log('POST RESULTS -- NOT BULIT')
+          } else {
+            // Check if next round is within the next 6 hours - Change to next round if true
+            let startTime = teeTimes[rnd]
+            if (new Date((startTime - (6 * 60 * 60)) * 1000) <= new Date()) {
+              // Change to the next round 
+              rnd +=1
+              rnd_actve = 'P'
+            }
+          }
+
+        // send update to config - if no update in past 5 mins
+        if (new Date(updated_at + 5 *60 *1000) < new Date()) {
+          await updateConfig(rnd, tourny_actve, rnd_actve, teeTimes[0], teeTimes[1],teeTimes[2], teeTimes[3], posted, year)
+        }          
+        res.status(202).send('Round not active - No scores to update')
+        }
+      // Tournament Complete - Check if scores are posted
+      } else {
+        console.log('Tournament Complete - Check Posted ')
+        if (!posted) {
+          console.log('Post scores to user - COMPLETE LATER')
+        } else { // Tournment = 'F' Posted = true
+          console.log('Tournment complete! See you next year!')
+        }
+
+        res.status(202).send('Tournment complete! See you next year!')
       }
-    }
-
-    // Do not uudate if Tournament is inative
-    if (((statusRound[round - 1] === 'X' || statusRound[round - 1] === 'F') && new Date(wallClockTime) < timeMinus60 )  || statusRound[0] === 'N' ) {
-      console.log('Tournament not active - No update')
-      res.status(202).send('Tournament not active')
-    }
-    else if (timeMinus10 < updateScoresFile.lastUpdate) {
-      console.log('<10 minutes since last update')
-      res.status(202).send('<10 minutes since last update')
-    } else {
-
-
-      // update the player and par list file
-      updateScoresFile.scores = player
-      if (round === 1) updateScoresFile.pars = round1
-      else if (round === 2) updateScoresFile.pars = round2
-      else if (round === 3) updateScoresFile.pars = round3
-      else if (round === 4) updateScoresFile.pars = round4
-
-      updateScoresFile.process_active = 1
-      console.log('update scores')
-      // res.status(202).send('No data sent')
-      res.redirect(307, '/scoring/updatescores') 
     }
   } catch (error) {
       console.error(error)
-      res.status(202).send('No data sent')
+      res.status(500).send('Error')
   }
 })
 
-router.post('/updatescores', async (req, res) => {
-  try {
-    await updateScores()
-    console.log('Scores Updated')
-    updateScoresFile.lastUpdate = new Date()
-    await updateSeqNum()
-    console.log('SeqNum updated')
-    res.status(200).send('Done')
-  } catch (error) {
-    console.error(error)
-    res.status(500).send('Error')
-  }
+// NO LONGER USED - COBINED WITH /sendscores
+// router.post('/updatescores', async (req, res) => {
 
-})
+//   console.log('init', new Date())
+//   try {
+//     await updateScores(req.body)
+//     console.log('Scores Updated')
+//     updateScoresFile.lastUpdate = new Date()
+//     await updateSeqNum()
+//     console.log('SeqNum updated')
+//     res.status(200).send('Done')
+//   } catch (error) {
+//     console.error(error)
+//     res.status(500).send('Error')
+//   }
+
+// })
 
 
 // create new scoring record
@@ -272,4 +365,4 @@ router.put('/:id/:round', async (req, res) => {
 
 
 
-module.exports = router
+module.exports = router 

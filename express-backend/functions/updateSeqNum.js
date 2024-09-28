@@ -1,9 +1,6 @@
 const { mysqlPool } = require('../models/db')
 
-//  Derive the date
-const year = (new Date().getFullYear())
-
-const updateSeqNum = async () => {
+const updateSeqNum = async (year) => {
   // get the scores
   const fetchQuery = `SELECT A.user_name,
       B.holes_completed,
@@ -36,10 +33,8 @@ const updateSeqNum = async () => {
     const [response, metadata] = await mysqlPool.query(fetchQuery)
     
     if (response.error) {
-      updateScoresFile.process_active = 0
       return response.error
     } else if (response.length < 1) {
-      updateScoresFile.process_active = 0
       console.log('no players - quit')
       return 'no players - quit'
     } else {

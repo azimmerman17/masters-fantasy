@@ -100,7 +100,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     seq_num: {
       allowNull: true,
-      type: DataTypes. HAR,
+      type: DataTypes.CHAR,
     },
     created_at: {
       type: DataTypes.TIMESTAMP,
