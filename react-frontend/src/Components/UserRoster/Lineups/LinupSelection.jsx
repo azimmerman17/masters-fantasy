@@ -4,53 +4,115 @@ import Col from 'react-bootstrap/Col'
 import Image from 'react-bootstrap/Image'
 import Alert from 'react-bootstrap/esm/Alert';
 
-
-import { EventConfig } from '../../../Contexts/EventConfig'
 import { FantasyTournamentConfig } from '../../../Contexts/FantasyTournamentConfig'
+
 import SelectionDropdown from './SelectionDropDown'
+import ScoreColor from '../../../Functions/ScoreColor';
+import FormatTime from '../../../Functions/FormatTime';
 
 
-const LineupSelection =({ playersRoster, player, roundLineup, setRoundLineup, round, lineupSpot }) => {
-  const { eventConfig, setEventConfig } = useContext(EventConfig)
+
+const LineupSelection =({ playerRoster, id, roundLineup, setRoundLineup, round, spot }) => {
   const {fantasyTournamentConfig, setFantasyTournamentConfig} = useContext(FantasyTournamentConfig)
-
   let [showLock, setShowLock] = useState(false) 
   
-  if (eventConfig && fantasyTournamentConfig) {
+  const getStats = (teeTime, score, thru, prev, round, curRound) => {
+    if (score > 0) score = `+${score}`
+    if (score == 0) score = 'E'
 
-    const { round1Lock, round2Lock, round3Lock, round4Lock, currentRound, round_active } = fantasyTournamentConfig 
-    const { dataSettings } = eventConfig
-    const { tournamentYear } = dataSettings
-    let picture = `https://images.masters.com/players/${tournamentYear}/240x240/${player}.jpg`
+    if (round > curRound || round == curRound &&  new Date() <= new Date(teeTime * 1000)) {
+      return (
+        <Row>
+          <Col>
+            <h6 className={`m-0 text-center ${ScoreColor(prev)}`}>{round !== 1 ? prev : ''}</h6>
+            <p className='m-0 text-center label-small'>{round !== 1 ? 'Last' : ''}</p>
+          </Col>
+          <Col>
+            <h6 className='m-0 text-center'>{FormatTime(new Date(teeTime *1000))}</h6>
+            <p className='m-0 text-center label-small'>Tee Time</p>
+          </Col>
+        </Row>
+      )
+    } else {
+      return (
+        <Row>
+          <Col>
+            <h6 className={`m-0 text-center ${ScoreColor(score)}`}>{score}</h6>
+            <p className='m-0 text-center label-small'>Today</p>
+          </Col>
+          <Col>
+            <h6 className='m-0 text-center'>{thru}</h6>
+            <p className='m-0 text-center label-small'>Thru</p>
+          </Col>
+        </Row>
+      )
+    }
+  }
 
+  if ( fantasyTournamentConfig) {
+    const { year, round1Lock, round2Lock, round3Lock, round4Lock, currentRound, round_active } = fantasyTournamentConfig 
+    console.log(fantasyTournamentConfig)
+    
+    let selectedPlayer =  playerRoster.filter(rosterPlayer => rosterPlayer.player.id == id)[0]
+    const { stats, player } = selectedPlayer
+    const { status, rnd1, rnd1_sf, rnd1_tt, rnd2, rnd2_tt, rnd3, rnd3_tt, rnd4, rnd4_tt, thru } = stats
+    const { Amateur, first_name, last_name} = player
+
+    console.log(stats)
+
+    let picture = `https://images.masters.com/players/${year}/240x240/${id}.jpg`
     let lock = true
+    let teeTime 
+    let score  
+    let holesThru = null
+    let prevTotal = null
+
     switch (round) {
       case 1:
         lock = new Date(round1Lock * 1000)
+        teeTime = rnd1_tt
+        score = rnd1
+        if (round < currentRound) holesThru = 'F'
+        else if (round == currentRound) holesThru = thru
         break
       case 2:
         lock = new Date(round2Lock * 1000)
+        teeTime = rnd2_tt
+        score = rnd2
+        if (round < currentRound) holesThru = 'F'
+        else if (round == currentRound) holesThru = thru
+        prevTotal = rnd1
         break
       case 3:
         lock = new Date(round3Lock * 1000)
+        teeTime = rnd3_tt
+        score = rnd3
+        if (round < currentRound) holesThru = 'F'
+        else if (round == currentRound) holesThru = thru
+        prevTotal = rnd3
         break
       case 4:
         lock = new Date(round4Lock * 1000)
+        teeTime = rnd4_tt
+        score = rnd4
+        if (round < currentRound) holesThru = 'F'
+        else if (round == currentRound) holesThru = thru
+        prevTotal = rnd3
         break
       default:
         lock = new Date()
     }
 
-    let selectedPlayer =  playersRoster.filter(rosterPlayer => rosterPlayer.id == player)[0]
-    const { Amateur, first_name, last_name, amateur, newStatus} = selectedPlayer
-
     return (
-      <Row className={`border rounded my-1 py-1${round > 2 && (newStatus === 'C' || newStatus === 'W' ) ? ' border-danger' : ''}`}>
+      <Row className={`border rounded my-1 py-1${round > 2 && (status === 'C' || status === 'W' ) ? ' border-danger' : ''}`}>
         <Col xs={3}>
           {player ? <Image src={picture} className=' mx-auto border rounded-circle lineup-img' /> : null}
         </Col>
         <Col xs={9} md={6} className='my-auto'>
-          {new Date() > lock || currentRound > round  || (currentRound === round && round_active !== 'P' ) ? <h6 className='fs-5'>{first_name} {last_name}{amateur || Amateur ? ' (A)' : '' }</h6> : <SelectionDropdown playersRoster={playersRoster} setRoundLineup={setRoundLineup} selectedPlayer={selectedPlayer} roundLineup={roundLineup} round={round} lineupSpot={lineupSpot} lock={lock} setShowLock={setShowLock} />}
+          <Row>
+            {new Date() < lock || currentRound > round  || (currentRound === round && round_active !== 'P' ) ? <h6 className='fs-5 text-center'>{first_name} {last_name}{Amateur ? ' (A)' : '' }</h6> : <SelectionDropdown playerRoster={playerRoster} setRoundLineup={setRoundLineup} selectedPlayer={selectedPlayer} roundLineup={roundLineup} round={round} spot={spot} lock={lock} setShowLock={setShowLock} />}
+          </Row>
+            {getStats(teeTime,score, holesThru, prevTotal, round, currentRound)}
         </Col >
       <Alert key='danger' variant='danger' dismissible onClose={() => setShowLock(false)} show={showLock}>
       Change unsuccessful - Round Locked

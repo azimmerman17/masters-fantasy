@@ -27,7 +27,8 @@ router.get('/current', async (req,res) => {
   
   try {
     const [response, metadata] = await mysqlPool.query(getConfig)
-    if (response.error) res.status(500).send({response})
+
+    if (response.error ) res.status(500).send({response})
     else res.status(200).send(response)
   } catch (error) {
     res.status(500).send(error)

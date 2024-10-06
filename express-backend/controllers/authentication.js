@@ -157,10 +157,32 @@ router.get('/profile', async (req, res) => {
         AND user_id = ${req.currentUser}
       ORDER BY A.round;`
 
-        // WHERE year = ${(new Date()).getFullYear()} CHANGE FOR PROD
+    const getGolfers = `SELECT A.golfer_id,
+      A.year,
+      A.status,
+      A.thru,
+      A.pos,
+      A.rnd1,
+      A.rnd1_sf,
+      A.rnd1_tt,
+      A.rnd2,
+      A.rnd2_sf,
+      A.rnd2_tt,
+      A.rnd3,
+      A.rnd3_sf,
+      A.rnd3_tt,
+      A.rnd4,
+      A.rnd4_sf,
+      A.rnd4_tt
+    FROM \`major-fantasy-golf\`.Golfers A
+    WHERE year = ${year};`
+
     try {
       let [userRes, userMetadata] = await mysqlPool.query(userExistQuery)
       let [linupRes, lineupMetadata] = await mysqlPool.query(userlineupQuery)
+      let [golfersRes, golfersetadata] = await mysqlPool.query(getGolfers)
+
+
       // User exists - data to be attached to the user
 
       let lineups = []
@@ -240,7 +262,8 @@ router.get('/profile', async (req, res) => {
               stableford: userRes[0]["round4_sf"]
             }
           ]
-        }
+        },
+        golfers: golfersRes
       }
 
       res.status(200).send(user)

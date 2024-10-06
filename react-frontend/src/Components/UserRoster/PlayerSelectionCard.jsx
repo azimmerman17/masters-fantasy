@@ -32,16 +32,16 @@ const PlayerSelectionCard = ({ player, picture, disable, tournamentYear, column,
     // if a roster record does not exist 
     if (!year) {
       // create record in DB
-      let path = BASE_URL + 'roster/new'
-      let payload = {
+      path = BASE_URL + 'roster/new'
+      payload = {
         year:  tournamentYear,
         [column]: id,
         user_id: user_id,
       }
       method = 'POST'
     } else { // Record already exists - UPDATE
-      let path = BASE_URL + 'roster/' + user_id
-      let payload = {
+      path = BASE_URL + 'roster/' + user_id
+      payload = {
         year:  tournamentYear,
         [column]: id,
         old_id: userRoster[column]

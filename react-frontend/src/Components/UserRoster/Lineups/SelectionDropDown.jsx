@@ -5,16 +5,18 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import { CurrentUser } from '../../../Contexts/CurrentUserContext';
 import HandleDBTransaction from '../../../Functions/HandleDBTransaction';
 
-const SelectionDropdown = ({ playersRoster, setRoundLineup, selectedPlayer, roundLineup, round, lineupSpot, lock, setShowLock }) => {
+const SelectionDropdown = ({ playerRoster, setRoundLineup, selectedPlayer, roundLineup, round, spot, lock, setShowLock }) => {
   const BASE_URL = import.meta.env.VITE_BASE_URL
   const {currentUser, setCurrentUser} = useContext(CurrentUser)
-  const {  Amateur, first_name, last_name, amateur  } = selectedPlayer
+  const { player } = selectedPlayer
+  const { Amateur, first_name, last_name } = player
 
   if (currentUser) {
-    const dropdownItems = playersRoster.map(player => {
-      const { Amateur, first_name, last_name, amateur, id , status } = player
-      const { user_id, roster } = currentUser
-      const { year } = roster
+    const dropdownItems = playerRoster.map(golfer => {
+      const { player, stats } = golfer
+      const { golfer_id , status } = stats 
+      const { Amateur, first_name, last_name } = player
+      const { user_id } = currentUser
 
       const handleClick = async (e, id) => {
         if (new Date() > lock) setShowLock(true)
@@ -46,11 +48,12 @@ const SelectionDropdown = ({ playersRoster, setRoundLineup, selectedPlayer, roun
   
       return (
         <Dropdown.Item
-          key={`lineup-round-${round}-spot-${lineupSpot}-${id}`}
-          onClick={e => handleClick(e, id)}  // function to update db
-          disabled={roundLineup.includes(Number(id)) || status === 'C' || status === 'W' }
+          key={`lineup-round-${round}-spot-${spot}-${golfer_id}`}
+          onClick={e => handleClick(e, golfer_id)}  // function to update db
+          disabled={roundLineup.includes(Number(golfer_id)) || status === 'C' || status === 'W' }
+          className={status === 'C' || status === 'W' ? 'text-decoration-line-through' : ''}
         >
-          {first_name} {last_name}{Amateur || amateur ? ' (A)' : '' }
+          {first_name} {last_name}{Amateur ? ' (A)' : '' }
         </Dropdown.Item>
 
       )
@@ -58,8 +61,8 @@ const SelectionDropdown = ({ playersRoster, setRoundLineup, selectedPlayer, roun
 
     return (
       <DropdownButton 
-        id={`lineup-round-${round}-spot-${lineupSpot}`}
-        title={`${first_name} ${last_name}${Amateur || amateur ? ' (A)' : '' }`}
+        id={`lineup-round-${round}-spot-${spot}`}
+        title={`${first_name} ${last_name}${Amateur ? ' (A)' : '' }`}
         variant='white'
         size='lg'
       >

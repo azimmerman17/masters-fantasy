@@ -14,8 +14,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Golfers.init({
-    id: DataTypes.INTEGER
-  }, {
+    golfer_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    }, 
     year: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -29,6 +31,9 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.STRING,
       defaultValue: '0'
+    },      
+    pos: {
+      type: DataTypes.STRING,
     },
     rnd1: {
       allowNull: true,
