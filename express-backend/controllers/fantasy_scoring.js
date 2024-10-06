@@ -6,9 +6,9 @@ const organizeLineups = require('../functions/organizeLineups')
 const updateSeqNum = require('../functions/updateSeqNum')
 const updateScores = require('../middleware/updateScores')
 const updateConfig = require('../functions/updateConfig')
+const updateGolfer  = require('../functions/updategolfers')
 // const updateScoresFile = require('../middleware/updateScoresFile')
 const { mysqlPool, pgPool } = require('../models/db')
-const { default: updateGolfer } = require('../functions/updategolfers')
 
 //  Derive the date
 const year = (new Date().getFullYear())
@@ -134,7 +134,7 @@ router.post('/sendscores', async (req, res) => {
     else {
       let { rnd, tourny_actve, rnd_actve, posted, year, updated_at } = configResponse[0]
 
-      // tourny_actve = 'A'
+      //  tourny_actve = 'P'
       // rnd_actve = 'A'
       // Get Tee Times - For Config Updates
       const teeTimes = checkTeeTimes(pairings)
@@ -149,19 +149,22 @@ router.post('/sendscores', async (req, res) => {
           tourny_actve = 'A'
           rnd_actve = 'A'
         }
-        // send update to config - if no update in past 5 mins
+        // send update to config and player data - if no update in past 5 mins
         if (new Date(updated_at + 5 *60 *1000) < new Date()) {
           await updateConfig(rnd, tourny_actve, rnd_actve, teeTimes[0], teeTimes[1],teeTimes[2], teeTimes[3], posted, year)
+          await updateGolfer(leaderboard, year, rnd)
           }
   
         // if rnd_actve = 'A' - update scores
         if (rnd_actve = 'A') {
+          //update scores
           await updateScores(req.body, configResponse[0])
           console.log('Scores Updated')
+          //update leaderboard sequence #
           await updateSeqNum(year)
           console.log('SeqNum updated')
- // update golfer data
-          await updateGolfer(player)
+          // update golfer data
+          await updateGolfer(leaderboard, year, rnd)
           res.status(200).send('Scores Updated')
       
 
@@ -181,15 +184,20 @@ router.post('/sendscores', async (req, res) => {
         // send update to config - if no update in past 5 mins
         if (new Date(updated_at + 5 *60 *1000) < new Date()) {
           await updateConfig(rnd, tourny_actve, rnd_actve, teeTimes[0], teeTimes[1],teeTimes[2], teeTimes[3], posted, year)
+          await updateGolfer(leaderboard, year, rnd)
         }
 
           // if rnd_actve = 'A' - update scores
           if (rnd_actve = 'A') {
+            //update scores
             await updateScores(req.body, configResponse[0])
             console.log('Scores Updated')
+            //update leaderboard sequence #
             await updateSeqNum(year)
             console.log('SeqNum updated')
- // update golfer data
+            // update golfer data
+            await updateGolfer(leaderboard, year, rnd)
+
             res.status(200).send('Scores Updated')
           }
           else res.status(202).send('Tournament not active - No scores to update')
@@ -211,14 +219,18 @@ router.post('/sendscores', async (req, res) => {
           // send update to config - if no update in past 5 mins
           if (new Date(updated_at + 5 *60 *1000) < new Date()) {
             await updateConfig(rnd, tourny_actve, rnd_actve, teeTimes[0], teeTimes[1],teeTimes[2], teeTimes[3], posted, year)
+          await updateGolfer(leaderboard, year, rnd)
           }
 
-          // update scores
+          //update scores
           await updateScores(req.body, configResponse[0])
           console.log('Scores Updated')
+          //update leaderboard sequence #
           await updateSeqNum(year)
           console.log('SeqNum updated')
-   // update golfer data
+          // update golfer data
+          await updateGolfer(leaderboard, year, rnd)
+
           res.status(200).send('Scores Updated')
         // if rnd_actve = 'F' - check config upate - change to next round if nessicary
         } else {
@@ -239,6 +251,7 @@ router.post('/sendscores', async (req, res) => {
         // send update to config - if no update in past 5 mins
         if (new Date(updated_at + 5 *60 *1000) < new Date()) {
           await updateConfig(rnd, tourny_actve, rnd_actve, teeTimes[0], teeTimes[1],teeTimes[2], teeTimes[3], posted, year)
+          await updateGolfer(leaderboard, year, rnd)
         }          
         res.status(202).send('Round not active - No scores to update')
         }

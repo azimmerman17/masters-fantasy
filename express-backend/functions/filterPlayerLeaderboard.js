@@ -9,7 +9,7 @@ const filterPlayerLeaderboard = (player_id, leaderboard, round) => {
     return {
       score: round1.scores,
       total: round1.total,
-      roundStatus:round1.total,
+      roundStatus:round1.roundStatus,
       newStatus
     }
   }
