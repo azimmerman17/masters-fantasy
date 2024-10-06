@@ -3,57 +3,63 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-import { TournamentLeaderboardContext } from '../../../Contexts/TournamentLeaderboard';
 import { PlayersContext } from '../../../Contexts/PlayersContext'
 import LineupSelection from './LinupSelection';
 
 
-const LineupTab = ({ lineup, roster, round }) => {
+const LineupTab = ({ lineup, roster, round, golfers }) => {
   const { player1, player2, player3 } = lineup
   let [roundLineup, setRoundLineup] = useState([player1, player2, player3])
-  const {tournamentLeaderboardContext, setTournamentLeaderboardContext} = useContext(TournamentLeaderboardContext)
   const {playersContext, setPlayersContext} = useContext(PlayersContext)
 
 
   const { past_champ, usa, intl, wild_card1, wild_card2, wild_card3 } = roster
-  let playerList
-  if (tournamentLeaderboardContext.leaderboard || playersContext) {
+  if ( playersContext) {
+    const { players } = playersContext
 
-    if (tournamentLeaderboardContext.leaderboard) {
-      const { leaderboard } = tournamentLeaderboardContext
-      const { player } = leaderboard
-      playerList = player
-    } else if (playersContext) {
-      const { players } = playersContext
-      playerList = players
-    }
+    let playerRoster = [
+      {
+        player: players.filter(player => player.id == String(past_champ))[0],
+        stats: golfers.filter(golfer => golfer.golfer_id == String(past_champ))[0],
+      }, { 
+        player: players.filter(player => player.id == String(usa))[0],
+        stats: golfers.filter(golfer => golfer.golfer_id == String(usa))[0],
 
-    let playersRoster = [
-      playerList.filter(rosterPlayer => rosterPlayer.id == String(past_champ))[0],
-      playerList.filter(rosterPlayer => rosterPlayer.id == String(usa))[0],
-      playerList.filter(rosterPlayer => rosterPlayer.id == String(intl))[0],
-      playerList.filter(rosterPlayer => rosterPlayer.id == String(wild_card1))[0],
-      playerList.filter(rosterPlayer => rosterPlayer.id == String(wild_card2))[0],
-      playerList.filter(rosterPlayer => rosterPlayer.id == String(wild_card3))[0]
+      }, {
+        player: players.filter(player => player.id == String(intl))[0],
+        stats: golfers.filter(golfer => golfer.golfer_id == String(intl))[0],
+
+      }, {
+        player: players.filter(player => player.id == String(wild_card1))[0],
+        stats: golfers.filter(golfer => golfer.golfer_id == String(wild_card1))[0],
+
+      }, {
+        player: players.filter(player => player.id == String(wild_card2))[0],
+        stats: golfers.filter(golfer => golfer.golfer_id == String(wild_card2))[0],
+
+      }, {
+        player: players.filter(player => player.id == String(wild_card3))[0],
+        stats: golfers.filter(golfer => golfer.golfer_id == String(wild_card3))[0],
+      }
     ]
 
-    const lineupSpot = roundLineup.map((playerId, i) => {
-      let lineupSpot 
+    const lineupSpot = roundLineup.map((id, i) => {
+
+      let spot 
       switch (i) {
         case 0:
-          lineupSpot = 'player1'
+          spot = 'player1'
           break
         case 1:
-          lineupSpot = 'player2'
+          spot = 'player2'
           break
         case 2:
-          lineupSpot = 'player3'
+          spot = 'player3'
           break
-
       }
       
       return (
-        <LineupSelection playersRoster={playersRoster} player={playerId} roundLineup={roundLineup} setRoundLineup={setRoundLineup} round={round} lineupSpot={lineupSpot} key={`Lineup-selection-${playerId}-${lineupSpot}`}/>
+        <LineupSelection playerRoster={playerRoster} id={id} roundLineup={roundLineup} setRoundLineup={setRoundLineup} round={round} spot={spot} key={`Lineup-selection-${round}-${spot}`}/>
       )
     })
 

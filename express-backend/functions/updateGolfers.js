@@ -21,7 +21,7 @@ const updateGolfer = async (leaderboard, year, round) => {
       } else {
 
         // Build Update query
-        let updateGolfersQuery = `INSERT INTO \`major-fantasy-golf\`.Golfers (golfer_id, year, status, thru, rnd1, rnd1_sf, rnd1_tt, rnd2, rnd2_sf, rnd2_tt, rnd3, rnd3_sf, rnd3_tt, rnd4, rnd4_sf, rnd4_tt, updated_at)
+        let updateGolfersQuery = `INSERT INTO \`major-fantasy-golf\`.Golfers (golfer_id, year, status, thru, pos, rnd1, rnd1_sf, rnd1_tt, rnd2, rnd2_sf, rnd2_tt, rnd3, rnd3_sf, rnd3_tt, rnd4, rnd4_sf, rnd4_tt, updated_at)
         VALUES`
 
         // Loop through list and build update query for the table
@@ -29,7 +29,8 @@ const updateGolfer = async (leaderboard, year, round) => {
           const { golfer_id } = golfer
           let { rnd1, rnd1_sf, rnd1_tt, rnd2, rnd2_sf, rnd2_tt, rnd3, rnd3_sf, rnd3_tt, rnd4, rnd4_sf, rnd4_tt } = golfer
           const golfer_data = player.filter(player => player.id === String(golfer_id))[0]
-          const { newStatus, thru, epoch } = golfer_data
+          
+          const { newStatus, thru, epoch, pos } = golfer_data
 
           // set the current round for golfer
           const currRound = golfer_data[`round${round}`]
@@ -77,7 +78,7 @@ const updateGolfer = async (leaderboard, year, round) => {
             }
           }
 
-          updateGolfersQuery = `${updateGolfersQuery} ${i === 0 ? '' : '\n,'} (${golfer_id}, ${year}, '${status}', '${thru}', ${rnd1}, ${rnd1_sf}, ${rnd1_tt}, ${rnd2}, ${rnd2_sf}, ${rnd2_tt}, ${rnd3}, ${rnd3_sf}, ${rnd3_tt}, ${rnd4}, ${rnd4_sf}, ${rnd4_tt},  NOW())`  
+          updateGolfersQuery = `${updateGolfersQuery} ${i === 0 ? '' : '\n,'} (${golfer_id}, ${year}, '${status}', '${thru}', '${pos}', ${rnd1}, ${rnd1_sf}, ${rnd1_tt}, ${rnd2}, ${rnd2_sf}, ${rnd2_tt}, ${rnd3}, ${rnd3_sf}, ${rnd3_tt}, ${rnd4}, ${rnd4_sf}, ${rnd4_tt},  NOW())`  
         })
 
         updateGolfersQuery = `${updateGolfersQuery} 
@@ -85,6 +86,7 @@ const updateGolfer = async (leaderboard, year, round) => {
           year=VALUES(year),
           status=VALUES(status),
           thru=VALUES(thru),
+          pos=VALUES(pos),
           rnd1=VALUES(rnd1),
           rnd1_sf=VALUES(rnd1_sf),
           rnd1_tt=VALUES(rnd1_tt),

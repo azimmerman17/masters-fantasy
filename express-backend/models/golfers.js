@@ -31,6 +31,9 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.STRING,
       defaultValue: '0'
+    },      
+    pos: {
+      type: DataTypes.STRING,
     },
     rnd1: {
       allowNull: true,

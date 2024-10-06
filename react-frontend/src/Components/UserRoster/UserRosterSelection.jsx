@@ -9,7 +9,7 @@ import { UserRoster } from '../../Contexts/UserRosterContext'
 import FantasyRosterSpots from '../../assets/Files/FantasyRosterSpots'
 import RosterSpot from './RosterSpot';
 
-const UserRosterSelection = ({ locked, lineups, round }) => {
+const UserRosterSelection = ({ locked, lineups, round, golfers }) => {
   const {playersContext, setPlayersContext} = useContext(PlayersContext)
   const {tournamentLeaderboardContext, setTournamentLeaderboardContext} = useContext(TournamentLeaderboardContext)
   const {userRoster, setUserRoster}= useContext(UserRoster)
@@ -19,12 +19,13 @@ const UserRosterSelection = ({ locked, lineups, round }) => {
     const { past_champ, usa, intl, wild_card1, wild_card2, wild_card3 } = roster
 
     let playerList
-    if (tournamentLeaderboardContext.leaderboard) {
-      const { leaderboard } = tournamentLeaderboardContext
-      const { player } = leaderboard
+    // if (tournamentLeaderboardContext.leaderboard) {
+    //   const { leaderboard } = tournamentLeaderboardContext
+    //   const { player } = leaderboard
       
-      playerList = player
-    } else if (playersContext) {
+    //   playerList = player
+    // } else 
+    if (playersContext) {
       const { players } = playersContext
       playerList = players
     }
@@ -35,7 +36,11 @@ const UserRosterSelection = ({ locked, lineups, round }) => {
       let cardName
 
       const showGolfer = (key, card) => {
-        golfer = playerList.filter(invitee => invitee.id == roster[key])[0]
+        golfer = {
+          player: playerList.filter(invitee => invitee.id == roster[key])[0],
+          stats: golfers.filter(golfer => golfer.golfer_id ==roster[key])[0]
+        }
+        
         cardName = card
       }
 
@@ -73,7 +78,7 @@ const UserRosterSelection = ({ locked, lineups, round }) => {
 
       return (
         <Col key={`roster-spot-${spot}-${golfer ? golfer.id : 'default'}`} xs={12} sm={12} md={6} xl={4} xxl={2}>
-          <RosterSpot player={golfer} cardName={cardName} lock={locked} i={i} round={round} lineups={lineups} />
+          <RosterSpot golfer={golfer} cardName={cardName} lock={locked} i={i} round={round} lineups={lineups} />
         </Col>
       )
     })

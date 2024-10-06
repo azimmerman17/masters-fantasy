@@ -6,7 +6,7 @@ import Tabs from 'react-bootstrap/Tabs';
 import { FantasyTournamentConfig } from '../../../Contexts/FantasyTournamentConfig'
 import LineupTab from './LineupTab';
 
-const UserLineups = ({ lineups, roster }) => {
+const UserLineups = ({ lineups, roster, golfers }) => {
   const {fantasyTournamentConfig, setFantasyTournamentConfig} = useContext(FantasyTournamentConfig)
   
   if (fantasyTournamentConfig) {
@@ -22,7 +22,7 @@ const UserLineups = ({ lineups, roster }) => {
 
       return (
         <Tab eventKey={round} title={`Rd ${round}`} key={`round-${round}`} id={`round-tab-${round}`} >
-          <LineupTab lineup={lineup} roster={roster} round={round}/>
+          <LineupTab lineup={lineup} roster={roster} round={round} golfers={golfers}/>
         </Tab>
       )
     })

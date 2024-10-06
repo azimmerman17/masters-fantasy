@@ -17,6 +17,9 @@ module.exports = {
         type: Sequelize.STRING,
         defaultValue: 'P'
       },
+      pos: {
+        type: Sequelize.STRING,
+      },
       thru: {
         allowNull: false,
         type: Sequelize.STRING,

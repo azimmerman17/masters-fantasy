@@ -27,13 +27,13 @@ const UserRoster = () => {
       )
     }
 
-    const { roster, lineups, scoring } = currentUser
+    const { roster, lineups, scoring, golfers } = currentUser
 
     const { intl, past_champ, usa, wild_card1, wild_card2, wild_card3 } = roster
     const { tourny_active } = fantasyTournamentConfig
 
     const showLineups = () => {
-      if (intl && past_champ && usa && wild_card1 && wild_card2 && wild_card3) return  <UserLineups lineups={lineups} roster={roster} />
+      if (intl && past_champ && usa && wild_card1 && wild_card2 && wild_card3) return  <UserLineups lineups={lineups} roster={roster} golfers={golfers} />
       return <p className='m-auto text-center'>A full roster is required to view and update lineups.</p>
     }
 
@@ -43,7 +43,7 @@ const UserRoster = () => {
           <UserScores scoring={scoring} lineups={lineups}/>
         </Row>
         <Row>
-          <UserRosterSelection locked={tourny_active} lineups={lineups} round={currentRound}/>
+          <UserRosterSelection locked={tourny_active} lineups={lineups} round={currentRound} golfers={golfers} />
         </Row>
         <Row>
           {showLineups()}
