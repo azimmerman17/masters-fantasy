@@ -66,6 +66,17 @@ router.post('/new', async (req, res) => {
       const [response, metadata] = await mysqlPool.query(createRoster)
       if (response.error) res.status(500).send({response})
       else {
+
+        // add to golfers table
+        const insertGolfers = `INSERT INTO \`major-fantasy-golf\`.Golfers (golfer_id, year)
+        VALUES (${past_champ}, ${year}),
+          (${usa}, ${year}),
+          (${intl}, ${year}),
+          (${wild_card1}, ${year}),
+          (${wild_card2}, ${year}),
+          (${wild_card3}, ${year})
+        ON DUPLICATE KEY UPDATE golfer_id=VALUES(golfer_id)`
+        await mysqlPool.query(insertGolfers)
         res.status(201).send({msg: 'Roster Saved'})
       }
     }
@@ -117,7 +128,20 @@ router.put('/:id', async (req, res) => {
     const [response, metadata] = await mysqlPool.query(updateRoster)
     await checkLineUpChange(id, year, player_id, old_id)
     if (response.error) res.status(500).send({msg: 'Error - Roster update Failed'})
-    else res.status(201).send({msg: 'Roster Updated'})
+    else {
+      // add to golfers table
+      const insertGolfers = `INSERT INTO \`major-fantasy-golf\`.Golfers (golfer_id, year)
+      VALUES (${past_champ}, ${year}),
+        (${usa}, ${year}),
+        (${intl}, ${year}),
+        (${wild_card1}, ${year}),
+        (${wild_card2}, ${year}),
+        (${wild_card3}, ${year})
+      ON DUPLICATE KEY UPDATE golfer_id=VALUES(golfer_id)`
+      await mysqlPool.query(insertGolfers)
+
+      res.status(201).send({msg: 'Roster Updated'})
+    }
   } catch (error) {
     console.error(error)
     res.status(500).send({msg: 'Error - Roster update Failed'})
