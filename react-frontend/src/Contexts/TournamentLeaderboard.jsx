@@ -19,7 +19,7 @@ const TournamentLeaderboardContextProvider = ({ children }) => {
         let payload = {
           data: data
         }
-        console.log('DATA', data)
+        // console.log('DATA', data)
 
         try {
           await HandleDBTransaction(path, 'POST', payload)

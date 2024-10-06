@@ -8,6 +8,7 @@ const updateScores = require('../middleware/updateScores')
 const updateConfig = require('../functions/updateConfig')
 // const updateScoresFile = require('../middleware/updateScoresFile')
 const { mysqlPool, pgPool } = require('../models/db')
+const { default: updateGolfer } = require('../functions/updategolfers')
 
 //  Derive the date
 const year = (new Date().getFullYear())
@@ -159,6 +160,8 @@ router.post('/sendscores', async (req, res) => {
           console.log('Scores Updated')
           await updateSeqNum(year)
           console.log('SeqNum updated')
+ // update golfer data
+          await updateGolfer(player)
           res.status(200).send('Scores Updated')
       
 
@@ -186,6 +189,7 @@ router.post('/sendscores', async (req, res) => {
             console.log('Scores Updated')
             await updateSeqNum(year)
             console.log('SeqNum updated')
+ // update golfer data
             res.status(200).send('Scores Updated')
           }
           else res.status(202).send('Tournament not active - No scores to update')
@@ -214,6 +218,7 @@ router.post('/sendscores', async (req, res) => {
           console.log('Scores Updated')
           await updateSeqNum(year)
           console.log('SeqNum updated')
+   // update golfer data
           res.status(200).send('Scores Updated')
         // if rnd_actve = 'F' - check config upate - change to next round if nessicary
         } else {
