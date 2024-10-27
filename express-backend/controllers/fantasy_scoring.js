@@ -9,6 +9,7 @@ const updateConfig = require('../functions/updateConfig')
 const updateGolfer  = require('../functions/updategolfers')
 // const updateScoresFile = require('../middleware/updateScoresFile')
 const { mysqlPool, pgPool } = require('../models/db')
+const postScores = require('../functions/postScores')
 
 //  Derive the date
 const year = (new Date().getFullYear())
@@ -188,7 +189,7 @@ router.post('/sendscores', async (req, res) => {
         }
 
           // if rnd_actve = 'A' - update scores
-          if (rnd_actve = 'A') {
+          if (rnd_actve === 'A') {
             //update scores
             await updateScores(req.body, configResponse[0])
             console.log('Scores Updated')
@@ -202,19 +203,19 @@ router.post('/sendscores', async (req, res) => {
           }
           else res.status(202).send('Tournament not active - No scores to update')
         // if rnd_actve = 'A' - check config upate, and update scores, if round complete set rnd_active to 'F'
-        } else if (rnd_actve === 'A') {        
+        } else if (rnd_actve === 'F') {        
           // check if round complete - set rnd_active and tourny_actve to 'F' if needed 
           let roundComplete = true
           player.forEach(golfer => {
             if (golfer.newStatus !== 'C' || golfer.newStatus !== 'W') {
-              if (golfer[`round${rnd}`].roundStatus !== 'Finished') !roundComplete 
+              if (golfer[`round${rnd}`].roundStatus !== 'Finished') roundComplete = false
             }
           })
           if (roundComplete) rnd_actve = 'F'
           if (rnd === 4)  tourny_actve = 'F'
           
-          // if tournament concludes -- post results -- NOT BUILT
-          if (tourny_actve === 'F') console.log('POST RESULTS -- NOT BULIT')
+          // if tournament concludes -- post results
+          if (tourny_actve === 'F'  && !posted) posted = postScores(posted, year)
           
           // send update to config - if no update in past 5 mins
           if (new Date(updated_at + 5 *60 *1000) < new Date()) {
@@ -237,7 +238,7 @@ router.post('/sendscores', async (req, res) => {
           // rnd 4 completed - Means event has been complete - Check if results are posted - Should be completed already
           if (rnd === 4) {
             tourny_actve === 'F'
-            if (!posted)console.log('POST RESULTS -- NOT BULIT')
+            if (!posted)  posted = postScores(posted, year)
           } else {
             // Check if next round is within the next 6 hours - Change to next round if true
             let startTime = teeTimes[rnd]
@@ -273,7 +274,7 @@ router.post('/sendscores', async (req, res) => {
   }
 })
 
-// NO LONGER USED - COBINED WITH /sendscores
+// NO LONGER USED - COMBINED WITH /sendscores
 // router.post('/updatescores', async (req, res) => {
 
 //   console.log('init', new Date())
