@@ -77,7 +77,7 @@ const UserRosterSelection = ({ locked, lineups, round, golfers }) => {
       }
 
       return (
-        <Col key={`roster-spot-${spot}-${golfer ? golfer.id : 'default'}`} xs={12} sm={12} md={6} xl={4} xxl={2}>
+        <Col key={`roster-spot-${spot}-${golfer ? golfer.id : 'default'}`} xs={12} sm={12} md={6} xl={4} xxl={4}>
           <RosterSpot golfer={golfer} cardName={cardName} lock={locked} i={i} round={round} lineups={lineups} />
         </Col>
       )
