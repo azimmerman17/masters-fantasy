@@ -20,39 +20,39 @@ module.exports = (sequelize, DataTypes) => {
     user_id: {
       allowNull: false,
       unique: true,
-      type: DataTypes.INTEGER
+      type: DataTypes.INT
     },
     user_id: {
       allowNull: false,
-      type: DataTypes.INTEGER
+      type: DataTypes.INT
     },
     roster_id: {
       allowNull: false,
-      type: DataTypes.INTEGER
+      type: DataTypes.INT
     },
     year: {
       allowNull: false,
-      type: DataTypes.INTEGER,
+      type: DataTypes.INT,
     },
     round: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.INT,
     },
     player1: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.INT,
     },
     player2: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.INT,
     },
     player3: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.INT,
     },
     created_at: {
-      type: DataTypes.DATE,
+      type: DataTypes.TIMESTAMP,
       allowNull: false,
       defaultValue: DataTypes.NOW
     },
     updated_at: {
-      type: DataTypes.DATE,
+      type: DataTypes.TIMESTAMP,
       allowNull: false,
       defaultValue: DataTypes.NOW
     }

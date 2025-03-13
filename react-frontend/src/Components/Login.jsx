@@ -23,6 +23,7 @@ const Login = () => {
   // Handle the Submit
   const handleSubmit = async (e) => {
     const form = e.currentTarget;
+    // console.log(user)
     e.preventDefault()
 
     if (form.checkValidity() === false) {
@@ -37,7 +38,7 @@ const Login = () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'mode': 'no-cors',
+        'mode': 'cors',
       },
       body: JSON.stringify(user)
     }

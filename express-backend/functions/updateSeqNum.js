@@ -1,9 +1,6 @@
-const pool = require('../models/db')
+const { mysqlPool } = require('../models/db')
 
-//  Derive the date
-const year = (new Date().getFullYear())
-
-const updateSeqNum = async () => {
+const updateSeqNum = async (year) => {
   // get the scores
   const fetchQuery = `SELECT A.user_name,
       B.holes_completed,
@@ -21,10 +18,11 @@ const updateSeqNum = async () => {
       B.round3_aggr,
       B.round4_aggr,
       A.user_id
-    FROM public."Users" A, public."Fantasy_Scoring" B
+    FROM \`major-fantasy-golf\`.Users A, \`major-fantasy-golf\`.Fantasy_Scoring B
     WHERE A.user_id = B.user_id
       AND year = ${year}
-      AND A.user_name <>  'azimmerman17'
+      AND (A.role = 'basic'
+        OR A.role = 'vip')
     ORDER BY 6, 2 desc, 10, 9, 8, 7, 11 asc, 15 asc, 14 asc, 13 asc, 12 asc;`
     
   // set global seqNum vars and 
@@ -32,19 +30,16 @@ const updateSeqNum = async () => {
   let lastScore
 
   try {
-    const response = await pool.query(fetchQuery)
+    const [response, metadata] = await mysqlPool.query(fetchQuery)
     
     if (response.error) {
-      updateScoresFile.process_active = 0
       return response.error
-    } else if (response.rows > 1) {
-      updateScoresFile.process_active = 0
+    } else if (response.length < 1) {
       console.log('no players - quit')
       return 'no players - quit'
     } else {
-      const { rows } = response 
       // For each record on public."Fanstay_Scoring" - update seqnum
-      rows.forEach(async (row, i) => {
+      response.forEach(async (row, i) => {
         const { user_id, total } = row
         let seqNum
         // if score is equal to previous - copy
@@ -53,8 +48,8 @@ const updateSeqNum = async () => {
         }
         // if score is equal to next - T${i+1} - update globals
         // cannot check on last record
-        else if (i < rows.length - 1) {
-          if (total === rows[i + 1]['total']) {
+        else if (i < response.length - 1) {
+          if (total === response[i + 1]['total']) {
 
             seqNum = `T${i+1}`
             lastSeq = seqNum
@@ -74,13 +69,13 @@ const updateSeqNum = async () => {
         }
 
         // update the scoring record
-        let updateQuery = `UPDATE public."Fantasy_Scoring" 
+        let updateQuery = `UPDATE \`major-fantasy-golf\`.Fantasy_Scoring
           SET updated_at = NOW(),
             seq_num = '${seqNum}'
           WHERE year = ${year}
             AND user_id = '${user_id}'`
 
-        await pool.query(updateQuery)
+        await mysqlPool.query(updateQuery)
       })
     }
   } catch (error) {

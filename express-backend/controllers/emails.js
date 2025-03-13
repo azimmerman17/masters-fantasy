@@ -6,7 +6,7 @@ const generatePasswordResetToken = require('../functions/generatePasswordResetTo
 const generateResetEmail = require('../functions/generateResetEmail')
 const hashValue = require('../functions/hashValue')
 const sendEmail = require('../functions/sendEmail')
-const pool = require('../models/db')
+const { mysqlPool } = require('../models/db')
 
 // ONLY POST routes
 // Forgot Password Reset
@@ -25,30 +25,25 @@ router.post('/forgotpassword', async (req, res) => {
   if (!user_info) {
     console.error('Need email or user_name')
     res.status(400).send('Need email or user_name')
-  }
-  else if (!os || !browser) {
+  } else if (!os || !browser) {
     console.error('Need email or user_name')
     res.status(400).send('Need browser and os data')
-  }
-  else {
+  } else {
     // check if user exists 
-    const userExistsQuery = `SELECT user_name, first_name, last_name, email, salt FROM public."Users"
+    const userExistsQuery = `SELECT user_name, first_name, last_name, email, salt FROM \`major-fantasy-golf\`.Users
       WHERE user_name ='${user_info.toLowerCase()}'
         OR email = '${user_info.toLowerCase()}';`
 
     try {
-      let userExistsRespose = await pool.query(userExistsQuery)
-      const { rows, rowCount } = userExistsRespose
-      if (rowCount < 1) {
+      let [userExistsRespose, metadata] = await mysqlPool.query(userExistsQuery)
+      if (userExistsRespose.length < 1) {
         console.error('User does not exist')
         res.status(400).send('User does not exist')
-      }
-      else if (rowCount > 1) {
+      } else if (userExistsRespose.length > 1) {
         console.error('User cannot be indentified')   
         res.status(400).send('User cannot be indentified')
-      }
-      else {
-        const { user_name, first_name, last_name, salt, email} = rows[0]
+      } else {
+        const { user_name, first_name, last_name, salt, email} = userExistsRespose[0]
         // user exists - create reset password token 
         let token = await generatePasswordResetToken(user_name, salt)
         // decrypt salt
@@ -56,19 +51,20 @@ router.post('/forgotpassword', async (req, res) => {
 
         // set Hashed token in the database
         let hashedToken = hashValue(token[1]+ decryptedSalt)
-        let updateQuery = `UPDATE public."Users"
+        let updateQuery = `UPDATE \`major-fantasy-golf\`.Users
           SET guid_token = '${hashedToken}',
             guid_expire = NOW() + INTERVAL '1 hour'
           WHERE user_name = '${user_name}'`
 
         let guidInsert = false
         try {
-          await pool.query(updateQuery)
+          await mysqlPool.query(updateQuery)
           guidInsert = true
         } catch (error) {
           console.error(error)
           res.status(500).send('SQL error')
         }
+
         if (guidInsert) {
           // send email to user encrypt username, token value
           let html = await generateResetEmail(first_name, last_name, os, browser, token)
@@ -92,23 +88,20 @@ router.post('/resetpassword', async (req, res) => {
   const decryptedTokenArrey = decryptedToken.split(',')
 
   //Get the Salt
-  const saltQuery = `SELECT user_id, salt, guid_token, guid_expire FROM public."Users" 
+  const saltQuery = `SELECT user_id, salt, guid_token, guid_expire FROM \`major-fantasy-golf\`.Users
       WHERE user_name = '${decryptedTokenArrey[0]}';`
 
   try {
-    const response = await pool.query(saltQuery)
+    const [response, metadata] = await mysqlPool.query(saltQuery)
 
-    const { rows, rowCount, error } = response 
-    if (error) {
+    if (response.error) {
       console.error(error)
       res.status(500).send('Unable to validate User')
-    }
-    else if (rowCount !== 1) {
+    } else if (response.length !== 1) {
       console.error('Unable to validate User')
       res.status(500).send('Unable to validate User') 
-    }
-    else {
-      const { salt, guid_token, guid_expire, user_id } = rows[0]
+    } else {
+      const { salt, guid_token, guid_expire, user_id } = response[0]
       
       // decrypt the salt from db and hash token
       let decryptedSalt = decryptValue(salt) 
@@ -118,27 +111,25 @@ router.post('/resetpassword', async (req, res) => {
       if (hashedToken !== guid_token || changePassword !== confirmPassword || new Date(guid_expire) < new Date()) {
         console.log('Invalid or expired token')
         res.status(400).send('Pasword update failed')
-      }
-      else {
+      } else {
         // hash the new password
         const hashedPassword = hashValue(changePassword + decryptedSalt)
         
         // update the password -- revalidate the token and expiration, set expiration to NOW() to eliminate reuse
-        let passwordResetQuery = `UPDATE public."Users"
+        let passwordResetQuery = `UPDATE \`major-fantasy-golf\`.Users
         SET updated_at = NOW(),
           password_hash = '${hashedPassword}',
           guid_expire = NOW()
         WHERE user_id = ${user_id}
-        AND guid_token = '${guid_token}'
-        AND guid_expire > NOW();`
+          AND guid_token = '${guid_token}'
+          AND guid_expire > NOW();`
         
-        const updateResponse = await pool.query(passwordResetQuery)
+        const [updateResponse, updateMetadata] = await mysqlPool.query(passwordResetQuery)
         // if failed send reponse to user
         if (updateResponse.error) {
           console.error(updateResponse.error)
           res.status(500).send('Password Update Unsuccessful')
-        }
-        else if(updateResponse.rowCount === 0) {
+        } else if(updateResponse.length !== 0) {
           console.error('Password Update Unsuccessful')
           res.status(400).send('Password Update Unsuccessful')
         }

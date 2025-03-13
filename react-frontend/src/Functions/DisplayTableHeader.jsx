@@ -40,6 +40,14 @@ const DisplayTableHeader = (item) => {
       if (window.innerWidth < 1200) return null
     case 'R4 AGGR':
       if (window.innerWidth < 1200) return null
+    case 'R1 SF':
+      if (window.innerWidth < 1200) return null
+    case 'R2 SF':
+      if (window.innerWidth < 1200) return null
+    case 'R3 SF':
+      if (window.innerWidth < 1200) return null
+    case 'R4 SF':
+      if (window.innerWidth < 1200) return null
     default:
   }
 

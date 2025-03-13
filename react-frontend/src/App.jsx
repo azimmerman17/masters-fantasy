@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import './App.css'
 
 import CurrentUserProvider from './Contexts/CurrentUserContext'
+import UserRosterProvider from './Contexts/UserRosterContext'
 import EventConfigProvider from './Contexts/EventConfig'
 import TournamentLeaderboardContextProvider from './Contexts/TournamentLeaderboard'
 import PlayersContextProvider from './Contexts/PlayersContext'
@@ -23,6 +24,7 @@ import RulesSheet from './Components/RulesSheet'
 import ResetPasswordForm from './Components/User/ResetPasswordForm'
 import ResetPassword from './Components/User/ResetPassword'
 import NotFound from './Components/NotFound'
+import Admin from './Components/Admin/Admin'
 
 function App() {
   const [title, setTitle] = useState('APP')
@@ -35,7 +37,8 @@ function App() {
     <>
       <Router>
         <CurrentUserProvider>
-          <EventConfigProvider>
+          <UserRosterProvider>
+            <EventConfigProvider>
               <TournamentLeaderboardContextProvider>
                 <PlayersContextProvider>
                   <FantasyTournamentConfigProvider>
@@ -58,6 +61,7 @@ function App() {
                           <Route path='/rules' element={<RulesSheet />} />
                           <Route path='/forgot-password' element={<ResetPasswordForm />} />
                           <Route path='/resetpassword' element={<ResetPassword />} />
+                          <Route path='/admin' element={<Admin />} />
                           <Route path='/*' element={<NotFound />} />
                         </Routes>
                       </main>
@@ -68,7 +72,8 @@ function App() {
                   </FantasyTournamentConfigProvider>
                 </PlayersContextProvider>
               </TournamentLeaderboardContextProvider>
-          </EventConfigProvider>
+            </EventConfigProvider>
+          </UserRosterProvider>
         </CurrentUserProvider>
       </Router>
     </>
