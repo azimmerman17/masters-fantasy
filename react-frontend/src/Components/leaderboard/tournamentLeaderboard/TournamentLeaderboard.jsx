@@ -12,9 +12,9 @@ import LeaderboardTableData from '../LeaderboardTableData';
 
 const TournamentLeaderboard = () => {
   const { tournamentLeaderboardContext, setTournamentLeaderboardContext } = useContext(TournamentLeaderboardContext)
-
+  console.log(tournamentLeaderboardContext)
   if (tournamentLeaderboardContext) {
-    if (tournamentLeaderboardContext.leaderboard) {
+    if (tournamentLeaderboardContext.leaderboard.currentRound) {
       const { leaderboard } = tournamentLeaderboardContext
       const { currentRound, player, statusRound } = leaderboard
   

@@ -13,12 +13,13 @@ const UserRosterSelection = ({ locked, lineups, round, golfers }) => {
   const {playersContext, setPlayersContext} = useContext(PlayersContext)
   const {tournamentLeaderboardContext, setTournamentLeaderboardContext} = useContext(TournamentLeaderboardContext)
   const {userRoster, setUserRoster}= useContext(UserRoster)
-  
+
   if (tournamentLeaderboardContext && playersContext && userRoster) {
     const{ roster } = userRoster
     const { past_champ, usa, intl, wild_card1, wild_card2, wild_card3 } = roster
 
     let playerList
+
     // if (tournamentLeaderboardContext.leaderboard) {
     //   const { leaderboard } = tournamentLeaderboardContext
     //   const { player } = leaderboard
@@ -40,7 +41,6 @@ const UserRosterSelection = ({ locked, lineups, round, golfers }) => {
           player: playerList.filter(invitee => invitee.id == roster[key])[0],
           stats: golfers.filter(golfer => golfer.golfer_id ==roster[key])[0]
         }
-        
         cardName = card
       }
 

@@ -6,23 +6,27 @@ import Alert from 'react-bootstrap/Alert';
 
 import HandleDBTransaction from '../../Functions/HandleDBTransaction';
 
-const PlayerSelectionCard = ({ player, picture, disable, tournamentYear, column, userRoster, setUserRoster }) => {
+const PlayerSelectionCard = ({ player, picture, disable, tournamentYear, column, currentUser, setCurrentUser, setShow }) => {
   const BASE_URL = import.meta.env.VITE_BASE_URL
   let [message, setMessage] = useState(null)
   let [alert, setAlert] = useState(false)
   const { first_name, last_name, amateur, id } = player
-  const { roster, user_id } = userRoster
+
+  const { roster, user_id } = currentUser
 
   const handleSelect =  async (e, id) => {
     const { year } = roster
 
     const handleUpdate = (id, key) => {
-      setUserRoster({
-        user_id,
+      console.log(currentUser)
+      setCurrentUser({
+        ...currentUser,
         roster : {
           ...roster,
-          [key]: id
-        }
+          [key]: id,
+          year: tournamentYear
+        },
+
       })
     }
 
@@ -40,11 +44,12 @@ const PlayerSelectionCard = ({ player, picture, disable, tournamentYear, column,
       }
       method = 'POST'
     } else { // Record already exists - UPDATE
+
       path = BASE_URL + 'roster/' + user_id
       payload = {
         year:  tournamentYear,
         [column]: id,
-        old_id: userRoster[column]
+        old_id: roster[column]
       }
       method = 'PUT'
     } 
@@ -53,8 +58,9 @@ const PlayerSelectionCard = ({ player, picture, disable, tournamentYear, column,
       let insertResponse = await HandleDBTransaction(path, method , payload)
       let { status } = insertResponse
 
-      if (status === 201) {
+      if (status < 300) {
         handleUpdate(id, column)
+        setShow(false)
         // location.reload()
       } else {
         let data = await insertResponse.json()

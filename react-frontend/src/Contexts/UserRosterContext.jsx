@@ -12,6 +12,7 @@ const UserRosterProvider = ({ children }) => {
   useEffect(() => {
     if (currentUser) {
       const { roster, user_id } = currentUser
+
       setUserRoster({
         roster,
         user_id

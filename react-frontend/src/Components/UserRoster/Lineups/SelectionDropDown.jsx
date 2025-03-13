@@ -14,21 +14,23 @@ const SelectionDropdown = ({ playerRoster, setRoundLineup, selectedPlayer, round
   if (currentUser) {
     const dropdownItems = playerRoster.map(golfer => {
       const { player, stats } = golfer
-      const { golfer_id , status } = stats 
-      const { Amateur, first_name, last_name } = player
+
+      let status 
+      if (stats) status = stats.status
+      const { Amateur, first_name, last_name, id } = player
       const { user_id } = currentUser
 
       const handleClick = async (e, id) => {
-        if (new Date() > lock) setShowLock(true)
+        if (new Date() > lock && lock) setShowLock(true)
         else {
           let path = BASE_URL + 'lineups/' + user_id + '/' + round
           let payload = {
-            [lineupSpot]: id      
+            [spot]: id      
           }
 
-          const handleUpdate = (id, lineupSpot) => {
+          const handleUpdate = (id, spot) => {
             const newLineup = roundLineup.map((player, i) => {
-              if (i === Number(lineupSpot[lineupSpot.length - 1]) - 1) {
+              if (i === Number(spot[spot.length - 1]) - 1) {
                 return Number(id)
               } else return player
             }) 
@@ -38,7 +40,8 @@ const SelectionDropdown = ({ playerRoster, setRoundLineup, selectedPlayer, round
     
           try {
             await HandleDBTransaction(path, 'PUT', payload)
-            handleUpdate(id, lineupSpot)
+
+            handleUpdate(id, spot)
           } catch (error) {
             console.error(error)
           }
@@ -48,9 +51,9 @@ const SelectionDropdown = ({ playerRoster, setRoundLineup, selectedPlayer, round
   
       return (
         <Dropdown.Item
-          key={`lineup-round-${round}-spot-${spot}-${golfer_id}`}
-          onClick={e => handleClick(e, golfer_id)}  // function to update db
-          disabled={roundLineup.includes(Number(golfer_id)) || status === 'C' || status === 'W' }
+          key={`lineup-round-${round}-spot-${spot}-${id}`}
+          onClick={e => handleClick(e, id)}  // function to update db
+          disabled={roundLineup.includes(Number(id)) || status === 'C' || status === 'W' }
           className={status === 'C' || status === 'W' ? 'text-decoration-line-through' : ''}
         >
           {first_name} {last_name}{Amateur ? ' (A)' : '' }

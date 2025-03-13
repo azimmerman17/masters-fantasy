@@ -40,6 +40,7 @@ const TournamentLeaderboardContextProvider = ({ children }) => {
         const pairingsData = await pairingsRes.json()
 
         const { data } = leaderboardData
+
         if (data) {
           sendScores({leaderboard:data, pairings: pairingsData}) 
      

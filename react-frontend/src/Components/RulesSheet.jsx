@@ -35,11 +35,11 @@ const RulesSheet = () => {
       <h5>Players that are DQ, WD, or Cut</h5>
       <p className='mb-1'>Some golfers will not finish the tournament on Sunday. If these golfers are present in your lineup, they will have no impact on your scores.</p>
       <p className='mb-1'>For Aggregate Scoring they will receive the following score:</p>
-      <ul>
+      {/* <ul>
         <li>DQ (Disqualified) - 99 strokes</li>
         <li>WD (Withdrawn) - 98 strokes</li>
         <li>Cut - 97 strokes</li>
-      </ul>
+      </ul> */}
       <hr />
       <h5>Adjustments to Scores</h5>
       <p className='mb-1'>At times, penalty strokes or disqualifications are incurred in between rounds.  Scores will be reviewed and adjusted to reflect the official scores of the Master's Golf Tournament, should this occur.</p>      
@@ -49,17 +49,28 @@ const RulesSheet = () => {
       <ol>
         <li>Lowest Score for all 4 Rounds</li>
         <li>Fewest Holes Completed</li>
-        <li>Lowest Score in Best Ball in Round 4</li>
-        <li>Lowest Score in Best Ball in Round 4</li>
-        <li>Lowest Score in Best Ball in Round 3</li>
-        <li>Lowest Score in Best Ball in Round 1</li>
-        <li>Lowest Score Aggregate Score in all 4 Rounds</li>
-        <li>Lowest Score Aggregate Score in Round 4</li>
-        <li>Lowest Score Aggregate Score in Round 3</li>
-        <li>Lowest Score Aggregate Score in Round 2</li>
-        <li>Lowest Score Aggregate Score in Round 1</li>
+        <li>Lowest Stableford Score for all 4 Rounds</li>     
+        <li>Lowest in Best Ball in Round 4</li>
+        <li>Lowest Stableford Score in Round 4</li>
+        <li>Lowest in Best Ball in Round 3</li>
+        <li>Lowest Stableford Score in Round 3</li>
+        <li>Lowest in Best Ball in Round 2</li>
+        <li>Lowest Stableford Score in Round 2</li>
+        <li>Lowest in Best Ball in Round 1</li>
+        <li>Lowest Stableford Score in Round </li>
         <li>Tie is Accepted</li>
       </ol>
+      <hr />
+      <h5>Stableford Scoring</h5>
+      <p>Stabelford Scoring will be used only to break ties, below are the point values assigned to each score.</p>
+      <ul>
+        <li>Double Eagle or better: 8 points</li>
+        <li>Eagle: 5 points</li>
+        <li>Birdie: 2 points</li>     
+        <li>Par: 0 points</li>
+        <li>Bogey: -1 points</li>
+        <li>Double Bogey or worse: -3 points</li>
+      </ul>
     </Container>
   )
 }

@@ -22,8 +22,7 @@ router.get('/', async (req,res) => {
 //GET CURRENT YEAR
 router.get('/current', async (req,res) => {
   const getConfig = `SELECT A.* FROM \`major-fantasy-golf\`.Fantasy_Config A
-    WHERE year = (SELECT MAX(A1.year) FROM  \`major-fantasy-golf\`.Fantasy_Config A1
-      WHERE A.year = A1.year);`
+    WHERE year = (SELECT MAX(A1.year) FROM  \`major-fantasy-golf\`.Fantasy_Config A1);`
   
   try {
     const [response, metadata] = await mysqlPool.query(getConfig)

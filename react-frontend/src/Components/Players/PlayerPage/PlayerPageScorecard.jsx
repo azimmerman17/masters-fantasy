@@ -6,7 +6,8 @@ import ScorecardDesktop from '../../Scorecards/ScorecardDesktop';
 
 const PlayerPageScorecard = ({ leaderboard, playerId }) => {
   // only display if there is a leaderboard
-  if (leaderboard) {  
+  if (leaderboard.player) {  
+    console.log(leaderboard)
     const { pars, yardages, player } = leaderboard
     const golfer = player.filter(golfer => golfer.id == playerId)[0]
 

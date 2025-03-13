@@ -4,6 +4,8 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import { PlayersContext } from '../../Contexts/PlayersContext'
 import { UserRoster } from '../../Contexts/UserRosterContext';
 import { EventConfig } from '../../Contexts/EventConfig'
+import { CurrentUser } from '../../Contexts/CurrentUserContext';
+
 import PlayerSelectionCard from './PlayerSelectionCard';
 
 
@@ -11,6 +13,7 @@ const PlayerOffcanvas = ({ show, cardName, setShow, i }) => {
   const { playersContext, setPlayersContext } = useContext(PlayersContext)
   const { eventConfig, setEventConfig } = useContext(EventConfig)
   const { userRoster, setUserRoster } = useContext(UserRoster)
+  const { currentUser, setCurrentUser } = useContext(CurrentUser)
 
   if (playersContext &&  userRoster && eventConfig) {
     const { dataSettings } = eventConfig
@@ -24,7 +27,7 @@ const PlayerOffcanvas = ({ show, cardName, setShow, i }) => {
     let key
     switch (cardName) {
       case 'Past Champion':
-        playerList =  players.filter(player => player.Past === '1')
+        playerList =  players.filter(player => player.past_champion === true)
         key = 'past_champ'
         break
       case 'USA':
@@ -50,14 +53,14 @@ const PlayerOffcanvas = ({ show, cardName, setShow, i }) => {
       const picture = `https://images.masters.com/players/${tournamentYear}/240x240/${id}.jpg`
 
       return (
-        <PlayerSelectionCard player={player} picture={picture} disable={playerRoster.includes(Number(id))} tournamentYear={tournamentYear} column={key} key={`selection-card-${i}-${id}`} userRoster={userRoster} setUserRoster={setUserRoster}/>
+        <PlayerSelectionCard player={player} picture={picture} disable={playerRoster.includes(Number(id))} tournamentYear={tournamentYear} column={key} key={`selection-card-${i}-${id}`} currentUser={currentUser} setCurrentUser={setCurrentUser} setShow={setShow}/>
       )
       
     })
 
     return (
-      <Offcanvas show={show} onHide={handleClose} scroll backdrop keyboard closeButton>
-        <Offcanvas.Header closeButton>
+      <Offcanvas show={show} onHide={e => handleClose()} scroll backdrop keyboard >
+        <Offcanvas.Header closeButton onHide={e => handleClose(e)}>
           <Offcanvas.Title>{cardName}</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>

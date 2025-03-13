@@ -14,21 +14,29 @@ const RosterSpot = ({ golfer, cardName, lock, i, round, lineups }) => {
   
   if (fantasyTournamentConfig) {
     const { tourny_active, year, currentRound, round_active} = fantasyTournamentConfig
-    
-    const { player, stats } = golfer
-        const {  } = player
-        const { golfer_id, pos, rnd1, rnd1_sf, rnd1_tt, rnd2, rnd2_sf, rnd2_tt, rnd3, rnd3_sf, rnd3_tt, rnd4, rnd4_sf, rnd4_tt, status, thru } = stats
 
+    // const { player, stats } = golfer
+    //     const {  } = player
+    //     const { golfer_id, pos, rnd1, rnd1_sf, rnd1_tt, rnd2, rnd2_sf, rnd2_tt, rnd3, rnd3_sf, rnd3_tt, rnd4, rnd4_sf, rnd4_tt, status, thru } = stats
 
     const handleClick = (tourny_active) => {
       if (tourny_active === 'P') setShow(true) // change to !locked for production
     }
     
-    let picture
-    if (golfer) picture = `https://images.masters.com/players/${year}/240x240/${golfer_id}.jpg`
+    let picture = () => {
+      if (!golfer) return null
+      const { player } = golfer
+      const { id } = player
 
+      return `https://images.masters.com/players/${year}/240x240/${id}.jpg`
+    }
+    
     const lockSelectInfo = () => {
-      if (golfer) {
+      if (golfer && tourny_active !== 'P') {
+        const { player, stats } = golfer
+        const { pos, rnd1, rnd1_sf, rnd1_tt, rnd2, rnd2_sf, rnd2_tt, rnd3, rnd3_sf, rnd3_tt, rnd4, rnd4_sf, rnd4_tt, status, thru } = stats
+    
+
         const total = rnd1 + rnd2 + rnd3 + rnd4
         const sf_total = rnd1_sf + rnd2_sf + rnd3_sf + rnd4_sf
         let showRnd = currentRound 
@@ -80,7 +88,11 @@ const RosterSpot = ({ golfer, cardName, lock, i, round, lineups }) => {
       }
     }
 
-    const setBorderColor = (id, status) => {
+    const setBorderColor = (golfer) => {
+      if (!golfer) return 'success'
+      const { player } = golfer
+      const { id, status } = player
+
       const checkLineup = (id) => {
         let currentLineup = lineups.filter(lineup => lineup.round === round)[0]
         const lineup = [currentLineup.player1, currentLineup.player2, currentLineup.player3]
@@ -99,11 +111,11 @@ const RosterSpot = ({ golfer, cardName, lock, i, round, lineups }) => {
     }
 
     return (
-      <Button onClick={e => handleClick(tourny_active)} variant={setBorderColor(golfer_id, status)} className={`w-100 m-1 p-1 text-center${golfer && (status !== 'C' || status !== 'W') ? ' shadow-lg' : ''}`} disabled={status === 'C' || status === 'W' ? true : false}>
+      <Button onClick={e => handleClick(tourny_active)} variant={setBorderColor(golfer)} className={`w-100 m-1 p-1 text-center${golfer && (status !== 'C' || status !== 'W') ? ' shadow-lg' : ''}`} disabled={status === 'C' || status === 'W' ? true : false}>
         <Card className='m-1 p-1 text-center'>
-          {golfer ? <Image src={picture} className=' mx-auto border rounded-circle roster-img' /> : null}
+          {golfer ? <Image src={picture()} className=' mx-auto border rounded-circle roster-img' /> : null}
           <Card.Body className='text-center pb-0'>
-            {golfer ? <Card.Title className='fw-bold'>{player.first_name} {player.last_name} {player.amateur ? '(A)' : null}</Card.Title> : <IoGolf className='bg-success text-white border border-success rounded-circle' style={{height:'75px', width:'75px'}}/>}
+            {golfer ? <Card.Title className='fw-bold'>{golfer.player.first_name} {golfer.player.last_name} {golfer.player.amateur ? '(A)' : null}</Card.Title> : <IoGolf className='bg-success text-white border border-success rounded-circle' style={{height:'75px', width:'75px'}}/>}
             {lockSelectInfo()}
             <Card.Text className='pt-1'>
               <small className='fw-bold mb-0'>{cardName}</small>
@@ -113,7 +125,7 @@ const RosterSpot = ({ golfer, cardName, lock, i, round, lineups }) => {
         </Card>
       </Button>
     )
-  }
+  }  
 }
 
 export default RosterSpot
