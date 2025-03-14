@@ -2,7 +2,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
-import DoughnutChart from '../Charts/DoughnutChart'
+import DoughnutChart1 from '../charts/DoughnutChart1'
 import PolarAreaChart from '../Charts/PolarAreaChart'
 
 const PlayersGrnFwyHitStat = ({ stats, mode }) => {
@@ -85,7 +85,7 @@ const PlayersGrnFwyHitStat = ({ stats, mode }) => {
           </Row>
           <Row>
             <Col style={{maxWidth: '400px'}} className='m-auto' >
-              <DoughnutChart labels={DoughnutLabels} backgroundColor={DoughnutColors} dataSet={[total[0], total[1]]} />
+              <DoughnutChart1 labels={DoughnutLabels} backgroundColor={DoughnutColors} dataSet={[total[0], total[1]]} />
               <p className={`mb-0 mt-2 ${window.innerWidth > 775 ? '' : 'label-small'} text-center`}>{totalText(mode)} {total[0]} / {Number(total[0]) + Number(total[1])} ({total[2]})</p>
             </Col>
           </Row>

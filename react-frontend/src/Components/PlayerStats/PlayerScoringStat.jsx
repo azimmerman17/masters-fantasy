@@ -2,7 +2,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
-import DoughnutChart from '../Charts/DoughnutChart'
+import DoughnutChart1 from '../charts/DoughnutChart1'
 import StackedHorizontalChart from '../Charts/StackedHorizontalChart'
 
 const PlayerScoringStat = ({ eagles, birdies, pars, bogeys, doubleBogeys }) => {
@@ -93,7 +93,7 @@ const PlayerScoringStat = ({ eagles, birdies, pars, bogeys, doubleBogeys }) => {
           </Row>
           <Row>
             <Col style={{maxWidth: '400px'}} className='m-auto' >
-              <DoughnutChart labels={labels} backgroundColor={colors} dataSet={configueDataSet(total)} />
+              <DoughnutChart1 labels={labels} backgroundColor={colors} dataSet={configueDataSet(total)} />
             </Col>
           </Row>
         </Col>
