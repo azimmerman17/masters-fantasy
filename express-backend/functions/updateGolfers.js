@@ -2,7 +2,7 @@ const { mysqlPool } = require('../models/db')
 const calcHoleScore = require('./clacHoleScore')
 const calcStablefordScore = require('./calcStablefordScore')
 
-const updateGolfer = async (leaderboard, year, round) => {
+const updateGolfers = async (leaderboard, year, round) => {
   const { player, pars } = leaderboard
 
   // get pars
@@ -111,4 +111,4 @@ const updateGolfer = async (leaderboard, year, round) => {
       }
 }
 
-module.exports = updateGolfer
+module.exports = updateGolfers

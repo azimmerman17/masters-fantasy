@@ -14,7 +14,6 @@ const DoughnutChart = ({labels, backgroundColor, dataSet }) => {
     }
   }
 
-
  const data = {
   labels: labels,
   datasets: [
