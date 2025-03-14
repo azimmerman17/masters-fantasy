@@ -22,6 +22,7 @@ const PlayerBio = ({ bio }) => {
         break
       }
     }
+    
 
     if (window.innerWidth < 775) updateData('Country')
   if (amateur) updateData('Turned Pro')
