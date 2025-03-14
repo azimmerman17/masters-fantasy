@@ -12,7 +12,12 @@ const app = express()
 app.use(express.static('public'))
 app.set('view engine', 'jsx')
 app.use(defineCurrentUser)
-app.use(cors())
+app.use(cors({
+  "origin": process.env.FRONTEND_URL,
+  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+  "preflightContinue": false,
+  "optionsSuccessStatus": 204
+}))
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 // app.use(express.json())
