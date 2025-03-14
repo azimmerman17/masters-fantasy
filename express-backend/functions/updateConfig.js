@@ -1,4 +1,5 @@
-const { mysqlPool, pgPool } = require('../models/db')
+// const { mysqlPool, pgPool } = require('../models/db')
+const mysqlPool = require('../models/db')
 
 
 const updateConfig = async (rnd, tourny_actve, rnd_actve, rnd1_lck, rnd2_lck, rnd3_lck, rnd4_lck, posted, year) => {

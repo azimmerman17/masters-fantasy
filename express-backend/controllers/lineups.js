@@ -1,6 +1,6 @@
 const router = require('express').Router()
 require('dotenv').config()
-const { mysqlPool } = require('../models/db')
+const mysqlPool = require('../models/db')
 
 // GET
 // GET- All lineups for specific round

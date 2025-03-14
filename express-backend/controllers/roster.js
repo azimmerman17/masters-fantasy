@@ -1,7 +1,7 @@
 const router = require('express').Router()
 require('dotenv').config()
 const checkLineUpChange = require('../middleware/checkLineupChange')
-const { mysqlPool } = require('../models/db')
+const mysqlPool = require('../models/db')
 
 const year = (new Date()).getFullYear()
 

@@ -1,7 +1,7 @@
 const router = require('express').Router()
 require('dotenv').config()
 const formatDateTime = require('../functions/formatDateTime')
-const { mysqlPool } = require('../models/db')
+const mysqlPool = require('../models/db')
 
 // Functions
 

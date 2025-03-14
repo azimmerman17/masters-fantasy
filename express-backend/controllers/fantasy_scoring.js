@@ -8,7 +8,9 @@ const updateScores = require('../middleware/updateScores')
 const updateConfig = require('../functions/updateConfig')
 const updateGolfers  = require('../functions/updateGolfers')
 // const updateScoresFile = require('../middleware/updateScoresFile')
-const { mysqlPool, pgPool } = require('../models/db')
+// const { mysqlPool, pgPool } = require('../models/db')
+const mysqlPool = require('../models/db')
+
 const postScores = require('../functions/postScores')
 
 //  Derive the date

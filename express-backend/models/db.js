@@ -12,8 +12,9 @@ const connectionString = process.env.MYSQL_URI
 //   idleTimeoutMillis: 500,
 //   connectionTimeoutMillis: 10000
 // })
+// (process.env.MYSQL_DATABASE, process.env.MYSQL_USERNAME, process.env.MYSQL_PASSWORD
 
-const mysqlPool = new Sequelize(process.env.MYSQL_DATABASE, process.env.MYSQL_USERNAME, process.env.MYSQL_PASSWORD, {
+const mysqlPool = new Sequelize(connectionString, {
   host: process.env.MYSQL_HOST,
   port: process.env.MYSQL_PORT,
   username: process.env.MYSQL_USERNAME,

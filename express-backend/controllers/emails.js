@@ -6,7 +6,7 @@ const generatePasswordResetToken = require('../functions/generatePasswordResetTo
 const generateResetEmail = require('../functions/generateResetEmail')
 const hashValue = require('../functions/hashValue')
 const sendEmail = require('../functions/sendEmail')
-const { mysqlPool } = require('../models/db')
+const mysqlPool = require('../models/db')
 
 // ONLY POST routes
 // Forgot Password Reset

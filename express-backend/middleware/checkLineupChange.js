@@ -1,4 +1,4 @@
-const { mysqlPool } = require('../models/db')
+const mysqlPool = require('../models/db')
 
 async function checkLineUpChange(user_id, year, new_id, old_id)  {
   // get the user's roster

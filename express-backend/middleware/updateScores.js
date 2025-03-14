@@ -1,7 +1,7 @@
 require('dotenv').config()
 const updateRoundScore = require('../functions/updateRoundScore')
 // const updateScoresFile = require('../middleware/updateScoresFile')
-const { mysqlPool } = require('../models/db')
+const mysqlPool = require('../models/db')
  
 async function updateScores(data, configData) {
   const { leaderboard } = data.data

@@ -1,4 +1,4 @@
-const { mysqlPool } = require('../models/db')
+const mysqlPool = require('../models/db')
 const calcHoleScore = require('./clacHoleScore')
 const calcStablefordScore = require('./calcStablefordScore')
 

@@ -1,4 +1,4 @@
-const { mysqlPool } = require('../models/db')
+const mysqlPool = require('../models/db')
 // const updateScoresFile = require('../middleware/updateScoresFile')
 const filterPlayerLeaderboard = require('./filterPlayerLeaderboard')
 const calcPlayerScore = require('./calcPlayerScore')

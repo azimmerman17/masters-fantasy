@@ -1,4 +1,5 @@
-const { mysqlPool, pgPool } = require('../models/db')
+// const { mysqlPool, pgPool } = require('../models/db')
+const mysqlPool = require('../models/db')
 
 const postScores = async (posted, year) => {
 // check to see if round is not posted
