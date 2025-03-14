@@ -1,16 +1,17 @@
-const { Pool } = require('pg')
-const Sequelize = require('sequelize');
+// const { Pool } = require('pg')
+const Sequelize = require('sequelize')
+const mysql2  = require('mysql2')
 
 require('dotenv').config()
 
 const connectionString = process.env.MYSQL_URI
 
-const pgPool = new Pool({
-  connectionString,
-  max: 4,
-  idleTimeoutMillis: 500,
-  connectionTimeoutMillis: 10000
-})
+// const pgPool = new Pool({
+//   connectionString,
+//   max: 4,
+//   idleTimeoutMillis: 500,
+//   connectionTimeoutMillis: 10000
+// })
 
 const mysqlPool = new Sequelize(process.env.MYSQL_DATABASE, process.env.MYSQL_USERNAME, process.env.MYSQL_PASSWORD, {
   host: process.env.MYSQL_HOST,
@@ -20,6 +21,7 @@ const mysqlPool = new Sequelize(process.env.MYSQL_DATABASE, process.env.MYSQL_US
   database: process.env.MYSQL_DATABASE,
   ssl: true,
   dialect: 'mysql',
+  dialectModule: mysql2,
   pool: {
     max: 10,
     min: 0,
@@ -28,5 +30,5 @@ const mysqlPool = new Sequelize(process.env.MYSQL_DATABASE, process.env.MYSQL_US
   },
 });
 
-
-module.exports = { pgPool, mysqlPool}
+module.exports = mysqlPool
+// module.exports = { pgPool, mysqlPool}
