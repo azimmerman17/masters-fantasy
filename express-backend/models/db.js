@@ -3,7 +3,7 @@ const Sequelize = require('sequelize');
 
 require('dotenv').config()
 
-const connectionString = process.env.PG_URI
+const connectionString = process.env.MYSQL_URI
 
 const pgPool = new Pool({
   connectionString,
