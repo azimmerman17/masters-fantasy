@@ -3,7 +3,7 @@ const HandleDBTransaction = async (path, method, payload) => {
     method: method,
     headers: {
       'Content-Type': 'application/json',
-      'mode': 'no-cors',
+      'mode': 'cors',
     },
     body: JSON.stringify(payload)
   }
