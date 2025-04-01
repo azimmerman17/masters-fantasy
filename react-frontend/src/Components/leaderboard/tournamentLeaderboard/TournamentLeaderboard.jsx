@@ -14,7 +14,7 @@ const TournamentLeaderboard = () => {
   const { tournamentLeaderboardContext, setTournamentLeaderboardContext } = useContext(TournamentLeaderboardContext)
   console.log(tournamentLeaderboardContext)
   if (tournamentLeaderboardContext) {
-    if (tournamentLeaderboardContext.leaderboard.currentRound) {
+    if (tournamentLeaderboardContext.leaderboard) {
       const { leaderboard } = tournamentLeaderboardContext
       const { currentRound, player, statusRound } = leaderboard
   
@@ -67,7 +67,7 @@ const TournamentLeaderboard = () => {
       )
     } else {
       return (
-        <p className='my-3 text-center'>
+        <p className='m-4 text-center'>
           The leaderboard is not avaible at this time please check back later.
         </p>
       )
