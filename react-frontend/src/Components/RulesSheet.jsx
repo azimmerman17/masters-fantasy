@@ -15,7 +15,7 @@ const RulesSheet = () => {
         <li>1 International Golfer Any player with a nationality outside of the USA </li>
         <li>3 Wild Cards: Any player invited to the current  Master's Golf Tournament</li>
       </ul>
-      <p className='mb-1'>Rosters will lock at the posted first tee time of the First Round, no adjustments will be made due to weather delays.</p>
+      <p className='mb-1'>Rosters will lock at the posted first tee time of the First Round.</p>
       <p className='mb-1'> No substitutions will be allowed once a Roster is locked.</p>
       <small><sup>*</sup>Your competitors' rosters are not viewable at this time.</small>
       <hr />
@@ -26,15 +26,18 @@ const RulesSheet = () => {
       <small>All lineup changes will update for future rounds.</small>
       <small><sup>*</sup>Your competitors' lineups are not viewable at this time.</small>
       <hr />
+      <h5>Weather Delays</h5>
+      <p className='mb-1'>Roster and Lineup locks are tied directly to the tee times posted br The Master's Golf Tounament.</p>
+      <p className='mb-1'>If the first tee time of the day is delayed due to weather, there will not be an extionsion to update Lineup or Rosters, unless new tee times are posted.</p>
+      <hr />
       <h5>Scoring</h5>
       <h6>Official Score</h6>
       <p className='mb-1'>The official score will be calculated based on the best ball format for the players selected into your lineup.  In best ball, the lowest score on each hole determines your score posted for the hole. These scores are calculated in relation to par.</p>
-      <h6>Aggregate Score</h6>
-      <p className='mb-1'>Aggregate Scores will be used to break ties and are calculated by the total strokes taken by each golfer selected in your daily lineups.</p>
+      <h6>Stableford Score</h6>
+      <p className='mb-1'>Stableford Scores will be used to break ties and are calculated with the best ball format. The points structure in relation to the score can be found below.</p>
       <hr />
       <h5>Players that are DQ, WD, or Cut</h5>
       <p className='mb-1'>Some golfers will not finish the tournament on Sunday. If these golfers are present in your lineup, they will have no impact on your scores.</p>
-      <p className='mb-1'>For Aggregate Scoring they will receive the following score:</p>
       {/* <ul>
         <li>DQ (Disqualified) - 99 strokes</li>
         <li>WD (Withdrawn) - 98 strokes</li>
