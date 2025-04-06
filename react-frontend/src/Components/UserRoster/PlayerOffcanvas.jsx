@@ -44,8 +44,11 @@ const PlayerOffcanvas = ({ show, cardName, setShow, i }) => {
         else if (i === 4) key = 'wild_card2'
         else if (i === 5) key = 'wild_card3'
     }
+    console.log(show, cardName)
 
-    const handleClose = () => setShow(false);
+    const handleClose = (e) => {
+      console.log(e)
+      setShow(!show)};
 
 
     const playerSelection = playerList.map(player => {
@@ -59,8 +62,8 @@ const PlayerOffcanvas = ({ show, cardName, setShow, i }) => {
     })
 
     return (
-      <Offcanvas show={show} onHide={e => handleClose()} scroll backdrop keyboard >
-        <Offcanvas.Header closeButton onHide={e => handleClose(e)}>
+      <Offcanvas show={show} backdrop scroll>
+        <Offcanvas.Header closeButton >
           <Offcanvas.Title>{cardName}</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>

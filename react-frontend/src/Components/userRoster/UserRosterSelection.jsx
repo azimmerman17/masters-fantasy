@@ -9,7 +9,7 @@ import { UserRoster } from '../../Contexts/UserRosterContext'
 import FantasyRosterSpots from '../../assets/Files/FantasyRosterSpots'
 import RosterSpot from './RosterSpot';
 
-const UserRosterSelection = ({ locked, lineups, round, golfers }) => {
+const UserRosterSelection = ({ lineups, round, golfers }) => {
   const {playersContext, setPlayersContext} = useContext(PlayersContext)
   const {tournamentLeaderboardContext, setTournamentLeaderboardContext} = useContext(TournamentLeaderboardContext)
   const {userRoster, setUserRoster}= useContext(UserRoster)
@@ -78,7 +78,7 @@ const UserRosterSelection = ({ locked, lineups, round, golfers }) => {
 
       return (
         <Col key={`roster-spot-${spot}-${golfer ? golfer.id : 'default'}`} xs={12} sm={12} md={6} xl={4} xxl={4}>
-          <RosterSpot golfer={golfer} cardName={cardName} lock={locked} i={i} round={round} lineups={lineups} />
+          <RosterSpot golfer={golfer} cardName={cardName} i={i} round={round} lineups={lineups} />
         </Col>
       )
     })

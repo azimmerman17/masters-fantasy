@@ -8,7 +8,7 @@ import { FantasyTournamentConfig } from '../../Contexts/FantasyTournamentConfig'
 import PlayerOffcanvas from './PlayerOffcanvas';
 import RosterPlayerStats from './RosterPlayerStats';
 
-const RosterSpot = ({ golfer, cardName, lock, i, round, lineups }) => {
+const RosterSpot = ({ golfer, cardName, i, round, lineups }) => {
   const { fantasyTournamentConfig, setFantasyTournamentConfig } = useContext(FantasyTournamentConfig)
   const [show, setShow] = useState(false)
   
@@ -20,7 +20,7 @@ const RosterSpot = ({ golfer, cardName, lock, i, round, lineups }) => {
     //     const { golfer_id, pos, rnd1, rnd1_sf, rnd1_tt, rnd2, rnd2_sf, rnd2_tt, rnd3, rnd3_sf, rnd3_tt, rnd4, rnd4_sf, rnd4_tt, status, thru } = stats
 
     const handleClick = (tourny_active) => {
-      if (tourny_active === 'P') setShow(true) // change to !locked for production
+      if (tourny_active === 'P') setShow(!show) // change to !locked for production
     }
     
     let picture = () => {

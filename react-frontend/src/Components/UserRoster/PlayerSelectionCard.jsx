@@ -18,7 +18,7 @@ const PlayerSelectionCard = ({ player, picture, disable, tournamentYear, column,
     const { year } = roster
 
     const handleUpdate = (id, key) => {
-      console.log(currentUser)
+      // console.log(currentUser)
       setCurrentUser({
         ...currentUser,
         roster : {

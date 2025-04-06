@@ -45,7 +45,7 @@ const UserRosterComponent = () => {
           <UserScores scoring={scoring} lineups={lineups}/>
         </Row>
         <Row>
-          <UserRosterSelection locked={tourny_active} lineups={lineups} round={currentRound} golfers={golfers} />
+          <UserRosterSelection lineups={lineups} round={currentRound} golfers={golfers} />
         </Row>
         <Row>
           {showLineups()}
