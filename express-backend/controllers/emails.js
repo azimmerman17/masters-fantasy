@@ -109,6 +109,10 @@ router.post('/resetpassword', async (req, res) => {
 
       // validate tokens match, passwords match, and token has not expired
       if (hashedToken !== guid_token || changePassword !== confirmPassword || new Date(guid_expire) < new Date()) {
+        // console.log(hashedToken !== guid_token)
+        // console.log(changePassword !== confirmPassword)
+        // console.log(new Date(guid_expire) < new Date())
+
         console.log('Invalid or expired token')
         res.status(400).send('Pasword update failed')
       } else {
@@ -125,14 +129,16 @@ router.post('/resetpassword', async (req, res) => {
           AND guid_expire > NOW();`
         
         const [updateResponse, updateMetadata] = await mysqlPool.query(passwordResetQuery)
+        console.log(updateResponse)
         // if failed send reponse to user
         if (updateResponse.error) {
           console.error(updateResponse.error)
           res.status(500).send('Password Update Unsuccessful')
-        } else if(updateResponse.length !== 0) {
-          console.error('Password Update Unsuccessful')
-          res.status(400).send('Password Update Unsuccessful')
-        }
+        } //else if(updateResponse.changedRows !== 0) {
+        //  console.log('length = 0', updateResponse.changedRows)
+        // console.error('Password Update Unsuccessful')
+        // res.status(400).send('Password Update Unsuccessful')
+        // }
         // success log user in or redirect to login page?
         else res.status(202).send('Password Update Successful')
       }
