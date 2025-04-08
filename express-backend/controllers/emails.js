@@ -53,7 +53,7 @@ router.post('/forgotpassword', async (req, res) => {
         let hashedToken = hashValue(token[1]+ decryptedSalt)
         let updateQuery = `UPDATE \`major-fantasy-golf\`.Users
           SET guid_token = '${hashedToken}',
-            guid_expire = NOW() + INTERVAL '1 hour'
+            guid_expire = NOW() + INTERVAL 3 HOUR
           WHERE user_name = '${user_name}'`
 
         let guidInsert = false
