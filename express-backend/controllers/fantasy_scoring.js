@@ -42,7 +42,7 @@ router.get('/', async (req, res) => {
   B.round4_sf  
 FROM \`major-fantasy-golf\`.Users A, \`major-fantasy-golf\`.Fantasy_Scoring B
 WHERE A.user_id = B.user_id
-  AND year = 2024
+  AND year = ${year}
 ORDER BY 6, 2 desc, 16 desc, 9, 19 desc, 8, 18 desc, 7, 17 desc,11 asc, 15 asc, 14 asc, 13 asc, 12 asc;`
 
     const getLineups = `SELECT 
@@ -53,7 +53,7 @@ ORDER BY 6, 2 desc, 16 desc, 9, 19 desc, 8, 18 desc, 7, 17 desc,11 asc, 15 asc, 
         B.player3
       FROM  \`major-fantasy-golf\`.Users A, \`major-fantasy-golf\`.User_Lineups B
       WHERE A.user_id = B.user_id
-        And B.year =${year}
+        And B.year = ${year}
       ORDER BY B.user_id, B.round`
 
   try {
