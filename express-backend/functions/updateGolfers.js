@@ -3,8 +3,8 @@ const calcHoleScore = require('./clacHoleScore')
 const calcStablefordScore = require('./calcStablefordScore')
 
 const updateGolfers = async (leaderboard, year, round, tourny_actve) => {
-    const { player, pars } = leaderboard
-
+  const { player, pars } = leaderboard
+    
     // get pars
     roundPars = pars[`round${round}`]
 
@@ -28,23 +28,22 @@ const updateGolfers = async (leaderboard, year, round, tourny_actve) => {
           golfer_list.forEach((golfer, i) => {
             const { golfer_id } = golfer
             const golfer_data = player.filter(player => player.id === String(golfer_id))[0]
-
             let { rnd1, rnd1_sf, rnd1_tt, rnd2, rnd2_sf, rnd2_tt, rnd3, rnd3_sf, rnd3_tt, rnd4, rnd4_sf, rnd4_tt } = golfer
-            
-            const { newStatus, thru, epoch, pos } = golfer_data
+            if (!golfer_data) console.log(golfer_id)
+            const { status, thru, epoch, pos } = golfer_data
 
             // set the current round for golfer
             const currRound = golfer_data[`round${round}`]
             const { roundStatus } = currRound 
 
             // status P=PreRound, A=Active, C=Cut W=Withdraw F=RoundComplete
-            let status
-            if (newStatus === 'C' || newStatus === 'W') status = newStatus
-            else if (roundStatus === 'Pre') status = 'P'
-            else if (roundStatus === 'Finished') status = 'F'
-            else status = 'A'
+            let newStatus
+            if (status === 'C' || status === 'W') newStatus = status
+            else if (roundStatus === 'Pre') newStatus = 'P'
+            else if (roundStatus === 'Finished') newStatus = 'F'
+            else newStatus = 'A'
 
-            if (status === 'A' || status === 'F') {
+            if (newStatus === 'A' || newStatus === 'F') {
               let currScore = 0
               let currentSfScore = 0
               roundPars.forEach((par, i) =>  {

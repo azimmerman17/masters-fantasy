@@ -136,6 +136,7 @@ router.post('/sendscores', async (req, res) => {
     if (configResponse.error) res.status(500).send({response})
     else {
       let { rnd, tourny_actve, rnd_actve, posted, year, updated_at } = configResponse[0]
+      console.log(tourny_actve, rnd_actve, 'dfgiunbsidfnbipdsgn')
 
       // tourny_actve = 'A'
       // rnd_actve = 'A'
@@ -159,7 +160,7 @@ router.post('/sendscores', async (req, res) => {
           }
   
         // if rnd_actve = 'A' - update scores
-        if (rnd_actve = 'A') {
+        if (rnd_actve === 'A') {
           //update scores
           await updateScores(req.body, configResponse[0])
           console.log('Scores Updated')
@@ -176,9 +177,9 @@ router.post('/sendscores', async (req, res) => {
       } 
       // if tourny_active = 'A' - check rnd_active, update scores if needed
       else if (tourny_actve === 'A') {
-        console.log('Update Scores + Check config for updates')
+        console.log('Update Scores + Check config for updates', 180)
         // if rnd_actve = 'P' - check config upate, first, update scores, if rnd_actve updates to 'A'
-        if (rnd_actve === 'P') {        
+        if (rnd_actve === 'P' || rnd_actve === 'A') {        
           // check if rnd activated - Round Tee Time <= Current Time
           if (new Date(teeTimes[rnd - 1] *1000) <= new Date()) {
             rnd_actve = 'A'
@@ -192,6 +193,7 @@ router.post('/sendscores', async (req, res) => {
 
           // if rnd_actve = 'A' - update scores
           if (rnd_actve === 'A') {
+            console.log('init')
             //update scores
             await updateScores(req.body, configResponse[0])
             console.log('Scores Updated')
