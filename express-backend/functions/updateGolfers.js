@@ -48,7 +48,7 @@ const updateGolfers = async (leaderboard, year, round, tourny_actve) => {
               let currentSfScore = 0
               roundPars.forEach((par, i) =>  {
                 let score = calcHoleScore(currRound, round, i)
-                currScore += score - par
+                if (score) currScore += score - par
                 currentSfScore += calcStablefordScore(score - par)
               })
 

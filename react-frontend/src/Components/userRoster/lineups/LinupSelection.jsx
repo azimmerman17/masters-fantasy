@@ -9,14 +9,19 @@ import { FantasyTournamentConfig } from '../../../Contexts/FantasyTournamentConf
 import SelectionDropdown from './SelectionDropDown'
 import ScoreColor from '../../../Functions/ScoreColor';
 import FormatTime from '../../../Functions/FormatTime';
+import { TournamentLeaderboardContext } from '../../../Contexts/TournamentLeaderboard';
+import GetPlayerData from '../../../Functions/GetPlayerData';
 
 
 
 const LineupSelection =({ playerRoster, id, roundLineup, setRoundLineup, round, spot }) => {
   const {fantasyTournamentConfig, setFantasyTournamentConfig} = useContext(FantasyTournamentConfig)
+  const { tournamentLeaderboardContext, setTournamentLeaderboardContext } = useContext(TournamentLeaderboardContext)
   let [showLock, setShowLock] = useState(false) 
 
-  if ( fantasyTournamentConfig) {
+  if ( fantasyTournamentConfig && tournamentLeaderboardContext) {
+    const { leaderboard } = tournamentLeaderboardContext
+    const golfer_data = GetPlayerData(id, leaderboard.player)
     const { year, round1Lock, round2Lock, round3Lock, round4Lock, currentRound, round_active } = fantasyTournamentConfig 
     let selectedPlayer =  playerRoster.filter(rosterPlayer => rosterPlayer.player.id == id)[0]
     const { stats, player } = selectedPlayer
@@ -38,14 +43,14 @@ const LineupSelection =({ playerRoster, id, roundLineup, setRoundLineup, round, 
         switch (round) {
           case 1:
             lock = new Date(round1Lock * 1000)
-            teeTime = rnd1_tt
+            teeTime = golfer_data.round1.teetime
             score = rnd1
             if (round < curRound) holesThru = 'F'
             else if (round == curRound) holesThru = thru
             break
           case 2:
             lock = new Date(round2Lock * 1000)
-            teeTime = rnd2_tt
+            teeTime =  golfer_data.round2.teetime
             score = rnd2
             if (round < curRound) holesThru = 'F'
             else if (round == curRound) holesThru = thru
@@ -53,7 +58,7 @@ const LineupSelection =({ playerRoster, id, roundLineup, setRoundLineup, round, 
             break
           case 3:
             lock = new Date(round3Lock * 1000)
-            teeTime = rnd3_tt
+            teeTime = golfer_data.round3.teetime
             score = rnd3
             if (round < curRound) holesThru = 'F'
             else if (round == curRound) holesThru = thru
@@ -61,7 +66,7 @@ const LineupSelection =({ playerRoster, id, roundLineup, setRoundLineup, round, 
             break
           case 4:
             lock = new Date(round4Lock * 1000)
-            teeTime = rnd4_tt
+            teeTime =  golfer_data.round4.teetime
             score = rnd4
             if (round < curRound) holesThru = 'F'
             else if (round == curRound) holesThru = thru
@@ -82,7 +87,8 @@ const LineupSelection =({ playerRoster, id, roundLineup, setRoundLineup, round, 
                 <p className='m-0 text-center label-small'>{round !== 1 ? 'Last' : ''}</p>
               </Col>
               <Col>
-                <h6 className='m-0 text-center'>{FormatTime(new Date(teeTime *1000))}</h6>
+                {/* <h6 className='m-0 text-center'>{FormatTime(new Date(teeTime *1000))}</h6> */}
+                <h6 className='m-0 text-center'>{teeTime}</h6>
                 <p className='m-0 text-center label-small'>Tee Time</p>
               </Col>
             </Row>
