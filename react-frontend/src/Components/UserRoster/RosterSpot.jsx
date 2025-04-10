@@ -34,6 +34,7 @@ const RosterSpot = ({ golfer, cardName, i, round, lineups }) => {
     const lockSelectInfo = () => {
       if (golfer && tourny_active !== 'P') {
         const { player, stats } = golfer
+        console.log(golfer)
         const { pos, rnd1, rnd1_sf, rnd1_tt, rnd2, rnd2_sf, rnd2_tt, rnd3, rnd3_sf, rnd3_tt, rnd4, rnd4_sf, rnd4_tt, status, thru } = stats
     
 

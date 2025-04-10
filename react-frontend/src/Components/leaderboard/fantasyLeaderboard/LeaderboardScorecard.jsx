@@ -8,7 +8,7 @@ import LeaderboardScorecardDesktop from '../../scorecards/LeaderboardScorecardDe
 const LeaderboardScoreCard = ({ player1, player2, player3, user_name, round }) => {
   const {tournamentLeaderboardContext, setTournamentLeaderboardContext} = useContext(TournamentLeaderboardContext)
   
-  if(!tournamentLeaderboardContext) return null
+  if(!tournamentLeaderboardContext ) return null
   const { leaderboard } = tournamentLeaderboardContext
   const { player, pars } = leaderboard
   const roundKey = `round${round}`

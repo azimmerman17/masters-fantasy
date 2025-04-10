@@ -12,30 +12,31 @@ const FantasyLeaderboardAccordionContent = ({ lineup, player }) => {
     const { player1, player2, player3, round } = lineup
     const { round1, round2, round3, round4, user_name } = player
     const { round1Lock, round2Lock, round3Lock, round4Lock, } = fantasyTournamentConfig
+    console.log(round1Lock)
     let roundlocked
     let score
     switch (round) {
       case 1:
-        roundlocked = !round1Lock
+        roundlocked = round1Lock
         score = round1
         break
       case 2:
-        roundlocked = !round2Lock
+        roundlocked = round2Lock
         score = round2
         break
       case 3:
-        roundlocked = !round3Lock
+        roundlocked = round3Lock
         score = round3
         break
       case 4:
-        roundlocked = !round4Lock
+        roundlocked = round4Lock
         score = round4
         break
       default:
-        roundlocked = true
+        roundlocked = new Date()
     }
 
-    if (roundlocked) return <h6 className='m-1 text-center'>No Scores to Display</h6>
+    if (new Date(roundlocked * 1000) > new Date() ) return <h6 className='m-1 text-center'>No Scores to Display</h6>
     return  <LeaderboardScoreCard player1={player1} player2={player2} player3={player3} user_name={user_name} round={round} />
   }
 }

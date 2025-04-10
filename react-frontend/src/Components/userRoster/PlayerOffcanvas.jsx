@@ -44,12 +44,6 @@ const PlayerOffcanvas = ({ show, cardName, setShow, i }) => {
         else if (i === 4) key = 'wild_card2'
         else if (i === 5) key = 'wild_card3'
     }
-    console.log(show, cardName)
-
-    const handleClose = (e) => {
-      console.log(e)
-      setShow(!show)};
-
 
     const playerSelection = playerList.map(player => {
       const { id } = player

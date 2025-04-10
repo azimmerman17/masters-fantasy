@@ -83,7 +83,7 @@ async function updateRoundScore(user_id, year, round, leaderboard) {
     let updateQuery = `UPDATE \`major-fantasy-golf\`.Fantasy_Scoring
       SET updated_at = NOW(),
         round${round} = ${score},
-        round${round}_aggr = ${aggregateScore},
+        -- round${round}_aggr = ${aggregateScore},
         round${round}_sf = ${scoreStableford},
         holes_completed = ${totalHolesCompleted},
         holes_display = '${holesDisplay}',
