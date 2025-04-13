@@ -3,12 +3,13 @@ const mysqlPool = require('../models/db')
 
 
 const updateConfig = async (rnd, tourny_actve, rnd_actve, rnd1_lck, rnd2_lck, rnd3_lck, rnd4_lck, posted, year) => {
+  console.log(rnd_actve)
   const query = `UPDATE \`major-fantasy-golf\`.Fantasy_Config
   SET updated_at = NOW()
   ${rnd ? `, rnd = ${rnd}` : ''}
   ${rnd1_lck ? `, rnd1_lck = ${rnd1_lck}` : ''}
   ${rnd2_lck ? `, rnd2_lck = ${rnd2_lck}` : ''}
-  ${rnd3_lck ? `, rnd3_lck = ${rnd4_lck}` : ''}
+  ${rnd3_lck ? `, rnd3_lck = ${rnd3_lck}` : ''}
   ${rnd4_lck ? `, rnd4_lck = ${rnd4_lck}` : ''}
   ${tourny_actve ? `, tourny_actve = '${tourny_actve}'` : ''}
   ${rnd_actve ? `, rnd_actve = '${rnd_actve}'` : ''}

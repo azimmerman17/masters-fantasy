@@ -136,7 +136,7 @@ router.post('/sendscores', async (req, res) => {
     if (configResponse.error) res.status(500).send({response})
     else {
       let { rnd, tourny_actve, rnd_actve, posted, year, updated_at } = configResponse[0]
-      console.log(tourny_actve, rnd_actve, 'dfgiunbsidfnbipdsgn')
+      console.log(tourny_actve, rnd_actve, rnd, 'dfgiunbsidfnbipdsgn1')
 
       // tourny_actve = 'A'
       // rnd_actve = 'A'
@@ -154,7 +154,7 @@ router.post('/sendscores', async (req, res) => {
           rnd_actve = 'A'
         }
         // send update to config and player data - if no update in past 5 mins
-        if (new Date(updated_at + 5 *60 *1000) < new Date()) {
+        if (new Date(updated_at + 5 *60 * 1000) < new Date()) {
           await updateConfig(rnd, tourny_actve, rnd_actve, teeTimes[0], teeTimes[1],teeTimes[2], teeTimes[3], posted, year)
           await updateGolfers(leaderboard, year, rnd, tourny_actve)
           }
@@ -178,6 +178,7 @@ router.post('/sendscores', async (req, res) => {
       // if tourny_active = 'A' - check rnd_active, update scores if needed
       else if (tourny_actve === 'A') {
         console.log('Update Scores + Check config for updates', 180)
+        console.log(teeTimes[rnd - 1],new Date(teeTimes[rnd - 1]*1000),  new Date(teeTimes[rnd - 1] *1000) <= new Date())
         // if rnd_actve = 'P' - check config upate, first, update scores, if rnd_actve updates to 'A'
         if (rnd_actve === 'P' || rnd_actve === 'A') {        
           // check if rnd activated - Round Tee Time <= Current Time
@@ -187,6 +188,7 @@ router.post('/sendscores', async (req, res) => {
           
         // send update to config - if no update in past 5 mins
         if (new Date(updated_at + 5 *60 *1000) < new Date()) {
+          console.log('init 191')
           await updateConfig(rnd, tourny_actve, rnd_actve, teeTimes[0], teeTimes[1],teeTimes[2], teeTimes[3], posted, year)
           await updateGolfers(leaderboard, year, rnd, tourny_actve)
         }
