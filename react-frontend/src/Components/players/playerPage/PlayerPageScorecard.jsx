@@ -8,6 +8,7 @@ const PlayerPageScorecard = ({ leaderboard, playerId }) => {
   // only display if there is a leaderboard
   if (leaderboard) {  
     const { pars, yardages, player } = leaderboard
+    if (!player) return null
     const golfer = player.filter(golfer => golfer.id == playerId)[0]
 
   // pars, yardages, golfer

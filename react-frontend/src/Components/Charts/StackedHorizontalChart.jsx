@@ -5,7 +5,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend );
 
 
 const StackedHorizontalChart = ({ yLabels, xLabels, backgroundColor, dataSet, xMax }) => {
-
+  
   const options = {
     indexAxis: 'y',
       plugins: {

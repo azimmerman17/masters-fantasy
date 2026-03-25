@@ -24,7 +24,7 @@ const InviteeCard = ({ player, year }) => {
         <Card className='bg-success'>
           <Card.Img variant='top' src={`https://images.masters.com/players/${year}/720x405/${id}.jpg`} alt={id} />
           <Card.Body>
-            <Card.Title className='text-white fw-bold'>{name}{amateur ? ' (A)' : null}</Card.Title>
+            <Card.Title className='text-white fw-bold mb-2'>{name}{amateur ? ' (A)' : null}</Card.Title>
             <Card.Text>
               <Row>
                 <Col>

@@ -5,7 +5,7 @@ import Col from 'react-bootstrap/Col';
 
 const Footer = () => {
   return (
-    <Container fluid className='text-white bg-success p-1 text-center'>
+    <Container fluid className='text-white bg-success p-1 mx-2 text-center'>
       <h6>Master's Fantasy Golf</h6>
       <Row>
         <Col>
