@@ -21,15 +21,15 @@ const LineupSelection =({ playerRoster, id, roundLineup, setRoundLineup, round, 
 
   if ( fantasyTournamentConfig && tournamentLeaderboardContext) {
     const { leaderboard } = tournamentLeaderboardContext
-    const golfer_data = GetPlayerData(id, leaderboard.player)
     const { year, round1Lock, round2Lock, round3Lock, round4Lock, currentRound, round_active } = fantasyTournamentConfig 
     let selectedPlayer =  playerRoster.filter(rosterPlayer => rosterPlayer.player.id == id)[0]
     const { stats, player } = selectedPlayer
-    
     const { Amateur, first_name, last_name} = player
-
+    
     let picture = `https://images.masters.com/players/${year}/240x240/${id}.jpg`
     let lock 
+    let golfer_data
+    if (leaderboard) golfer_data = GetPlayerData(id, leaderboard.player)
 
 
     const getStats = (stats, curRound) => {
@@ -119,7 +119,7 @@ const LineupSelection =({ playerRoster, id, roundLineup, setRoundLineup, round, 
           <Row>
             {new Date() < lock || currentRound > round  || (currentRound === round && round_active !== 'P' ) ? <h6 className='fs-5 text-center'>{first_name} {last_name}{Amateur ? ' (A)' : '' }</h6> : <SelectionDropdown playerRoster={playerRoster} setRoundLineup={setRoundLineup} selectedPlayer={selectedPlayer} roundLineup={roundLineup} round={round} spot={spot} lock={lock} setShowLock={setShowLock} />}
           </Row>
-            {getStats(stats, currentRound)}
+            {golfer_data ? getStats(stats, currentRound) : null}
         </Col >
       <Alert key='danger' variant='danger' dismissible onClose={() => setShowLock(false)} show={showLock}>
       Change unsuccessful - Round Locked

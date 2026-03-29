@@ -45,7 +45,6 @@ const TournamentLeaderboardContextProvider = ({ children }) => {
         if (new Date(epoch * 1000).getFullYear() < year) data = null                        // Leaderboard Response
         if (new Date(fileEpoch * 1000).getFullYear() < year) data = pairingsData = null     // Pairings Response
 
-        console.log(new Date(fileEpoch * 1000), {leaderboard:data, pairings: pairingsData})
         if (data || pairingsData) {
           sendScores({leaderboard: data, pairings: pairingsData, timestamps: {lb: epoch, p: fileEpoch}}) 
           
@@ -70,7 +69,6 @@ const TournamentLeaderboardContextProvider = ({ children }) => {
 
     if (eventConfig && !tournamentLeaderboardContext) {
       const { scoringData, dataSettings } = eventConfig
-      console.log(eventConfig)
       const { liveScore, pairings } = scoringData
       const { tournamentYear } = dataSettings
       const { path } = liveScore
