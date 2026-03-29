@@ -29,7 +29,11 @@ const LineupSelection =({ playerRoster, id, roundLineup, setRoundLineup, round, 
     let picture = `https://images.masters.com/players/${year}/240x240/${id}.jpg`
     let lock 
     let golfer_data
-    if (leaderboard) golfer_data = GetPlayerData(id, leaderboard.player)
+    try {
+      golfer_data = GetPlayerData(id, leaderboard.player)
+    } catch (error) {
+      console.error(error)
+    }
 
 
     const getStats = (stats, curRound) => {

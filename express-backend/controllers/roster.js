@@ -66,8 +66,6 @@ router.post('/new', async (req, res) => {
         const [response, metadata] = await mysqlPool.query(createRoster)
         if (response.error) res.status(500).send({response})
         else {
-
-          // add to golfers table
           const insertGolfers = `INSERT INTO \`major-fantasy-golf\`.Golfers (golfer_id, year)
           VALUES 
             ${past_champ ? `(${past_champ}, ${year})` : ''}
@@ -92,7 +90,7 @@ router.post('/new', async (req, res) => {
 router.put('/:id', async (req, res) => {
   const { id } = req.params
   const { past_champ, usa, intl, wild_card1, wild_card2, wild_card3, old_id } = req.body
-  console.log('GOOOOO', past_champ, usa, intl, wild_card1, wild_card2, wild_card3, old_id)
+  // console.log('GOOOOO', past_champ, usa, intl, wild_card1, wild_card2, wild_card3, old_id)
   let player_id
 
   // build the query 
