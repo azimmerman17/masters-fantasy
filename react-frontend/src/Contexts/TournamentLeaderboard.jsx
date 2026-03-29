@@ -19,7 +19,7 @@ const TournamentLeaderboardContextProvider = ({ children }) => {
         let payload = {
           data: data
         }
-        // console.log('DATA', data)
+        console.log('DATA', data)
 
         try {
           await HandleDBTransaction(path, 'POST', payload)
@@ -29,7 +29,7 @@ const TournamentLeaderboardContextProvider = ({ children }) => {
       }
     }
 
-    const fetchData = async (path, pairings) => {
+    const fetchData = async (path, pairings, year) => {
       // Get the Leaderboard Data
       try {
         const leaderboardRes = await fetch(MASTERS_URL + path)
@@ -37,13 +37,18 @@ const TournamentLeaderboardContextProvider = ({ children }) => {
 
         // Get the Pairings Data
         const pairingsRes = await fetch(MASTERS_URL + pairings)
-        const pairingsData = await pairingsRes.json()
+        let pairingsData = await pairingsRes.json()
 
-        const { data } = leaderboardData
+        // Verify current year
+        let { data, epoch } = leaderboardData
+        const { fileEpoch } = pairingsData
+        if (new Date(epoch * 1000).getFullYear() < year) data = null                        // Leaderboard Response
+        if (new Date(fileEpoch * 1000).getFullYear() < year) data = pairingsData = null     // Pairings Response
 
-        if (data) {
-          sendScores({leaderboard:data, pairings: pairingsData}) 
-     
+        console.log(new Date(fileEpoch * 1000), {leaderboard:data, pairings: pairingsData})
+        if (data || pairingsData) {
+          sendScores({leaderboard: data, pairings: pairingsData}) 
+          
           setTournamentLeaderboardContext({
             leaderboard: data,
             pairings: pairingsData
@@ -64,16 +69,18 @@ const TournamentLeaderboardContextProvider = ({ children }) => {
     }
 
     if (eventConfig && !tournamentLeaderboardContext) {
-      const { scoringData } = eventConfig
+      const { scoringData, dataSettings } = eventConfig
+      console.log(eventConfig)
       const { liveScore, pairings } = scoringData
+      const { tournamentYear } = dataSettings
       const { path } = liveScore
       if (!path || !pairings) {
         setTournamentLeaderboardContext({
           leaderboard: null,
-          pairings: null
+          pairings: null,
         })
       }
-      else fetchData(path, pairings)
+      else fetchData(path, pairings, tournamentYear)
     }
 
     let refresh = 60

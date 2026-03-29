@@ -122,7 +122,7 @@ router.get('/:id', async (req, res) => {
 // receive scores from Masters and Frontend
 router.post('/sendscores', async (req, res) => {
   const { data } = req.body
-  
+  console.log(data, '125')
   try {
     const { leaderboard, pairings} = data
     const { player } = leaderboard
@@ -136,7 +136,7 @@ router.post('/sendscores', async (req, res) => {
     if (configResponse.error) res.status(500).send({response})
     else {
       let { rnd, tourny_actve, rnd_actve, posted, year, updated_at } = configResponse[0]
-      console.log(tourny_actve, rnd_actve, rnd, 'dfgiunbsidfnbipdsgn1')
+     //  console.log(tourny_actve, rnd_actve, rnd, 'dfgiunbsidfnbipdsgn1')
 
       // tourny_actve = 'A'
       // rnd_actve = 'A'

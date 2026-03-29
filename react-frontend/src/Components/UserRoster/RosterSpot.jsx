@@ -14,7 +14,7 @@ const RosterSpot = ({ golfer, cardName, i, round, lineups }) => {
   
   if (fantasyTournamentConfig) {
     const { tourny_active, year, currentRound, round_active} = fantasyTournamentConfig
-
+    console.log(fantasyTournamentConfig)
     // const { player, stats } = golfer
     //     const {  } = player
     //     const { golfer_id, pos, rnd1, rnd1_sf, rnd1_tt, rnd2, rnd2_sf, rnd2_tt, rnd3, rnd3_sf, rnd3_tt, rnd4, rnd4_sf, rnd4_tt, status, thru } = stats
