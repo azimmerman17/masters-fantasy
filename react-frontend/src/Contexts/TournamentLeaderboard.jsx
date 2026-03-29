@@ -47,7 +47,7 @@ const TournamentLeaderboardContextProvider = ({ children }) => {
 
         console.log(new Date(fileEpoch * 1000), {leaderboard:data, pairings: pairingsData})
         if (data || pairingsData) {
-          sendScores({leaderboard: data, pairings: pairingsData}) 
+          sendScores({leaderboard: data, pairings: pairingsData, timestamps: {lb: epoch, p: fileEpoch}}) 
           
           setTournamentLeaderboardContext({
             leaderboard: data,
