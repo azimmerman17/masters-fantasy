@@ -141,8 +141,8 @@ router.post('/sendscores', async (req, res) => {
       // Flags for previous year data
       let pCurr = true
       let lbCurr = true
-      if (new Date(fileEpoch * 1000).getFullYear() < year) pCurr = false
-      if (new Date(epoch * 1000).getFullYear() < year) lbCurr = false
+      // if (new Date(fileEpoch * 1000).getFullYear() < year) pCurr = false
+      // if (new Date(epoch * 1000).getFullYear() < year) lbCurr = false
 
       // Get Tee Times - For Config Updates
       const teeTimes = checkTeeTimes(pairings)
